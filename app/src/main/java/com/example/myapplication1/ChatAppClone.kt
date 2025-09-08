@@ -114,7 +114,7 @@ class ChatAppClone : AppCompatActivity() {
                     MotionEvent.ACTION_DOWN->{
                         view.performClick()
                         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-                        if(view in listOf(audio_call, video_call, search, toggle))
+                        if(view in listOf(audio_call, video_call, search, toggle, user_profile))
                             view.setBackgroundResource(R.drawable.whatsapp_button_pressed_layout)
                         else
                             view.setBackgroundResource(R.color.clicked_background)

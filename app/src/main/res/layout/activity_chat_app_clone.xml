@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -16,10 +16,14 @@
     tools:context=".ChatAppClone">
 
     <RelativeLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="2.5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:background="@color/whatsAppCard"
         android:gravity="center"
         android:orientation="vertical"
@@ -181,14 +185,17 @@
         android:layout_marginVertical="2.5dp"
         android:background="@color/whatsAppCard"
         android:padding="20dp"
+        app:layout_constraintTop_toBottomOf="@id/header"
         android:text="@string/bio_message"
         android:textColor="@color/white" />
 
     <RelativeLayout
+        android:id="@+id/firstContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="2.5dp"
         android:background="@color/whatsAppCard"
+        app:layout_constraintTop_toBottomOf="@id/bio_message"
         android:orientation="vertical"
         android:padding="10dp">
 
@@ -247,9 +254,11 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/secondContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="2.5dp"
+        app:layout_constraintTop_toBottomOf="@id/firstContent"
         android:background="@color/whatsAppCard"
         android:padding="10dp">
 
@@ -433,8 +442,10 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/thirdContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/secondContent"
         android:layout_marginVertical="2.5dp"
         android:background="@color/whatsAppCard"
         android:orientation="vertical"
@@ -482,6 +493,7 @@
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/thirdContent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="2.5dp"
         android:background="@color/whatsAppCard"
@@ -600,5 +612,5 @@
                 android:textSize="20sp" />
         </RelativeLayout>
     </RelativeLayout>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
