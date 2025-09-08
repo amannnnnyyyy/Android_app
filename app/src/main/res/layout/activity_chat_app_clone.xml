@@ -1,0 +1,604 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#000"
+    android:orientation="vertical"
+    android:scrollbars="vertical"
+    tools:context=".ChatAppClone">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="2.5dp"
+        android:background="@color/whatsAppCard"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/go_back"
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:contentDescription="@string/go_back"
+            android:src="@drawable/left_arrow"
+            app:tint="@color/white" />
+        <ImageView
+            android:id="@+id/more_options"
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:contentDescription="@string/more_options"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/more"
+            app:tint="@color/white" />
+
+        <ImageView
+            android:id="@+id/userProfile"
+            android:layout_width="92dp"
+            android:layout_height="92dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/image_view_shape"
+            android:contentDescription="@string/profile_picture"
+            android:src="@drawable/profile_picture" />
+
+        <TextView
+            android:id="@+id/profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/userProfile"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/user_name"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/userPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profile_name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="4dp"
+            android:text="@string/phone_number"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/lastSeen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/userPhone"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="4dp"
+            android:text="@string/last_seen"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="normal" />
+
+        <LinearLayout
+            style="?android:attr/buttonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@id/lastSeen"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+           <LinearLayout
+               android:id="@+id/audio_call"
+               android:layout_width="0dp"
+               android:layout_weight="1"
+               android:layout_height="wrap_content"
+               android:background="@drawable/whatsapp_button_background"
+               android:orientation="vertical"
+               android:layout_marginHorizontal="10dp"
+               android:padding="5dp"
+               >
+               <ImageView
+                   android:layout_width="match_parent"
+                   android:layout_height="30dp"
+                   android:contentDescription="@string/audio_call"
+                   android:src="@drawable/audio_call"
+                   app:tint="#0b0" />
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="@string/audio"
+                   android:layout_gravity="center_horizontal"
+                   android:textColor="@color/white"
+                   />
+           </LinearLayout>
+            <LinearLayout
+                android:id="@+id/video_call"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:background="@drawable/whatsapp_button_background"
+                android:orientation="vertical"
+                android:padding="5dp"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:contentDescription="@string/video_call"
+                    android:src="@drawable/video_call_whatsapp"
+                    app:tint="#0b0" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/video"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/white"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/search"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="10dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/whatsapp_button_background"
+                android:orientation="vertical"
+                android:padding="5dp"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:contentDescription="@string/search"
+                    android:src="@drawable/search_icon"
+                    android:textAlignment="center"
+                    app:tint="#0b0" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/search"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/white"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/bio_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="2.5dp"
+        android:background="@color/whatsAppCard"
+        android:padding="20dp"
+        android:text="@string/bio_message"
+        android:textColor="@color/white" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="2.5dp"
+        android:background="@color/whatsAppCard"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:id="@+id/notification_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <ImageView
+                android:id="@+id/notificationIcon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:contentDescription="@string/notifications"
+                android:foregroundGravity="center"
+                android:padding="4dp"
+                android:src="@drawable/baseline_notifications_none_24"
+                app:tint="#999" />
+
+            <TextView
+                android:id="@+id/notifications"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:gravity="center"
+                android:text="@string/notifications"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/media_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/notification_layout"
+            >
+            <ImageView
+                android:id="@+id/mediaIcon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:contentDescription="@string/media_visibility"
+                android:foregroundGravity="center"
+                android:padding="4dp"
+                android:src="@drawable/media_icon"
+                app:tint="#999" />
+
+            <TextView
+                android:id="@+id/media_visibility_content"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:gravity="center"
+                android:text="@string/media_visibility"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="2.5dp"
+        android:background="@color/whatsAppCard"
+        android:padding="10dp">
+
+        <RelativeLayout
+            android:id="@+id/encryption_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <ImageView
+                android:id="@+id/encryptionIcon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:contentDescription="@string/encryption"
+                android:foregroundGravity="center"
+                android:padding="6dp"
+                android:src="@drawable/padlock"
+                app:tint="#999" />
+
+            <TextView
+                android:id="@+id/encryptionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@id/encryptionIcon"
+                android:gravity="center"
+                android:text="@string/encryption"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/encryptionDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/encryptionTitle"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@id/encryptionIcon"
+                android:gravity="start"
+                android:text="@string/encryption_description"
+                android:textColor="#ccc"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/disappear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/encryption_layout"
+            >
+            <ImageView
+                android:id="@+id/disappearingIcon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:contentDescription="@string/disappearing_messages"
+                android:foregroundGravity="center"
+                android:src="@drawable/disappearing_messages"
+                app:tint="#999"
+                android:layout_marginTop="5dp"
+                />
+
+            <TextView
+                android:id="@+id/disappearingTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_toEndOf="@id/disappearingIcon"
+                android:gravity="center"
+                android:text="@string/disappearing_messages"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                />
+
+            <TextView
+                android:id="@+id/disappearingDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/disappearingTitle"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@id/disappearingIcon"
+                android:gravity="start"
+                android:text="@string/off"
+                android:textColor="#ccc"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/chatLockGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_below="@id/disappear_layout"
+            android:layout_marginTop="5dp"
+
+            >
+            <ImageView
+                android:id="@+id/chatLockIcon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:contentDescription="@string/chat_lock"
+                android:foregroundGravity="center"
+                android:src="@drawable/chat_lock_icon"
+                app:tint="#999" />
+
+            <TextView
+                android:id="@+id/chatLockTitle"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@id/chatLockIcon"
+                android:gravity="center"
+                android:text="@string/chat_lock"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/chatLockDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/chatLockTitle"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@id/chatLockIcon"
+                android:gravity="start"
+                android:text="@string/chat_lock_description"
+                android:textColor="#ccc"
+                android:textSize="15sp" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/toggle"
+                android:layout_width="60dp"
+                android:paddingStart="2dp"
+                android:paddingEnd="10dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/whatsapp_button_background"
+                android:layout_alignParentEnd="true"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/chat_privacy_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/chatLockGroup"
+            >
+            <ImageView
+                android:id="@+id/chatPrivacyIcon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:contentDescription="@string/advanced_chat_privacy"
+                android:foregroundGravity="center"
+                android:padding="6dp"
+                android:src="@drawable/shield"
+                app:tint="#999"
+                android:layout_marginTop="5dp"
+                />
+
+            <TextView
+                android:id="@+id/chatPrivacyTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_toEndOf="@id/chatPrivacyIcon"
+                android:gravity="center"
+                android:text="@string/advanced_chat_privacy"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/chatPrivacyDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/chatPrivacyTitle"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@id/chatPrivacyIcon"
+                android:gravity="start"
+                android:text="@string/off"
+                android:textColor="#ccc"
+                android:textSize="15sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="2.5dp"
+        android:background="@color/whatsAppCard"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/createGroupTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginStart="0dp"
+            android:gravity="center"
+            android:text="@string/group_create_header"
+            android:textColor="#ccc"
+            android:textSize="15sp" />
+
+        <RelativeLayout
+            android:id="@+id/create_group_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/createGroupTitle"
+            >
+            <ImageView
+                android:id="@+id/createGroupIcon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:contentDescription="@string/create_group"
+                android:foregroundGravity="center"
+                android:padding="10dp"
+                android:src="@drawable/people"
+                android:background="@drawable/whatsapp_create_group_background"
+                app:tint="#000" />
+
+
+            <TextView
+                android:id="@+id/create_group_message"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@id/createGroupIcon"
+                android:gravity="center"
+                android:text="@string/create_group_message"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="2.5dp"
+        android:background="@color/whatsAppCard"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <RelativeLayout
+            android:id="@+id/add_to_favourites_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <ImageView
+                android:id="@+id/add_to_favourites"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:contentDescription="@string/add_to_favourites"
+                android:foregroundGravity="center"
+                android:padding="10dp"
+                android:src="@drawable/heart"
+                app:tint="#999" />
+
+
+            <TextView
+                android:id="@+id/add_to_favourites_message"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@id/add_to_favourites"
+                android:gravity="center"
+                android:text="@string/add_to_favourites"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/add_to_list_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/add_to_favourites_layout"
+            >
+            <ImageView
+                android:id="@+id/add_to_list"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:contentDescription="@string/add_to_list"
+                android:foregroundGravity="center"
+                android:padding="10dp"
+                android:src="@drawable/queue"
+                app:tint="#999" />
+
+
+            <TextView
+                android:id="@+id/add_to_list_message"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@id/add_to_list"
+                android:gravity="center"
+                android:text="@string/add_to_list"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/block_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/add_to_list_layout"
+            >
+            <ImageView
+                android:id="@+id/block"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:contentDescription="@string/create_group"
+                android:foregroundGravity="center"
+                android:padding="10dp"
+                android:src="@drawable/block"
+                app:tint="#f00" />
+
+
+            <TextView
+                android:id="@+id/block_message"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@id/block"
+                android:gravity="center"
+                android:text="@string/block_message"
+                android:textColor="#f00"
+                android:textSize="20sp" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/report_layout"
+            android:layout_below="@id/block_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <ImageView
+                android:id="@+id/report"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:contentDescription="@string/create_group"
+                android:foregroundGravity="center"
+                android:padding="2dp"
+                android:src="@drawable/dislike_icon"
+                app:tint="#f00" />
+
+
+            <TextView
+                android:id="@+id/report_message"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@id/report"
+                android:gravity="center"
+                android:text="@string/report_message"
+                android:textColor="#f00"
+                android:textSize="20sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>
+</ScrollView>
