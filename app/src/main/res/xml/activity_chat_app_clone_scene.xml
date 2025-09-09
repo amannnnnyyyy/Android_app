@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto"
+    >
+
+    <Transition
+        motion:constraintSetStart="@+id/start"
+        motion:constraintSetEnd="@+id/end"
+        motion:duration="700"
+        motion:motionInterpolator="easeInOut"
+        motion:triggerId="@id/scrollView2"
+        >
+        <OnClick
+            motion:clickAction="toggle"
+            motion:targetId="@id/leftContent"
+            />
+        <OnSwipe
+            motion:touchAnchorId="@id/leftContent"
+            motion:touchAnchorSide="bottom"
+            motion:dragDirection="dragDown"
+            motion:maxAcceleration="1"
+            />
+
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@id/userProfile"
+            android:layout_width="92dp"
+            android:layout_height="92dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"
+            />
+
+        <Constraint
+            android:id="@id/profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toBottomOf="@id/userProfile"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp"
+            />
+
+        <Constraint
+            android:id="@id/scrollView2"
+            motion:layout_constraintTop_toBottomOf="@id/profile_name"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            />
+    </ConstraintSet>
+
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@id/userProfile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="20dp"
+            />
+        <Constraint
+            android:id="@id/profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toEndOf="@id/userProfile"
+            />
+
+        <Constraint
+            android:id="@id/scrollView2"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/userProfile"
+        />
+
+    </ConstraintSet>
+</MotionScene>
