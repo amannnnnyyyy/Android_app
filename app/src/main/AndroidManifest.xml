@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication1">
         <activity
+            android:name=".ContactsListActivity"
+            android:exported="true" />
+        <activity
             android:name=".ChatAppClone"
             android:exported="true" />
         <activity
@@ -28,12 +31,12 @@
             android:name=".SignInActivity"
             android:exported="true"
             android:label="SignIn"
-            android:theme="@style/Theme.MyApplication1"></activity>
+            android:theme="@style/Theme.MyApplication1" />
         <activity
             android:name=".CalculatorActivity"
             android:exported="true"
             android:label="calculator"
-            android:theme="@style/Theme.MyApplication1"></activity>
+            android:theme="@style/Theme.MyApplication1" />
     </application>
 
 </manifest>
