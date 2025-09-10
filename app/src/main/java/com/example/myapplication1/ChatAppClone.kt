@@ -70,8 +70,11 @@ class ChatAppClone : AppCompatActivity() {
         add_to_list_layout = findViewById(R.id.add_to_list_layout)
         block_layout = findViewById(R.id.block_layout)
         report_layout = findViewById(R.id.report_layout)
-//        layoutAudioCall = findViewById<LinearLayout>(R.id.audio_call)
-//        textViewName.text = "loading..."
+
+}
+
+    override fun onResume() {
+        super.onResume()
         setupClickListeners(
             context = this, listOf(
                 go_back_btn to "Going back",
@@ -97,35 +100,16 @@ class ChatAppClone : AppCompatActivity() {
                 report_layout to "Reporting ${profile_name.text}"
             )
         )
-}
-//    fun loadDataFromApi(){
-//        profile_name.text = "yadasa"
-//    }
+    }
 
-    fun setupClickListeners(context:Context, listOfViews: List<Pair<View,String>>) {
-        for((view,message) in listOfViews){
-            val previousBackground = view.background
-            view.setOnTouchListener { v, event->
-                when(event.action){
-                    MotionEvent.ACTION_UP->{
-                        view.background = previousBackground
-                        false
-                    }
-                    MotionEvent.ACTION_DOWN->{
-                        view.performClick()
-                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-                        if(view in listOf(audio_call, video_call, search, toggle, user_profile))
-                            view.setBackgroundResource(R.drawable.whatsapp_button_pressed_layout)
-                        else
-                            view.setBackgroundResource(R.color.clicked_background)
-                        true
-                    }
-                    else-> {
-                        view.background = previousBackground
-                        false
-                    }
-                }
+    fun setupClickListeners(context: Context, listOfViews: List<Pair<View, String>>) {
+        for ((view, message) in listOfViews) {
+            view.setOnClickListener {
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             }
+            view.isClickable = true
+            view.isFocusable = true
         }
     }
+
 }
