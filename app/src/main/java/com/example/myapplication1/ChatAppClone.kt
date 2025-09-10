@@ -71,6 +71,11 @@ class ChatAppClone : AppCompatActivity() {
         block_layout = findViewById(R.id.block_layout)
         report_layout = findViewById(R.id.report_layout)
 
+        val contact = intent.getSerializableExtra("Person") as Contact
+        user_profile.setImageResource(contact.profilePicture)
+        profile_name.text = contact.name
+
+
 }
 
     override fun onResume() {
@@ -105,6 +110,9 @@ class ChatAppClone : AppCompatActivity() {
     fun setupClickListeners(context: Context, listOfViews: List<Pair<View, String>>) {
         for ((view, message) in listOfViews) {
             view.setOnClickListener {
+                if(message == "Going back"){
+                    finish()
+                }
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             }
             view.isClickable = true
