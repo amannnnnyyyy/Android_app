@@ -67,15 +67,4 @@ class ContactsListActivity : AppCompatActivity(), ContactsAdapter.OnItemClickLis
             startActivity(it)
         }
     }
-
-
-//        override fun onItemClick(position: Int) {
-//            val clickedItem = contactList[position]
-//            Log.d("click","clicked")
-//            Toast.makeText(this, "Clicked: ${clickedItem.name}", Toast.LENGTH_SHORT).show()
-//            // val intent = Intent(this, ChatAppClone::class.java)
-//            // intent.putExtra("item_data", clickedItem)
-//            // startActivity(intent)a
-//
-//    }
 }
