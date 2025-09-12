@@ -61,10 +61,17 @@ class ContactsListActivity : AppCompatActivity(), ContactsAdapter.OnItemClickLis
         }
     }
 
+    val contactMessages = ContactMessages()
     override fun onItemClick(position: Int) {
-        Intent(this, ChatAppClone::class.java).also{
-            it.putExtra("Person", contactList[position])
-            startActivity(it)
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.frameLayout, contactMessages);
+            addToBackStack("homeFragment")
+            setReorderingAllowed(true)
+            commit()
         }
+//        Intent(this, ChatAppClone::class.java).also{
+//            it.putExtra("Person", contactList[position])
+//            startActivity(it)
+//        }
     }
 }
