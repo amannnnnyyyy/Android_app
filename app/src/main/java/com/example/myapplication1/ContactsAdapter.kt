@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
 class ContactsAdapter(
@@ -18,7 +19,7 @@ class ContactsAdapter(
     lateinit var context: Context
 
     fun interface OnItemClickListener {
-        fun onItemClick(position: Int, model:Contact)
+        fun onItemClick(position: Int)
     }
 
     fun setOnclickListener(listener: OnItemClickListener) {
@@ -32,8 +33,10 @@ class ContactsAdapter(
         viewType: Int
     ): ContactViewHolder {
         context = parent.context
-        val view = LayoutInflater.from(
-            parent.context).inflate(
+        val inflater = LayoutInflater.from(
+            parent.context)
+
+        val view =  inflater.inflate(
             R.layout.contacts,
             parent, false)
 
@@ -44,6 +47,13 @@ class ContactsAdapter(
         holder: ContactViewHolder,
         position: Int
     ) {
+        if(position==0){
+//            holder.itemView.apply {
+//                val userProfile = findViewById<ImageView>(R.id.userProfile)
+//                userProfile.setImageResource(contacts[position].profilePicture)
+//            }
+            Toast.makeText(context,"This is a setup $contacts", Toast.LENGTH_LONG).show()
+        }
         val item = contacts[position]
         holder.itemView.apply{
             val userProfile = findViewById<ImageView>(R.id.userProfile)
@@ -56,11 +66,7 @@ class ContactsAdapter(
             Log.i("context_custom","$context value")
         }
         holder.itemView.setOnClickListener {
-            onClickListener?.onItemClick(position, item)
-//            Intent(context, ChatAppClone::class.java).also{
-//                it.putExtra("person",contacts[position])
-//                context.startActivity(it)
-//            }
+            onClickListener?.onItemClick(position)
         }
     }
 

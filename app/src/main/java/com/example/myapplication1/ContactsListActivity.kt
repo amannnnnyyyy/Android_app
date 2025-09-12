@@ -61,7 +61,7 @@ class ContactsListActivity : AppCompatActivity(), ContactsAdapter.OnItemClickLis
         }
     }
 
-    override fun onItemClick(position: Int, model: Contact) {
+    override fun onItemClick(position: Int) {
         Intent(this, ChatAppClone::class.java).also{
             it.putExtra("Person", contactList[position])
             startActivity(it)

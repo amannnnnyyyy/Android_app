@@ -88,6 +88,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/normal_background_layout"
         app:layout_constraintTop_toBottomOf="@id/profile_name">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -121,6 +122,7 @@
                     android:layout_marginTop="4dp"
                     android:text="@string/phone_number"
                     android:textColor="@color/white"
+                    android:background="@drawable/normal_background_layout"
                     android:textSize="12sp"
                     android:textStyle="normal" />
 
@@ -131,6 +133,7 @@
                     android:layout_below="@id/userPhone"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="4dp"
+                    android:background="@drawable/normal_background_layout"
                     android:text="@string/last_seen"
                     android:textColor="@color/white"
                     android:textSize="12sp"
@@ -260,6 +263,7 @@
                         android:layout_height="40dp"
                         android:contentDescription="@string/notifications"
                         android:foregroundGravity="center"
+                        android:background="@drawable/normal_background_layout"
                         android:padding="4dp"
                         android:src="@drawable/baseline_notifications_none_24"
                         app:tint="#999" />
@@ -270,6 +274,7 @@
                         android:layout_height="40dp"
                         android:layout_marginStart="20dp"
                         android:gravity="center"
+                        android:background="@drawable/normal_background_layout"
                         android:text="@string/notifications"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -290,6 +295,7 @@
                         android:foregroundGravity="center"
                         android:padding="4dp"
                         android:src="@drawable/media_icon"
+                        android:background="@drawable/normal_background_layout"
                         app:tint="#999" />
 
                     <TextView
@@ -300,6 +306,7 @@
                         android:gravity="center"
                         android:text="@string/media_visibility"
                         android:textColor="@color/white"
+                        android:background="@drawable/normal_background_layout"
                         android:textSize="16sp" />
                 </LinearLayout>
             </RelativeLayout>
@@ -325,6 +332,7 @@
                         android:layout_height="40dp"
                         android:contentDescription="@string/encryption"
                         android:foregroundGravity="center"
+                        android:background="@drawable/normal_background_layout"
                         android:padding="6dp"
                         android:src="@drawable/padlock"
                         app:tint="#999" />
@@ -338,6 +346,7 @@
                         android:gravity="center"
                         android:text="@string/encryption"
                         android:textColor="@color/white"
+                        android:background="@drawable/normal_background_layout"
                         android:textSize="16sp" />
 
                     <TextView
@@ -347,6 +356,7 @@
                         android:layout_below="@id/encryptionTitle"
                         android:layout_marginStart="20dp"
                         android:layout_toEndOf="@id/encryptionIcon"
+                        android:background="@drawable/normal_background_layout"
                         android:gravity="start"
                         android:text="@string/encryption_description"
                         android:textColor="#ccc"
@@ -367,6 +377,7 @@
                         android:layout_marginTop="5dp"
                         android:contentDescription="@string/disappearing_messages"
                         android:foregroundGravity="center"
+                        android:background="@drawable/normal_background_layout"
                         android:src="@drawable/disappearing_messages"
                         app:tint="#999" />
 
@@ -380,6 +391,7 @@
                         android:gravity="center"
                         android:text="@string/disappearing_messages"
                         android:textColor="@color/white"
+                        android:background="@drawable/normal_background_layout"
                         android:textSize="16sp" />
 
                     <TextView
@@ -392,6 +404,7 @@
                         android:gravity="start"
                         android:text="@string/off"
                         android:textColor="#ccc"
+                        android:background="@drawable/normal_background_layout"
                         android:textSize="13sp" />
                 </RelativeLayout>
 
@@ -411,6 +424,7 @@
                         android:layout_marginTop="5dp"
                         android:contentDescription="@string/chat_lock"
                         android:foregroundGravity="center"
+                        android:background="@drawable/normal_background_layout"
                         android:src="@drawable/chat_lock_icon"
                         app:tint="#999" />
 
@@ -424,6 +438,7 @@
                         android:layout_toEndOf="@id/chatLockIcon"
                         android:text="@string/chat_lock"
                         android:textColor="@color/white"
+                        android:background="@drawable/normal_background_layout"
                         android:textSize="16sp" />
 
                     <TextView
@@ -438,6 +453,7 @@
                         android:gravity="start"
                         android:text="@string/chat_lock_description"
                         android:textColor="#ccc"
+                        android:background="@drawable/normal_background_layout"
                         android:textSize="13sp" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -468,6 +484,7 @@
                         android:foregroundGravity="center"
                         android:padding="6dp"
                         android:src="@drawable/shield"
+                        android:background="@drawable/normal_background_layout"
                         app:tint="#999" />
 
                     <TextView
@@ -480,6 +497,7 @@
                         android:gravity="center"
                         android:text="@string/advanced_chat_privacy"
                         android:textColor="@color/white"
+                        android:background="@drawable/normal_background_layout"
                         android:textSize="16sp" />
 
                     <TextView
@@ -492,6 +510,7 @@
                         android:gravity="start"
                         android:text="@string/off"
                         android:textColor="#ccc"
+                        android:background="@drawable/normal_background_layout"
                         android:textSize="13sp" />
                 </RelativeLayout>
             </RelativeLayout>
@@ -503,17 +522,18 @@
                 android:layout_marginVertical="2.5dp"
                 android:background="@color/whatsAppCard"
                 android:orientation="vertical"
-                android:padding="10dp"
+                android:paddingVertical="10dp"
                 app:layout_constraintTop_toBottomOf="@id/secondContent">
 
                 <TextView
                     android:id="@+id/createGroupTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:layout_marginStart="0dp"
+                    android:layout_marginStart="10dp"
                     android:gravity="center"
                     android:text="@string/group_create_header"
                     android:textColor="#ccc"
+                    android:background="@drawable/normal_background_layout"
                     android:textSize="13sp" />
 
                 <RelativeLayout
@@ -531,6 +551,7 @@
                         android:contentDescription="@string/create_group"
                         android:foregroundGravity="center"
                         android:padding="10dp"
+                        android:layout_marginStart="5dp"
                         android:src="@drawable/people"
                         app:tint="#000" />
 
@@ -539,11 +560,12 @@
                         android:id="@+id/create_group_message"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
-                        android:layout_marginStart="20dp"
+                        android:layout_marginStart="15dp"
                         android:layout_toEndOf="@id/createGroupIcon"
                         android:gravity="center"
                         android:text="@string/create_group_message"
                         android:textColor="@color/white"
+                        android:background="@drawable/normal_background_layout"
                         android:textSize="16sp" />
                 </RelativeLayout>
             </RelativeLayout>
@@ -571,6 +593,7 @@
                         android:foregroundGravity="center"
                         android:padding="10dp"
                         android:src="@drawable/heart"
+                        android:background="@drawable/normal_background_layout"
                         app:tint="#999" />
 
 
@@ -583,6 +606,7 @@
                         android:gravity="center"
                         android:text="@string/add_to_favourites"
                         android:textColor="@color/white"
+                        android:background="@drawable/normal_background_layout"
                         android:textSize="16sp" />
                 </RelativeLayout>
 
@@ -601,6 +625,7 @@
                         android:foregroundGravity="center"
                         android:padding="10dp"
                         android:src="@drawable/queue"
+                        android:background="@drawable/normal_background_layout"
                         app:tint="#999" />
 
 
@@ -613,6 +638,7 @@
                         android:gravity="center"
                         android:text="@string/add_to_list"
                         android:textColor="@color/white"
+                        android:background="@drawable/normal_background_layout"
                         android:textSize="16sp" />
                 </RelativeLayout>
 
@@ -631,6 +657,7 @@
                         android:foregroundGravity="center"
                         android:padding="10dp"
                         android:src="@drawable/block"
+                        android:background="@drawable/normal_background_layout"
                         app:tint="#f00" />
 
 
@@ -643,6 +670,7 @@
                         android:gravity="center"
                         android:text="@string/block_message"
                         android:textColor="#f00"
+                        android:background="@drawable/normal_background_layout"
                         android:textSize="16sp" />
                 </RelativeLayout>
 
@@ -661,6 +689,7 @@
                         android:foregroundGravity="center"
                         android:padding="2dp"
                         android:src="@drawable/dislike_icon"
+                        android:background="@drawable/normal_background_layout"
                         app:tint="#f00" />
 
 
@@ -672,7 +701,8 @@
                         android:layout_toEndOf="@id/report"
                         android:gravity="center"
                         android:text="@string/report_message"
-                        android:textColor="#f00"
+                        android:textColor="#000"
+                        android:background="@drawable/normal_background_layout"
                         android:textSize="16sp" />
                 </RelativeLayout>
             </RelativeLayout>

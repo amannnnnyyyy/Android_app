@@ -76,10 +76,7 @@ class ChatAppClone : AppCompatActivity() {
         profile_name.text = contact.name
 
 
-}
 
-    override fun onResume() {
-        super.onResume()
         setupClickListeners(
             context = this, listOf(
                 go_back_btn to "Going back",
@@ -105,6 +102,10 @@ class ChatAppClone : AppCompatActivity() {
                 report_layout to "Reporting ${profile_name.text}"
             )
         )
+}
+
+    override fun onResume() {
+        super.onResume()
     }
 
     fun setupClickListeners(context: Context, listOfViews: List<Pair<View, String>>) {

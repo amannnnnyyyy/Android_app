@@ -27,7 +27,7 @@
       </SelectionState>
       <SelectionState runConfigName="ContactsListActivity (1)">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-09-10T11:39:45.124246Z">
+        <DropdownSelection timestamp="2025-09-12T06:41:35.586871Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="PhysicalDevice" identifier="serial=RFCW10RY6LB" />

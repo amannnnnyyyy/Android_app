@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
-    android:background="#222"
+    android:background="@drawable/normal_background_layout"
     >
 
     <ImageView
@@ -29,6 +29,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@drawable/normal_background_layout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/userProfile"
@@ -41,6 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="My name"
+            android:background="@drawable/normal_background_layout"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/white"
@@ -51,6 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Message yourself"
+            android:background="@drawable/normal_background_layout"
             android:textSize="12sp"
             android:textColor="@color/clicked_background"
             />
