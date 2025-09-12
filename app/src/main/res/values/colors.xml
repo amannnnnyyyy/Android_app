@@ -10,4 +10,5 @@
     <color name="whatsAppCard">#1B1E24</color>
     <color name="whatsAppRed">#f00</color>
     <color name="clicked_background">#bbbbbbbb</color>
+    <color name="transparent_full">#00000000</color>
 </resources>
