@@ -3,6 +3,7 @@ package com.example.myapplication1
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isGone
@@ -28,10 +29,12 @@ class MessageAdapter(val messages: List<Message>) : RecyclerView.Adapter<Message
             val user_name = findViewById<TextView>(R.id.userName)
             val replied_to_message = findViewById<TextView>(R.id.replied_to_message)
             val sent_message = findViewById<TextView>(R.id.sent_message)
+            val reply = findViewById<LinearLayout>(R.id.reply)
 
             val user_name2 = findViewById<TextView>(R.id.userName2)
             val replied_to_message2 = findViewById<TextView>(R.id.replied_to_message2)
             val sent_message2 = findViewById<TextView>(R.id.sent_message2)
+            val reply2 = findViewById<LinearLayout>(R.id.reply2)
 
             val sent = findViewById<ConstraintLayout>(R.id.message_bubble)
             val received = findViewById<ConstraintLayout>(R.id.message_bubble2)
@@ -40,14 +43,23 @@ class MessageAdapter(val messages: List<Message>) : RecyclerView.Adapter<Message
             {
                 received.visibility = View.GONE
 
-                user_name.text = to_be_sent.repliedTo
-                replied_to_message.text = to_be_sent.originalMessage
+                if(to_be_sent.repliedTo!=null){
+                    user_name.text = to_be_sent.repliedTo
+                    replied_to_message.text = to_be_sent.originalMessage
+                }else{
+                    reply.visibility = View.GONE
+                }
                 sent_message.text = to_be_sent.message
             }else if(to_be_sent.type=="received"){
                 sent.visibility = View.GONE
 
-                user_name2.text = to_be_sent.repliedTo
-                replied_to_message2.text = to_be_sent.originalMessage
+                if(to_be_sent.repliedTo!=null){
+                    user_name2.text = to_be_sent.repliedTo
+                    replied_to_message2.text = to_be_sent.originalMessage
+                }
+                else{
+                    reply2.visibility = View.GONE
+                }
                 sent_message2.text = to_be_sent.message
             }
         }

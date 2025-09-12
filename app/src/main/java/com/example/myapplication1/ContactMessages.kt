@@ -1,14 +1,18 @@
 package com.example.myapplication1
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class ContactMessages : Fragment() {
+
+    lateinit var contactHeader: RelativeLayout
 
     val messagesList = listOf<Message>(
         Message(null, null, "How are you?", "received"),
@@ -30,6 +34,15 @@ class ContactMessages : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view =  inflater.inflate(R.layout.fragment_contact_messages, container, false)
+
+        contactHeader = view.findViewById<RelativeLayout>(R.id.header_content)
+        val testData  = Contact(R.drawable.profile_picture, "John", "David")
+        contactHeader.setOnClickListener {
+            Intent(view.context, ChatAppClone::class.java).also{
+                it.putExtra("Person",testData)
+                startActivity(it)
+            }
+        }
 
         val adapter = MessageAdapter(messagesList)
 
