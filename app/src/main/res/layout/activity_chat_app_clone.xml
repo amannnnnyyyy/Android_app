@@ -55,12 +55,12 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.65" />
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/userProfile"
         android:layout_width="92dp"
         android:layout_height="92dp"
         android:layout_gravity="center"
-        android:background="@drawable/image_view_shape"
+        app:shapeAppearanceOverlay="@style/RoundedCornersImageView"
         android:contentDescription="@string/profile_picture"
         android:src="@drawable/profile_picture"
         app:layout_constraintEnd_toEndOf="parent"

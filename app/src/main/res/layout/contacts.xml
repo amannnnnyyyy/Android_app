@@ -7,22 +7,19 @@
     android:background="@drawable/normal_background_layout"
     >
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/userProfile"
         android:layout_width="52dp"
         android:layout_height="52dp"
-        android:layout_gravity="center"
-        android:background="@drawable/image_view_shape"
-        android:contentDescription="@string/profile_picture"
         android:src="@drawable/background"
-        android:scaleType="fitXY"
+        android:contentDescription="@string/profile_picture"
+        android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/RoundedCornersImageView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/linearLayout"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/linearLayout" />
+
 
     <LinearLayout
         android:id="@+id/linearLayout"
