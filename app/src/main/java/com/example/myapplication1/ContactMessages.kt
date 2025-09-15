@@ -1,7 +1,11 @@
 package com.example.myapplication1
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.media.Image
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,9 +15,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.util.jar.Manifest
 
 class ContactMessages : Fragment() {
 
@@ -21,6 +28,7 @@ class ContactMessages : Fragment() {
     lateinit var username: TextView
     lateinit var profilePic: ImageView
     lateinit var description: TextView
+    lateinit var audio_call_btn: ImageView
     lateinit var go_back: ImageView
 
     var contact: Contact? = null
@@ -40,6 +48,7 @@ class ContactMessages : Fragment() {
         username = view.findViewById<TextView>(R.id.userName)
         profilePic = view.findViewById<ImageView>(R.id.userProfile)
         description = view.findViewById<TextView>(R.id.userDescription)
+        audio_call_btn = view.findViewById<ImageView>(R.id.audio_call)
 
         go_back = view.findViewById<ImageView>(R.id.go_back)
 
@@ -84,6 +93,14 @@ class ContactMessages : Fragment() {
 
         go_back.setOnClickListener {
             parentFragmentManager.beginTransaction().remove(this).commit()
+        }
+
+
+        audio_call_btn.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL).apply {
+                data = "tel:${description.text}".toUri()
+            }
+            startActivity(intent)
         }
 
 

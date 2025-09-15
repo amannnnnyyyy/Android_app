@@ -1,24 +1,18 @@
 package com.example.myapplication1
 
 import android.Manifest
-import android.content.ContentUris
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
-import android.provider.MediaStore
 import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.net.toFile
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import java.util.Calendar
 import androidx.core.net.toUri
 
 class ContactsListActivity : AppCompatActivity(), ContactsAdapter.OnItemClickListener {
@@ -124,9 +118,9 @@ class ContactsListActivity : AppCompatActivity(), ContactsAdapter.OnItemClickLis
             Message(contactList[0].id,"John Adams", "How was your stay at the hotel?", "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", "sent")
         )
 
-            contactList[0].apply {
-                this.messages = messagesList
-            }
+        contactList[0].apply {
+            this.messages = messagesList
+        }
 
 
         args.apply {
