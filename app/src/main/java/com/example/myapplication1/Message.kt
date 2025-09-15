@@ -2,4 +2,4 @@ package com.example.myapplication1
 
 import java.io.Serializable
 
-data class Message(val repliedTo:String?, val originalMessage:String?, val message:String, val type:String="received"): Serializable
+data class Message(val contactId:Long?,val repliedTo:String?, val originalMessage:String?, val message:String, val type:String="received"): Serializable

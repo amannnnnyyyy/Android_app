@@ -3,6 +3,7 @@ package com.example.myapplication1
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
@@ -14,6 +15,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import androidx.compose.ui.graphics.Color
+import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
@@ -72,7 +74,10 @@ class ChatAppClone : AppCompatActivity() {
         report_layout = findViewById(R.id.report_layout)
 
         val contact = intent.getSerializableExtra("Person") as Contact
-        user_profile.setImageResource(contact.profilePicture)
+
+        Log.i("profile",contact.toString())
+        user_profile.setImageURI(contact.profilePicture.toUri())
+
         profile_name.text = contact.name
 
 

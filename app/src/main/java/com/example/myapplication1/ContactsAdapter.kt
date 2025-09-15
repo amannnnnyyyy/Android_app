@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 
 class ContactsAdapter(
@@ -60,7 +61,7 @@ class ContactsAdapter(
             val name = findViewById<TextView>(R.id.name)
             val description = findViewById<TextView>(R.id.description)
 
-            userProfile.setImageResource(contacts[position].profilePicture)
+            userProfile.setImageURI(contacts[position].profilePicture.toUri())
             name.text = contacts[position].name
             description.text = contacts[position].messageDescription
             Log.i("context_custom","$context value")

@@ -1,28 +1,29 @@
 package com.example.myapplication1
 
 import android.content.Intent
+import android.media.Image
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.RelativeLayout
+import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class ContactMessages : Fragment() {
 
     lateinit var contactHeader: RelativeLayout
+    lateinit var username: TextView
+    lateinit var profilePic: ImageView
+    lateinit var description: TextView
+    lateinit var go_back: ImageView
 
-    val messagesList = listOf<Message>(
-        Message(null, null, "How are you?", "received"),
-        Message("John Adams", "How are you?", "I am fine. How are you?", "sent"),
-        Message("You", "I am fine. How are you?", "I am good."),
-        Message(null, null, "How was your stay at the hotel?", "received"),
-        Message("John Adams", "How was your stay at the hotel?", "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", "sent"),
-        Message("John Adams", "How was your stay at the hotel?", "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", "received"),
-        Message("John Adams", "How was your stay at the hotel?", "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", "sent")
-    )
+    var contact: Contact? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,22 +36,57 @@ class ContactMessages : Fragment() {
     ): View? {
         val view =  inflater.inflate(R.layout.fragment_contact_messages, container, false)
 
-        contactHeader = view.findViewById<RelativeLayout>(R.id.header_content)
-        val testData  = Contact(R.drawable.profile_picture, "John", "David")
-        contactHeader.setOnClickListener {
-            Intent(view.context, ChatAppClone::class.java).also{
-                it.putExtra("Person",testData)
-                startActivity(it)
-            }
+
+        username = view.findViewById<TextView>(R.id.userName)
+        profilePic = view.findViewById<ImageView>(R.id.userProfile)
+        description = view.findViewById<TextView>(R.id.userDescription)
+
+        go_back = view.findViewById<ImageView>(R.id.go_back)
+
+        arguments?.let{
+            contact = it.getSerializable("contact") as? Contact
+
+            username.text = contact?.name?:username.text
+            profilePic.setImageURI(contact?.profilePicture?.toUri())
+            description.text = contact?.messageDescription?:description.text
         }
 
-        val adapter = MessageAdapter(messagesList)
+
+
+        val adapter = MessageAdapter(contact?.messages)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewMessages)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(view.context)
 
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+
+
+
+
+        contactHeader = view.findViewById<RelativeLayout>(R.id.header_content)
+        contactHeader.setOnClickListener {
+            Log.i("toChat",contact.toString())
+            if(contact!=null){
+                Intent(view.context, ChatAppClone::class.java).also{
+                    it.putExtra("Person",contact)
+                    startActivity(it)
+                }
+            }
+        }
+
+
+        go_back.setOnClickListener {
+            parentFragmentManager.beginTransaction().remove(this).commit()
+        }
+
+
     }
 
 }
