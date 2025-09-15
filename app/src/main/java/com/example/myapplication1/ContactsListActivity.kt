@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.provider.ContactsContract
 import android.util.Log
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,8 @@ import androidx.core.net.toUri
 class ContactsListActivity : AppCompatActivity(), ContactsAdapter.OnItemClickListener {
     val contactList = mutableListOf<Contact>()
 
+    lateinit var numberOfContacts : TextView
+
 
     lateinit var back_btn: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +32,8 @@ class ContactsListActivity : AppCompatActivity(), ContactsAdapter.OnItemClickLis
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        numberOfContacts = findViewById<TextView>(R.id.number_of_contacts)
 
 
 
@@ -78,6 +83,7 @@ class ContactsListActivity : AppCompatActivity(), ContactsAdapter.OnItemClickLis
                     phone?:"unknown"))
                // images.add(Image(id,name,uri))
             }
+            numberOfContacts.text = if(contactList.isNotEmpty())"${contactList.size} Contacts" else "No Contacts"
             Log.i("unique",contactList.toString())
             print(contactList.toString())
         }
