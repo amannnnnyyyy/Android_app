@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.MyApplication1" parent="Theme.MaterialComponents.NoActionBar">
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:textColorSecondary">#ccc</item>
-        <item name="android:background">#000</item>
-        <item name="android:colorSecondary">#e4e1db</item>
+<!--        <item name="android:textColorPrimary">@color/white</item>-->
+<!--        <item name="android:textColorSecondary">#ccc</item>-->
+<!--        <item name="android:background">#000</item>-->
+<!--        <item name="android:colorSecondary">#e4e1db</item>-->
     </style>
 </resources>
 
