@@ -35,6 +35,156 @@ private val chatList: List<Chats> = listOf(
         phoneNumber = null,
         status = ChatSeenStatus.Unread,
         timeSent = LocalDate.now()
+    ),
+    Chats(
+        Contact(
+            1,
+            mutableListOf(
+                Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
+                Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
+            ),
+            Uri.EMPTY.toString(),
+            name = "john",
+            messageDescription = "New User"
+        ),
+        phoneNumber = null,
+        status = ChatSeenStatus.Unread,
+        timeSent = LocalDate.now()
+    ),
+    Chats(
+        Contact(
+            1,
+            mutableListOf(
+                Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
+                Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
+            ),
+            Uri.EMPTY.toString(),
+            name = "john",
+            messageDescription = "New User"
+        ),
+        phoneNumber = null,
+        status = ChatSeenStatus.Unread,
+        timeSent = LocalDate.now()
+    ),
+    Chats(
+        Contact(
+            1,
+            mutableListOf(
+                Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
+                Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
+            ),
+            Uri.EMPTY.toString(),
+            name = "john",
+            messageDescription = "New User"
+        ),
+        phoneNumber = null,
+        status = ChatSeenStatus.Unread,
+        timeSent = LocalDate.now()
+    ),
+    Chats(
+        Contact(
+            1,
+            mutableListOf(
+                Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
+                Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
+            ),
+            Uri.EMPTY.toString(),
+            name = "john",
+            messageDescription = "New User"
+        ),
+        phoneNumber = null,
+        status = ChatSeenStatus.Unread,
+        timeSent = LocalDate.now()
+    ),
+    Chats(
+        Contact(
+            1,
+            mutableListOf(
+                Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
+                Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
+            ),
+            Uri.EMPTY.toString(),
+            name = "john",
+            messageDescription = "New User"
+        ),
+        phoneNumber = null,
+        status = ChatSeenStatus.Unread,
+        timeSent = LocalDate.now()
+    ),
+    Chats(
+        Contact(
+            1,
+            mutableListOf(
+                Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
+                Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
+            ),
+            Uri.EMPTY.toString(),
+            name = "john",
+            messageDescription = "New User"
+        ),
+        phoneNumber = null,
+        status = ChatSeenStatus.Unread,
+        timeSent = LocalDate.now()
+    ),
+    Chats(
+        Contact(
+            1,
+            mutableListOf(
+                Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
+                Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
+            ),
+            Uri.EMPTY.toString(),
+            name = "john",
+            messageDescription = "New User"
+        ),
+        phoneNumber = null,
+        status = ChatSeenStatus.Unread,
+        timeSent = LocalDate.now()
+    ),
+    Chats(
+        Contact(
+            1,
+            mutableListOf(
+                Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
+                Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
+            ),
+            Uri.EMPTY.toString(),
+            name = "john",
+            messageDescription = "New User"
+        ),
+        phoneNumber = null,
+        status = ChatSeenStatus.Unread,
+        timeSent = LocalDate.now()
+    ),
+    Chats(
+        Contact(
+            1,
+            mutableListOf(
+                Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
+                Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
+            ),
+            Uri.EMPTY.toString(),
+            name = "john",
+            messageDescription = "New User"
+        ),
+        phoneNumber = null,
+        status = ChatSeenStatus.Unread,
+        timeSent = LocalDate.now()
+    ),
+    Chats(
+        Contact(
+            1,
+            mutableListOf(
+                Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
+                Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
+            ),
+            Uri.EMPTY.toString(),
+            name = "john",
+            messageDescription = "New User"
+        ),
+        phoneNumber = null,
+        status = ChatSeenStatus.Unread,
+        timeSent = LocalDate.now()
     )
 )
 
@@ -89,6 +239,12 @@ class MainChats : Fragment(), ChatAdapter.OnItemClickListener {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onItemClick(position: Int, context: Context) {
+        //read messages
+        chatList[position].messages?.forEach {
+            it.readStatus = ReadStatus.READ
+        }
+
+
         val args = Bundle()
         args.apply {
             putSerializable("contact",chatList.elementAt(position).sender)
