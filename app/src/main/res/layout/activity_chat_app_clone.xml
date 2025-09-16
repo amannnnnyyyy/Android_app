@@ -60,6 +60,7 @@
         android:layout_width="92dp"
         android:layout_height="92dp"
         android:layout_gravity="center"
+        android:background="@drawable/rounded_layout"
         app:shapeAppearanceOverlay="@style/RoundedCornersImageView"
         android:contentDescription="@string/profile_picture"
         android:src="@drawable/profile_picture"

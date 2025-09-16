@@ -1,17 +1,14 @@
 package com.example.myapplication1
 
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -83,7 +80,10 @@ class MainChats : Fragment(), ChatAdapter.OnItemClickListener {
 
     fun openNewChat(view:View){
         view.setOnClickListener {
-            parentFragmentManager.beginTransaction().replace(R.id.main, ContactsList()).commit()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main, ContactsList())
+                .addToBackStack("main_chat")
+                .commit()
         }
     }
 

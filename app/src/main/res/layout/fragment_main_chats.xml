@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:padding="15dp"
         >
         <TextView
             android:layout_width="wrap_content"
@@ -70,7 +71,6 @@
             app:layout_constraintBottom_toTopOf="@id/footer"
             android:src="@drawable/new_chat"
             app:tint="#0a0"
-            android:background="@drawable/rounded_layout"
             android:layout_margin="20dp"
             />
         <androidx.constraintlayout.widget.ConstraintLayout

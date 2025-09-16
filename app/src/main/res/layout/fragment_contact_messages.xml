@@ -38,6 +38,7 @@
             android:layout_gravity="center"
             android:layout_marginHorizontal="5dp"
             android:layout_toEndOf="@id/go_back"
+            android:background="@drawable/rounded_layout"
             app:shapeAppearanceOverlay="@style/RoundedCornersImageView"
             android:contentDescription="@string/profile_picture"
             android:src="@drawable/profile_picture" />

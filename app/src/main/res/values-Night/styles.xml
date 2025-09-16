@@ -6,6 +6,12 @@
         <item name="android:background">#000</item>
         <item name="android:colorSecondary">#e4e1db</item>
     </style>
+    <style name="RoundedCornersImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+        <item name="strokeColor">@color/white</item>
+        <item name="strokeWidth">16dp</item>
+    </style>
 </resources>
 
 <!--<?xml version="1.0" encoding="utf-8"?>-->

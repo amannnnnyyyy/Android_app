@@ -206,7 +206,6 @@ class ContactsList : Fragment(),  ContactsAdapter.OnItemClickListener {
 
         parentFragmentManager.beginTransaction().apply {
             replace(R.id.main, contactMessages);
-            addToBackStack("homeFragment")
             setReorderingAllowed(true)
             commit()
         }
