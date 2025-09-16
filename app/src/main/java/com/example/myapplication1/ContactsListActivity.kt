@@ -37,6 +37,11 @@ class ContactsListActivity : AppCompatActivity(), ContactsAdapter.OnItemClickLis
             insets
         }
 
+        if(savedInstanceState==null){
+            supportFragmentManager.beginTransaction().replace(R.id.main, MainChats()).commit()
+//            supportFragmentManager.beginTransaction().replace(R.id.main, ContactsList()).commit()
+        }
+
         numberOfContacts = findViewById<TextView>(R.id.number_of_contacts)
 
 

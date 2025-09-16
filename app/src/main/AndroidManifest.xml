@@ -19,13 +19,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication1">
         <activity
-            android:name=".ContactsListActivity"
+            android:name=".MainActivity"
             android:exported="true" />
         <activity
             android:name=".ChatAppClone"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ContactsListActivity"
             android:exported="true"
             android:theme="@style/Theme.MyApplication1">
             <intent-filter>

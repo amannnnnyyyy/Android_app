@@ -83,9 +83,7 @@ class MainChats : Fragment(), ChatAdapter.OnItemClickListener {
 
     fun openNewChat(view:View){
         view.setOnClickListener {
-            Intent(requireContext(), ContactsListActivity::class.java).also {
-                startActivity(it)
-            }
+            parentFragmentManager.beginTransaction().replace(R.id.main, ContactsList()).commit()
         }
     }
 
