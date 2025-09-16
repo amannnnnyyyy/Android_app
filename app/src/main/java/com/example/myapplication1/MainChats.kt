@@ -1,6 +1,7 @@
 package com.example.myapplication1
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -47,6 +48,7 @@ class MainChats : Fragment(), ChatAdapter.OnItemClickListener {
     lateinit var camera: ImageView
     lateinit var search: ImageView
     lateinit var more: ImageView
+    lateinit var new_chat: ImageView
 
     var chat: Chats? = null
 
@@ -63,6 +65,9 @@ class MainChats : Fragment(), ChatAdapter.OnItemClickListener {
                               savedInstanceState: Bundle?): View? {
         val view =  inflater.inflate(R.layout.fragment_main_chats, container, false)
 
+        new_chat = view.findViewById<ImageView>(R.id.new_chat)
+        openNewChat(new_chat)
+
         val adapter = ChatAdapter(chatList)
 
         val chatRecycler = view.findViewById<RecyclerView>(R.id.recyclerView)
@@ -73,6 +78,15 @@ class MainChats : Fragment(), ChatAdapter.OnItemClickListener {
 
         chatRecycler.layoutManager = LinearLayoutManager(view.context)
     return view
+    }
+
+
+    fun openNewChat(view:View){
+        view.setOnClickListener {
+            Intent(requireContext(), ContactsListActivity::class.java).also {
+                startActivity(it)
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
