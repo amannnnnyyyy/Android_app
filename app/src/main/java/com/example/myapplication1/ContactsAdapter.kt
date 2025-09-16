@@ -12,7 +12,7 @@ import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 
 class ContactsAdapter(
-    val contacts: List<Contact>
+    val contacts: Set<Contact>
 ): RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>() {
     private var onClickListener: OnItemClickListener? = null
 
@@ -55,15 +55,15 @@ class ContactsAdapter(
 //            }
             Toast.makeText(context,"This is a setup $contacts", Toast.LENGTH_LONG).show()
         }
-        val item = contacts[position]
+        val item = contacts.toMutableList()[position]
         holder.itemView.apply{
             val userProfile = findViewById<ImageView>(R.id.userProfile)
             val name = findViewById<TextView>(R.id.name)
             val description = findViewById<TextView>(R.id.description)
 
-            userProfile.setImageURI(contacts[position].profilePicture.toUri())
-            name.text = contacts[position].name
-            description.text = contacts[position].messageDescription
+            userProfile.setImageURI(contacts.toMutableList()[position].profilePicture.toUri())
+            name.text = contacts.toMutableList()[position].name
+            description.text = contacts.toMutableList()[position].messageDescription
             Log.i("context_custom","$context value")
         }
         holder.itemView.setOnClickListener {

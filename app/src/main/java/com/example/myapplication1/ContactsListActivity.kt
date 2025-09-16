@@ -1,6 +1,7 @@
 package com.example.myapplication1
 
 import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.util.Log
@@ -10,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +19,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.core.net.toUri
 
 class ContactsListActivity : AppCompatActivity(), ContactsAdapter.OnItemClickListener {
-    val contactList = mutableListOf<Contact>()
+    val contactList = mutableSetOf<Contact>()
+
+    val visitedContacts = mutableSetOf<String>()
 
     lateinit var numberOfContacts : TextView
 
@@ -45,48 +49,63 @@ class ContactsListActivity : AppCompatActivity(), ContactsAdapter.OnItemClickLis
             0
         )
 
+if(checkContactsPermission()){
+    val projection = arrayOf(
+        ContactsContract.CommonDataKinds.Phone._ID,
+        ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+//        ContactsContract.CommonDataKinds.Phone.IN_DEFAULT_DIRECTORY,
+//        ContactsContract.CommonDataKinds.Phone.IS_USER_PROFILE,
+        ContactsContract.CommonDataKinds.Phone.NUMBER,
+        ContactsContract.CommonDataKinds.Phone.PHOTO_URI
+    )
 
 
-        val projection = arrayOf(
-            ContactsContract.CommonDataKinds.Phone._ID,
-            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-            ContactsContract.CommonDataKinds.Phone.NUMBER,
-            ContactsContract.CommonDataKinds.Phone.PHOTO_URI
-        )
+    val sortOrder = "${ContactsContract.Contacts.DISPLAY_NAME_PRIMARY} ASC"
 
+    Log.d("ABCD 2", "onCreate")
 
-        val sortOrder = "${ContactsContract.Contacts.DISPLAY_NAME_PRIMARY} ASC"
+    contentResolver.query(
+        ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+        projection,
+        null,
+        null,
+        sortOrder
+    )?.use {cursor ->
+        val idColumn = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID)
+        val nameColumn = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY)
+        val phoneNumber = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
+        val photoUri = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI)
 
-        contentResolver.query(
-            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-            projection,
-            null,
-            null,
-            sortOrder
-        )?.use {cursor ->
-            val idColumn = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID)
-            val nameColumn = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY)
-            val phoneNumber = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
-            val photoUri = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI)
+        while (cursor.moveToNext()){
+            val id = cursor.getLong(idColumn)
+            val name = cursor.getString(nameColumn)
+            val phone = cursor.getString(phoneNumber)
 
-            while (cursor.moveToNext()){
-                val id = cursor.getLong(idColumn)
-                val name = cursor.getString(nameColumn)
-                val phone = cursor.getString(phoneNumber)
-                val photoString = cursor.getString(photoUri)
-                val photo = photoString?.toUri()
+            Log.d("ABCD", "$id $name")
 
-                contactList.add(Contact(
-                    id,null,
-                    photo.toString(),
-                    name?:"unknown",
-                    phone?:"unknown"))
-               // images.add(Image(id,name,uri))
-            }
-            numberOfContacts.text = if(contactList.isNotEmpty())"${contactList.size} Contacts" else "No Contacts"
-            Log.i("unique",contactList.toString())
-            print(contactList.toString())
+            if (visitedContacts.contains(phone)) continue
+            visitedContacts.add(phone)
+            val photoString = cursor.getString(photoUri)
+            val photo = photoString?.toUri()
+
+            contactList.add(Contact(
+                id,
+                null,
+                photo.toString(),
+                name?:"unknown",
+                phone?:"unknown"))
+
+            // images.add(Image(id,name,uri))
         }
+        numberOfContacts.text = if(contactList.isNotEmpty())"${contactList.size} Contacts" else "No Contacts"
+        Log.i("unique",contactList.toString())
+        print(contactList.toString())
+    }
+}
+
+
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -103,41 +122,50 @@ class ContactsListActivity : AppCompatActivity(), ContactsAdapter.OnItemClickLis
 
         
         adapter.setOnclickListener(this)
-//        back_btn.setOnClickListener {
-//            Intent(this, ChatAppClone::class.java).also{
-//                it.putExtra("Person", testData)
-//                startActivity(it)
-//            }
-//        }
+        back_btn.setOnClickListener {
+            val main_chats = MainChats()
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.main, main_chats);
+                addToBackStack("homeFragment")
+                setReorderingAllowed(true)
+                commit()
+            }
+        }
     }
 
 
     val args = Bundle()
     override fun onItemClick(position: Int) {
         val messagesList = mutableListOf<Message>(
-            Message(contactList?.get(0)?.id,null, null, "How are you?", "received"),
-            Message(contactList[0].id,"John Adams", "How are you?", "I am fine. How are you?", "sent"),
-            Message(contactList[0].id,"You", "I am fine. How are you?", "I am good."),
-            Message(contactList[0].id,null, null, "How was your stay at the hotel?", "received"),
-            Message(contactList[0].id,"John Adams", "How was your stay at the hotel?", "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", "sent"),
-            Message(contactList[0].id,"John Adams", "How was your stay at the hotel?", "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", "received"),
-            Message(contactList[0].id,"John Adams", "How was your stay at the hotel?", "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", "sent")
+            Message(contactList.elementAt(0).id,null, null, "How are you?", "received", ReadStatus.READ),
+            Message(contactList.elementAt(0).id,"John Adams", "How are you?", "I am fine. How are you?", "sent",
+                ReadStatus.READ),
+            Message(contactList.elementAt(0).id,"You", "I am fine. How are you?", "I am good.",
+                readStatus =ReadStatus.READ),
+            Message(contactList.elementAt(0).id,null, null, "How was your stay at the hotel?", "received",
+                ReadStatus.READ),
+            Message(contactList.elementAt(0).id,"John Adams", "How was your stay at the hotel?", "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", "sent",
+                ReadStatus.READ),
+            Message(contactList.elementAt(0).id,"John Adams", "How was your stay at the hotel?", "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", "received",
+                ReadStatus.UNREAD),
+            Message(contactList.elementAt(0).id,null, null, "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", "received",
+                ReadStatus.UNREAD)
         )
 
-        contactList[0].apply {
+        contactList.elementAt(0).apply {
             this.messages = messagesList
         }
 
-
+// neo graph  nav
         args.apply {
-            putSerializable("contact",contactList[position])
+            putSerializable("contact",contactList.elementAt(position))
         }
 
         val contactMessages = ContactMessages().apply{
             arguments = args
     }
 
-        Toast.makeText(this,contactList[0].messages?.size.toString(), Toast.LENGTH_LONG).show()
+        Toast.makeText(this,contactList.elementAt(0).messages?.size.toString(), Toast.LENGTH_LONG).show()
 
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.main, contactMessages);
@@ -145,5 +173,14 @@ class ContactsListActivity : AppCompatActivity(), ContactsAdapter.OnItemClickLis
             setReorderingAllowed(true)
             commit()
         }
+    }
+
+
+
+    fun checkContactsPermission(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.READ_CONTACTS
+        ) == PackageManager.PERMISSION_GRANTED
     }
 }

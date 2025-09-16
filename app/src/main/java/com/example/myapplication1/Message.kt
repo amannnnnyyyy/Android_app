@@ -2,4 +2,9 @@ package com.example.myapplication1
 
 import java.io.Serializable
 
-data class Message(val contactId:Long?,val repliedTo:String?, val originalMessage:String?, val message:String, val type:String="received"): Serializable
+data class Message(val contactId:Long?,val repliedTo:String?, val originalMessage:String?, val message:String, val type:String="received", val readStatus:ReadStatus): Serializable
+
+enum class ReadStatus{
+    READ,
+    UNREAD,
+}

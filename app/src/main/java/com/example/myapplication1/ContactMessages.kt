@@ -95,7 +95,9 @@ class ContactMessages : Fragment() {
             parentFragmentManager.beginTransaction().remove(this).commit()
         }
 
-
+//    requestPermissions(
+//
+//    )
         audio_call_btn.setOnClickListener {
             val intent = Intent(Intent.ACTION_DIAL).apply {
                 data = "tel:${description.text}".toUri()
