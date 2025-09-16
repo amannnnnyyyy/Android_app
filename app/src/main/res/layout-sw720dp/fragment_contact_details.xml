@@ -10,7 +10,7 @@
     android:background="#000"
     android:orientation="horizontal"
     android:scrollbars="vertical"
-    tools:context=".ChatAppClone">
+    tools:context=".ContactDetails">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/vert_guide"

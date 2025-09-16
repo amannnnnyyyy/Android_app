@@ -83,10 +83,15 @@ class ContactMessages : Fragment() {
         contactHeader.setOnClickListener {
             Log.i("toChat",contact.toString())
             if(contact!=null){
-                Intent(view.context, ChatAppClone::class.java).also{
-                    it.putExtra("Person",contact)
-                    startActivity(it)
-                }
+//                Intent(view.context, ChatAppClone::class.java).also{
+//                    it.putExtra("Person",contact)
+//                    startActivity(it)
+//                }
+                parentFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.main, ContactDetails())
+                    .addToBackStack(null)
+                    .commit()
             }
         }
 

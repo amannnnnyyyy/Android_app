@@ -22,9 +22,6 @@
             android:name=".MainActivity"
             android:exported="true" />
         <activity
-            android:name=".ChatAppClone"
-            android:exported="true" />
-        <activity
             android:name=".ContactsListActivity"
             android:exported="true"
             android:theme="@style/Theme.MyApplication1">
