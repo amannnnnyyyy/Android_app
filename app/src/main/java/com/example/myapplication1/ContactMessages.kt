@@ -92,7 +92,8 @@ class ContactMessages : Fragment() {
 
 
         go_back.setOnClickListener {
-            parentFragmentManager.beginTransaction().remove(this).commit()
+//            parentFragmentManager.beginTransaction().remove(this).commit()
+            parentFragmentManager.beginTransaction().replace(R.id.main, MainChats()).commit()
         }
 
 //    requestPermissions(

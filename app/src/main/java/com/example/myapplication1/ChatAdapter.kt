@@ -1,5 +1,6 @@
 package com.example.myapplication1
 
+import android.content.Context
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.imageview.ShapeableImageView
 
 class ChatAdapter(val chatList: List<Chats>): RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
+    private var onClickListener: OnItemClickListener? = null
+
+    fun interface OnItemClickListener {
+        fun onItemClick(position: Int, context: Context)
+    }
+
+    fun setOnclickListener(listener: OnItemClickListener) {
+        this.onClickListener = listener
+    }
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -57,9 +67,10 @@ class ChatAdapter(val chatList: List<Chats>): RecyclerView.Adapter<ChatAdapter.C
                 notificationField.visibility = View.GONE
 
             timeField.text = chat.timeSent.toString()
+        }
 
-
-
+        holder.itemView.setOnClickListener {
+            onClickListener?.onItemClick(position, holder.itemView.context)
         }
 
     }

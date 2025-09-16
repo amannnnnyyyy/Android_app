@@ -1,13 +1,16 @@
 package com.example.myapplication1
 
+import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,7 +28,7 @@ private val chatList: List<Chats> = listOf(
             1,
             mutableListOf(
                             Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
-                            Message(1,null,null,"Hello","received", ReadStatus.UNREAD)
+                            Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
                 ),
              Uri.EMPTY.toString(),
             name = "john",
@@ -37,7 +40,7 @@ private val chatList: List<Chats> = listOf(
     )
 )
 
-class MainChats : Fragment() {
+class MainChats : Fragment(), ChatAdapter.OnItemClickListener {
     private var param1: String? = null
     private var param2: String? = null
 
@@ -66,8 +69,26 @@ class MainChats : Fragment() {
 
         chatRecycler.adapter = adapter
 
+        adapter.setOnclickListener(this)
+
         chatRecycler.layoutManager = LinearLayoutManager(view.context)
     return view
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onItemClick(position: Int, context: Context) {
+        val args = Bundle()
+        args.apply {
+            putSerializable("contact",chatList.elementAt(position).sender)
+        }
+
+        val contactMessages = ContactMessages().apply{
+            arguments = args
+        }
+
+        parentFragmentManager.beginTransaction().replace(R.id.main,contactMessages)
+            .addToBackStack("contactPage").setReorderingAllowed(true).commit()
+
     }
 
 }
