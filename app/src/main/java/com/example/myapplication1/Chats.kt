@@ -16,3 +16,5 @@ enum class ChatSeenStatus{
     Delivered,
     Unread
 }
+
+//shared transition android fragment  : dialog fragment - view pager2

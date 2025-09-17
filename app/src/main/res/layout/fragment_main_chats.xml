@@ -71,6 +71,7 @@
             app:layout_constraintBottom_toTopOf="@id/footer"
             android:src="@drawable/new_chat"
             app:tint="#0a0"
+            android:background="@drawable/rounded_input_layout"
             android:layout_margin="20dp"
             />
         <androidx.constraintlayout.widget.ConstraintLayout
