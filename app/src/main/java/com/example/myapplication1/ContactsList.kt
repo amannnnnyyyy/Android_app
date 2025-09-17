@@ -175,42 +175,56 @@ class ContactsList : Fragment(),  ContactsAdapter.OnItemClickListener {
     }
 
     val args = Bundle()
-    override fun onItemClick(position: Int) {
-        val messagesList = mutableListOf<Message>(
-            Message(contactList.elementAt(0).id,null, null, "How are you?", "received", ReadStatus.READ),
-            Message(contactList.elementAt(0).id,"John Adams", "How are you?", "I am fine. How are you?", "sent",
-                ReadStatus.READ),
-            Message(contactList.elementAt(0).id,"You", "I am fine. How are you?", "I am good.",
-                readStatus =ReadStatus.READ),
-            Message(contactList.elementAt(0).id,null, null, "How was your stay at the hotel?", "received",
-                ReadStatus.READ),
-            Message(contactList.elementAt(0).id,"John Adams", "How was your stay at the hotel?", "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", "sent",
-                ReadStatus.READ),
-            Message(contactList.elementAt(0).id,"John Adams", "How was your stay at the hotel?", "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", "received",
-                ReadStatus.UNREAD),
-            Message(contactList.elementAt(0).id,null, null, "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", "received",
-                ReadStatus.UNREAD)
-        )
+    override fun onItemClick(position: Int,type:String) {
+        if (type=="normal"){
+            val messagesList = mutableListOf<Message>(
+                Message(contactList.elementAt(0).id,null, null, "How are you?", "received", ReadStatus.READ),
+                Message(contactList.elementAt(0).id,"John Adams", "How are you?", "I am fine. How are you?", "sent",
+                    ReadStatus.READ),
+                Message(contactList.elementAt(0).id,"You", "I am fine. How are you?", "I am good.",
+                    readStatus =ReadStatus.READ),
+                Message(contactList.elementAt(0).id,null, null, "How was your stay at the hotel?", "received",
+                    ReadStatus.READ),
+                Message(contactList.elementAt(0).id,"John Adams", "How was your stay at the hotel?", "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", "sent",
+                    ReadStatus.READ),
+                Message(contactList.elementAt(0).id,"John Adams", "How was your stay at the hotel?", "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", "received",
+                    ReadStatus.UNREAD),
+                Message(contactList.elementAt(0).id,null, null, "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", "received",
+                    ReadStatus.UNREAD)
+            )
 
-        contactList.elementAt(0).apply {
-            this.messages = messagesList
-        }
+            contactList.elementAt(0).apply {
+                this.messages = messagesList
+            }
 
 // neo graph  nav
-        args.apply {
-            putSerializable("contact",contactList.elementAt(position))
+            args.apply {
+                putSerializable("contact",contactList.elementAt(position))
+            }
+
+            val contactMessages = ContactMessages().apply{
+                arguments = args
+            }
+
+            Toast.makeText(requireContext(),contactList.elementAt(0).messages?.size.toString(), Toast.LENGTH_LONG).show()
+
+            parentFragmentManager.beginTransaction().apply {
+                replace(R.id.main, contactMessages);
+                setReorderingAllowed(true)
+                commit()
+            }
+
         }
+        else if(type=="dialog"){
+            val profileDialog = ProfileDialog()
+            val bundle = Bundle().apply {
+                putString("name",contactList.elementAt(position).name)
+                putString("sender","contactsList")
+                putSerializable("Contact",contactList.elementAt(position))
+            }
 
-        val contactMessages = ContactMessages().apply{
-            arguments = args
-        }
-
-        Toast.makeText(requireContext(),contactList.elementAt(0).messages?.size.toString(), Toast.LENGTH_LONG).show()
-
-        parentFragmentManager.beginTransaction().apply {
-            replace(R.id.main, contactMessages);
-            setReorderingAllowed(true)
-            commit()
+            profileDialog.arguments =bundle
+            profileDialog.show(childFragmentManager,"profile dialog")
         }
     }
 

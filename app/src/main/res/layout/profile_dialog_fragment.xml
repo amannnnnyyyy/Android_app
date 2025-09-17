@@ -5,30 +5,31 @@
     android:background="@drawable/image_view_shape"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
-    <TextView
-     android:id="@+id/name"
-     android:layout_width="match_parent"
-     android:layout_height="wrap_content"
-     android:text="@string/unknown"
-     android:fontFamily="sans-serif-condensed"
-     app:layout_constraintStart_toStartOf="parent"
-     app:layout_constraintTop_toTopOf="parent"
-     android:textSize="20sp"
-     android:textStyle="bold|italic"
-     android:textColor="@color/black"
-     android:padding="20dp"
-     />
     <ImageView
         android:id="@+id/userProfile"
-        android:layout_width="match_parent"
+        android:layout_width="400dp"
         android:layout_height="200dp"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         android:contentDescription="@string/profile_picture"
         android:src="@drawable/profile_picture"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/buttons"
+        />
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/unknown"
+        android:fontFamily="sans-serif-condensed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+        android:textColor="@color/black"
+        android:background="@color/clicked_background"
+        android:padding="10dp"
         />
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/buttons"

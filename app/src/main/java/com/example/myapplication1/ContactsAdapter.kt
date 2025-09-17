@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.imageview.ShapeableImageView
 
 class ContactsAdapter(
     val contacts: Set<Contact>
@@ -20,7 +21,7 @@ class ContactsAdapter(
     lateinit var context: Context
 
     fun interface OnItemClickListener {
-        fun onItemClick(position: Int)
+        fun onItemClick(position: Int,type:String)
     }
 
     fun setOnclickListener(listener: OnItemClickListener) {
@@ -66,8 +67,12 @@ class ContactsAdapter(
             description.text = contacts.toMutableList()[position].messageDescription
             Log.i("context_custom","$context value")
         }
+        holder.itemView.findViewById<ShapeableImageView>(R.id.userProfile).setOnClickListener {
+            onClickListener?.onItemClick(position,"dialog")
+        }
+
         holder.itemView.setOnClickListener {
-            onClickListener?.onItemClick(position)
+            onClickListener?.onItemClick(position,"normal")
         }
     }
 
