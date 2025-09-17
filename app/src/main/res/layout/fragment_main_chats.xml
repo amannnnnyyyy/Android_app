@@ -6,74 +6,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#000"
     >
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:padding="15dp"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="MyChat"
-            android:fontFamily="sans-serif-condensed"
-            android:textStyle="bold"
-            android:textSize="26sp"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginHorizontal="20dp"
-            />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            >
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/camera"
-                android:padding="7dp"
-                app:tint="@color/white"
-                />
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/search_icon"
-                app:tint="@color/white"
-                />
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/more"
-                app:tint="@color/white" />
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <FrameLayout
+        android:id="@+id/chats_frag_holder"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#333"
-        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/footer"
         />
-        <ImageView
-            android:id="@+id/new_chat"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/footer"
-            android:src="@drawable/new_chat"
-            app:tint="#0a0"
-            android:background="@drawable/rounded_input_layout"
-            android:layout_margin="20dp"
-            />
+
+
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/footer"
             android:layout_width="match_parent"

@@ -12,6 +12,7 @@ import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.time.LocalDate
 
 // TODO: Rename parameter arguments, choose names that match
@@ -212,18 +213,28 @@ class MainChats : Fragment(), ChatAdapter.OnItemClickListener {
                               savedInstanceState: Bundle?): View? {
         val view =  inflater.inflate(R.layout.fragment_main_chats, container, false)
 
-        new_chat = view.findViewById<ImageView>(R.id.new_chat)
-        openNewChat(new_chat)
+//        new_chat = view.findViewById<ImageView>(R.id.new_chat)
+//        openNewChat(new_chat)
 
-        val adapter = ChatAdapter(chatList)
+        //val adapter = ChatAdapter(chatList)
 
-        val chatRecycler = view.findViewById<RecyclerView>(R.id.recyclerView)
+        //val chatRecycler = view.findViewById<RecyclerView>(R.id.recyclerView)
 
-        chatRecycler.adapter = adapter
+       // chatRecycler.adapter = adapter
 
-        adapter.setOnclickListener(this)
+       // adapter.setOnclickListener(this)
 
-        chatRecycler.layoutManager = LinearLayoutManager(view.context)
+       // chatRecycler.layoutManager = LinearLayoutManager(view.context)
+
+        val bottomNavigation = view.findViewById<BottomNavigationView>(R.id.footer)
+
+        bottomNavigation.setOnNavigationItemSelectedListener{
+            when(it.itemId){
+                R.id.chats -> setFragment(Chats_display_fragment())
+                R.id.calls -> setFragment(ContactsList())
+            }
+            true
+        }
     return view
     }
 
@@ -257,6 +268,10 @@ class MainChats : Fragment(), ChatAdapter.OnItemClickListener {
         parentFragmentManager.beginTransaction().replace(R.id.main,contactMessages)
             .addToBackStack("contactPage").setReorderingAllowed(true).commit()
 
+    }
+
+    private fun setFragment(frag: Fragment){
+        parentFragmentManager.beginTransaction().replace(R.id.chats_frag_holder,frag).commit()
     }
 
 }
