@@ -14,7 +14,7 @@ class ChatAdapter(val chatList: List<Chats>): RecyclerView.Adapter<ChatAdapter.C
     private var onClickListener: OnItemClickListener? = null
 
     fun interface OnItemClickListener {
-        fun onItemClick(position: Int, context: Context)
+        fun onItemClick(position: Int, context: Context, type:String)
     }
 
     fun setOnclickListener(listener: OnItemClickListener) {
@@ -69,8 +69,12 @@ class ChatAdapter(val chatList: List<Chats>): RecyclerView.Adapter<ChatAdapter.C
             timeField.text = chat.timeSent.toString()
         }
 
+        holder.itemView.findViewById<ShapeableImageView>(R.id.userProfile).setOnClickListener {
+            onClickListener?.onItemClick(position, holder.itemView.context, "dialog")
+        }
+
         holder.itemView.setOnClickListener {
-            onClickListener?.onItemClick(position, holder.itemView.context)
+            onClickListener?.onItemClick(position, holder.itemView.context, "normal")
         }
 
     }

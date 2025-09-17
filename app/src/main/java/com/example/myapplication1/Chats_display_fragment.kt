@@ -41,7 +41,37 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
                     Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
                 ),
                 Uri.EMPTY.toString(),
-                name = "john",
+                name = "jack",
+                messageDescription = "New User"
+            ),
+            phoneNumber = null,
+            status = ChatSeenStatus.Unread,
+            timeSent = LocalDate.now()
+        ),
+        Chats(
+            Contact(
+                1,
+                mutableListOf(
+                    Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
+                    Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
+                ),
+                Uri.EMPTY.toString(),
+                name = "smith",
+                messageDescription = "New User"
+            ),
+            phoneNumber = null,
+            status = ChatSeenStatus.Unread,
+            timeSent = LocalDate.now()
+        ),
+        Chats(
+            Contact(
+                1,
+                mutableListOf(
+                    Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
+                    Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
+                ),
+                Uri.EMPTY.toString(),
+                name = "jason",
                 messageDescription = "New User"
             ),
             phoneNumber = null,
@@ -71,7 +101,7 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
                     Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
                 ),
                 Uri.EMPTY.toString(),
-                name = "john",
+                name = "drago",
                 messageDescription = "New User"
             ),
             phoneNumber = null,
@@ -86,7 +116,7 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
                     Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
                 ),
                 Uri.EMPTY.toString(),
-                name = "john",
+                name = "felix",
                 messageDescription = "New User"
             ),
             phoneNumber = null,
@@ -101,7 +131,7 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
                     Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
                 ),
                 Uri.EMPTY.toString(),
-                name = "john",
+                name = "clarence",
                 messageDescription = "New User"
             ),
             phoneNumber = null,
@@ -116,7 +146,7 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
                     Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
                 ),
                 Uri.EMPTY.toString(),
-                name = "john",
+                name = "florence",
                 messageDescription = "New User"
             ),
             phoneNumber = null,
@@ -131,7 +161,7 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
                     Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
                 ),
                 Uri.EMPTY.toString(),
-                name = "john",
+                name = "trevor",
                 messageDescription = "New User"
             ),
             phoneNumber = null,
@@ -146,37 +176,7 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
                     Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
                 ),
                 Uri.EMPTY.toString(),
-                name = "john",
-                messageDescription = "New User"
-            ),
-            phoneNumber = null,
-            status = ChatSeenStatus.Unread,
-            timeSent = LocalDate.now()
-        ),
-        Chats(
-            Contact(
-                1,
-                mutableListOf(
-                    Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
-                    Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
-                ),
-                Uri.EMPTY.toString(),
-                name = "john",
-                messageDescription = "New User"
-            ),
-            phoneNumber = null,
-            status = ChatSeenStatus.Unread,
-            timeSent = LocalDate.now()
-        ),
-        Chats(
-            Contact(
-                1,
-                mutableListOf(
-                    Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
-                    Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
-                ),
-                Uri.EMPTY.toString(),
-                name = "john",
+                name = "noah",
                 messageDescription = "New User"
             ),
             phoneNumber = null,
@@ -244,25 +244,35 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onItemClick(position: Int, context: Context) {
-        //read messages
-        chatList[position].messages?.forEach {
-            it.readStatus = ReadStatus.READ
+    override fun onItemClick(position: Int, context: Context, type:String) {
+        if (type=="normal"){
+            //read messages
+            chatList[position].messages?.forEach {
+                it.readStatus = ReadStatus.READ
+            }
+
+
+            val args = Bundle()
+            args.apply {
+                putSerializable("contact",chatList.elementAt(position).sender)
+            }
+
+            val contactMessages = ContactMessages().apply{
+                arguments = args
+            }
+
+            parentFragmentManager.beginTransaction().replace(R.id.main,contactMessages)
+                .addToBackStack("contactPage").setReorderingAllowed(true).commit()
+        }else if(type=="dialog"){
+            val profileDialog = ProfileDialog()
+            val bundle = Bundle().apply {
+                putString("name",chatList[position].sender?.name?:chatList[position].phoneNumber?:"Unknown")
+                putSerializable("Contact",chatList[position].sender)
+            }
+
+            profileDialog.arguments =bundle
+            profileDialog.show(childFragmentManager,"profile dialog")
         }
-
-
-        val args = Bundle()
-        args.apply {
-            putSerializable("contact",chatList.elementAt(position).sender)
-        }
-
-        val contactMessages = ContactMessages().apply{
-            arguments = args
-        }
-
-        parentFragmentManager.beginTransaction().replace(R.id.main,contactMessages)
-            .addToBackStack("contactPage").setReorderingAllowed(true).commit()
-
     }
 
 
