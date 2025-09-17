@@ -13,7 +13,7 @@
         <item name="strokeWidth">16dp</item>
     </style>
 
-    <style name="DialogAnimation" parent="Theme.AppCompat.Light.Dialog">
+    <style name="DialogAnimation" parent="Theme.MaterialComponents.DayNight">
         <item name="android:windowAnimationStyle">@style/DialogWindowAnimation</item>
     </style>
 

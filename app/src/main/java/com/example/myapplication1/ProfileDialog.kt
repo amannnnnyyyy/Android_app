@@ -16,7 +16,7 @@ class ProfileDialog: DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = AlertDialog.Builder(requireActivity(), R.style.DialogAnimation) // Apply custom style here
+        val builder = AlertDialog.Builder(requireActivity(), R.style.DialogAnimation)
         val view = layoutInflater.inflate(R.layout.profile_dialog_fragment, null)
         builder.setView(view)
 
