@@ -12,13 +12,15 @@ class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle)
     @RequiresApi(Build.VERSION_CODES.O)
     override fun createFragment(position: Int): Fragment {
        return when(position){
-           0-> MainChats()
-           1-> ContactsList()
-           else-> MainChats()
+           0-> Chats_display_fragment()
+           3-> ContactsList()
+          // 2-> Chats_display_fragment()
+          // 3-> ContactsList()
+           else-> Chats_display_fragment()
        }
 
     }
 
-    override fun getItemCount(): Int = 2
+    override fun getItemCount(): Int = 4
 
 }

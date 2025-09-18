@@ -26,8 +26,10 @@ private const val ARG_PARAM2 = "param2"
 
 class MainChats : Fragment(){
 
-    //private lateinit var viewPager: ViewPager2
+    private lateinit var viewPager: ViewPager2
     private lateinit var bottomNavigationView: BottomNavigationView
+
+    private lateinit var adapter: ViewPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,24 +42,31 @@ class MainChats : Fragment(){
                               savedInstanceState: Bundle?): View? {
         val view =  inflater.inflate(R.layout.fragment_main_chats, container, false)
 
-        setFragment(Chats_display_fragment())
-       // viewPager = view.findViewById(R.id.viewPager)
+        //setFragment(Chats_display_fragment())
+        viewPager = view.findViewById(R.id.chats_frag_holder)
         bottomNavigationView = view.findViewById<BottomNavigationView>(R.id.footer)
 
-        bottomNavigationView.setOnItemSelectedListener{
-            when(it.itemId){
-                R.id.chats -> setFragment(MainChats())
-                R.id.calls -> setFragment(ContactsList())
+        adapter = ViewPagerAdapter(parentFragmentManager,lifecycle)
+        viewPager.adapter = adapter
+
+        bottomNavigationView.setOnNavigationItemSelectedListener{ menu->
+            when(menu.itemId){
+                R.id.chats -> viewPager.currentItem = 0
+                //R.id.updates -> viewPager.currentItem = 1
+               // R.id.communities -> viewPager.currentItem = 2
+                R.id.calls -> viewPager.currentItem = 3
             }
             true
         }
 
-//        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-//            override fun onPageSelected(position: Int) {
-//                super.onPageSelected(position)
-//                bottomNavigationView.menu[position].isChecked = true
-//            }
-//        })
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                val menuItem = bottomNavigationView.menu[position]
+                bottomNavigationView.selectedItemId = menuItem.itemId
+                //bottomNavigationView.menu[position].isChecked = true
+            }
+        })
 
 
     return view
