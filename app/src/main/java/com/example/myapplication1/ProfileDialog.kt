@@ -32,6 +32,9 @@ class ProfileDialog: DialogFragment() {
 
         val nameField = view.findViewById<TextView>(R.id.name)
         val userProfileField = view.findViewById<ImageView>(R.id.userProfile)
+        val messages = view.findViewById< ImageView>(R.id.messages)
+        val detail = view.findViewById<ImageView>(R.id.detail)
+
 
         nameField.text = name
 
@@ -44,6 +47,24 @@ class ProfileDialog: DialogFragment() {
                 userProfileField.setImageURI(contact?.profilePicture?.toUri())
             else
                 userProfileField.setImageResource(R.drawable.profile)
+
+            val args = Bundle()
+            args.apply {
+                putSerializable("contact",contact)
+            }
+
+            val contactMessages = ContactMessages().apply{
+                arguments = args
+            }
+
+            messages.setOnClickListener {
+                dismiss()
+                Log.i("going","error here?")
+                parentFragment?.parentFragmentManager?.beginTransaction()
+                    ?.replace(R.id.mainHolder, contactMessages)
+                    ?.addToBackStack(null)
+                    ?.commit()
+            }
         }
         else
             userProfileField.setImageResource(R.drawable.profile)

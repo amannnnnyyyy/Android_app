@@ -100,7 +100,7 @@ class ContactMessages : Fragment() {
 //                }
                 parentFragmentManager
                     .beginTransaction()
-                    .replace(R.id.main, ContactDetails())
+                    .replace(R.id.mainHolder, ContactDetails())
                     .addToBackStack(null)
                     .commit()
             }
@@ -109,7 +109,7 @@ class ContactMessages : Fragment() {
 
         go_back.setOnClickListener {
 //            parentFragmentManager.beginTransaction().remove(this).commit()
-            parentFragmentManager.beginTransaction().replace(R.id.main, MainChats()).commit()
+            parentFragmentManager.beginTransaction().replace(R.id.mainHolder, MainChats()).commit()
         }
 
 //    requestPermissions(

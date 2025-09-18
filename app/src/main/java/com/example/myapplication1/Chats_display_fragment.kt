@@ -237,7 +237,7 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
     fun openNewChat(view:View){
         view.setOnClickListener {
             parentFragmentManager.beginTransaction()
-                .replace(R.id.main, ContactsList())
+                .replace(R.id.mainHolder, ContactsList())
                 .addToBackStack("main_chat")
                 .commit()
         }
@@ -261,7 +261,7 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
                 arguments = args
             }
 
-            parentFragmentManager.beginTransaction().replace(R.id.main,contactMessages)
+            parentFragmentManager.beginTransaction().replace(R.id.mainHolder,contactMessages)
                 .addToBackStack("contactPage").setReorderingAllowed(true).commit()
         }else if(type=="dialog"){
             val profileDialog = ProfileDialog()

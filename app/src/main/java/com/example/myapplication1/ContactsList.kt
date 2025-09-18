@@ -141,7 +141,7 @@ class ContactsList : Fragment(),  ContactsAdapter.OnItemClickListener {
         back_btn.setOnClickListener {
             val main_chats = MainChats()
             parentFragmentManager.beginTransaction().apply {
-                replace(R.id.main, main_chats);
+                replace(R.id.mainHolder, main_chats);
                 addToBackStack("homeFragment")
                 setReorderingAllowed(true)
                 commit()
@@ -177,21 +177,7 @@ class ContactsList : Fragment(),  ContactsAdapter.OnItemClickListener {
     val args = Bundle()
     override fun onItemClick(position: Int,type:String) {
         if (type=="normal"){
-            val messagesList = mutableListOf<Message>(
-                Message(contactList.elementAt(0).id,null, null, "How are you?", "received", ReadStatus.READ),
-                Message(contactList.elementAt(0).id,"John Adams", "How are you?", "I am fine. How are you?", "sent",
-                    ReadStatus.READ),
-                Message(contactList.elementAt(0).id,"You", "I am fine. How are you?", "I am good.",
-                    readStatus =ReadStatus.READ),
-                Message(contactList.elementAt(0).id,null, null, "How was your stay at the hotel?", "received",
-                    ReadStatus.READ),
-                Message(contactList.elementAt(0).id,"John Adams", "How was your stay at the hotel?", "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", "sent",
-                    ReadStatus.READ),
-                Message(contactList.elementAt(0).id,"John Adams", "How was your stay at the hotel?", "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", "received",
-                    ReadStatus.UNREAD),
-                Message(contactList.elementAt(0).id,null, null, "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", "received",
-                    ReadStatus.UNREAD)
-            )
+            val messagesList = MessagesData().getMessageForContact(contactList.elementAt(position).id,contactList.elementAt(position).name)
 
             contactList.elementAt(0).apply {
                 this.messages = messagesList
@@ -209,7 +195,7 @@ class ContactsList : Fragment(),  ContactsAdapter.OnItemClickListener {
             Toast.makeText(requireContext(),contactList.elementAt(0).messages?.size.toString(), Toast.LENGTH_LONG).show()
 
             parentFragmentManager.beginTransaction().apply {
-                replace(R.id.main, contactMessages);
+                replace(R.id.mainHolder, contactMessages);
                 setReorderingAllowed(true)
                 commit()
             }
