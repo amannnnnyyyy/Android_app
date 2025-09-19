@@ -4,15 +4,21 @@ import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.view.animation.ScaleAnimation
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.view.ViewCompat
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.time.LocalDate
 
 class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
@@ -244,7 +250,13 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onItemClick(position: Int, context: Context, type:String) {
+    override fun onItemClick(
+        position: Int,
+        context: Context,
+        type: String,
+        view: View?,
+        motionEvent: MotionEvent?
+    ) {
         if (type=="normal"){
             //read messages
             chatList[position].messages?.forEach {
@@ -264,16 +276,68 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
             parentFragmentManager.beginTransaction().replace(R.id.mainHolder,contactMessages)
                 .addToBackStack("contactPage").setReorderingAllowed(true).commit()
         }else if(type=="dialog"){
-            val profileDialog = ProfileDialog()
-            val bundle = Bundle().apply {
-                putString("name",chatList[position].sender?.name?:chatList[position].phoneNumber?:"Unknown")
-                putSerializable("Contact",chatList[position].sender)
-            }
 
-            profileDialog.arguments =bundle
-            profileDialog.show(childFragmentManager,"profile dialog")
+            val name = chatList[position].sender?.name?:chatList[position].phoneNumber?:"Unknown"
+            val contact = chatList[position].sender
+            if (view != null && motionEvent!=null) {
+                openProfileDetail(position,name, contact, view,motionEvent)
+            }
+         //   val profileDialog = ProfileDialog()
+//            val bundle = Bundle().apply {
+//                putString("name",chatList[position].sender?.name?:chatList[position].phoneNumber?:"Unknown")
+//                putSerializable("Contact",chatList[position].sender)
+//            }
+
+//            profileDialog.arguments =bundle
+//            profileDialog.show(childFragmentManager,"profile dialog")
         }
     }
+
+
+    private fun openProfileDetail(position: Int, name:String, contact:Contact?, view:View, motionEvent: MotionEvent){
+        val profileDialog = ProfileDialog()
+        val chatsDisplay = Chats_display_fragment()
+
+        val extras = FragmentNavigatorExtras(view to view.transitionName)
+
+        ViewCompat.setTransitionName(view, "item_image")
+
+        val slideInAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_up_in)
+
+
+
+        ///////////////////
+        val clickX = motionEvent.x
+        val clickY = motionEvent.y
+
+        // Get view dimensions
+        val viewWidth = view.width.toFloat()
+        val viewHeight = view.height.toFloat()
+
+        val pivotX = clickX / viewWidth
+        val pivotY = clickY / viewHeight
+
+
+        ///////////////////
+
+
+
+
+
+        val bundle = Bundle().apply{
+            putString("transitionName", view.transitionName)
+            putSerializable("name", name)
+            putSerializable("Contact",contact)
+            putFloat("pivotX",pivotX)
+            putFloat("pivotY",pivotY)
+        }
+        Toast.makeText(requireContext(),view.transitionName, Toast.LENGTH_SHORT).show()
+
+        profileDialog.arguments = bundle
+     //   parentFragmentManager.beginTransaction().apply {  }
+        profileDialog.show(childFragmentManager,"profile dialog")
+    }
+
 
 
 }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/temp_navigation"
+    app:startDestination="@id/contactsList">
+
+    <fragment
+        android:id="@+id/contactsList"
+        tools:layout="@layout/fragment_contacts_list"
+        android:name="com.example.myapplication1.ContactsList"
+        android:label="ContactsList" >
+        <action
+            android:id="@+id/action_contactsList_to_contactDetails2"
+            app:destination="@id/contactDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactDetails"
+        android:name="com.example.myapplication1.ContactDetails"
+        android:label="fragment_contact_details"
+        tools:layout="@layout/fragment_contact_details" >
+        <argument
+            android:name="id"
+            app:argType="string" />
+        <argument android:name="name" />
+    </fragment>
+    <activity
+        android:id="@+id/calculatorActivity"
+        tools:layout="@layout/fragment_calculator"
+        android:name="com.example.myapplication1.CalculatorActivity"
+        android:label="CalculatorActivity" />
+
+
+</navigation>

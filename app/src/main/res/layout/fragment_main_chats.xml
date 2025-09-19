@@ -11,6 +11,9 @@
         android:id="@+id/chats_frag_holder"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/footer"
         />

@@ -210,7 +210,13 @@ class ContactsList : Fragment(),  ContactsAdapter.OnItemClickListener {
             }
 
             profileDialog.arguments =bundle
-            profileDialog.show(childFragmentManager,"profile dialog")
+            parentFragmentManager
+                .beginTransaction()
+                .add(profileDialog,"profile_detail")
+                .commit()
+            //profileDialog.show(childFragmentManager,"profile dialog")
+
+            ContactsListDirections.actionContactsListToContactDetails2("1", "asd")
         }
     }
 

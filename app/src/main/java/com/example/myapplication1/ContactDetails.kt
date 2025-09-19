@@ -14,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.net.toUri
+import androidx.navigation.fragment.navArgs
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -52,6 +53,8 @@ class ContactDetails : Fragment() {
     lateinit var block_layout: RelativeLayout
     lateinit var report_layout: RelativeLayout
 
+    private val navArgs by navArgs<ContactDetailsArgs>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +62,7 @@ class ContactDetails : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
     }
 
     override fun onCreateView(

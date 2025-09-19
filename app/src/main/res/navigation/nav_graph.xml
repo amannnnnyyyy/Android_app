@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/chats_display_fragment2">
+    <fragment
+        android:id="@+id/chats_display_fragment2"
+        android:name="com.example.myapplication1.Chats_display_fragment"
+        android:label="fragment_chats_display_fragment"
+        tools:layout="@layout/fragment_chats_display_fragment" >
+        <action
+            android:id="@+id/action_chats_display_fragment2_to_profileDialog2"
+            app:destination="@id/profileDialog2" />
+    </fragment>
+    <dialog
+        android:id="@+id/profileDialog2"
+        android:name="com.example.myapplication1.ProfileDialog"
+        android:label="ProfileDialog" />
+</navigation>

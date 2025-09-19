@@ -14,6 +14,7 @@
         android:src="@drawable/background"
         android:contentDescription="@string/profile_picture"
         android:scaleType="centerCrop"
+        android:transitionName="chat_profile_small"
         android:background="@drawable/rounded_layout"
         app:shapeAppearanceOverlay="@style/RoundedCornersImageView"
         app:layout_constraintStart_toStartOf="parent"

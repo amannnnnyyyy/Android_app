@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -17,6 +18,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
 
     buildTypes {
         release {
@@ -36,6 +38,7 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
 }
 
@@ -44,6 +47,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.2.1")
     val fragmentVersion = "1.8.9"
     val material = "1.12.0"
+    val nav_version = "2.9.4"
     implementation(libs.androidx.appcompat)
     implementation("com.google.android.material:material:${material}")
     implementation("androidx.fragment:fragment-ktx:${fragmentVersion}")
@@ -62,4 +66,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation("androidx.navigation:navigation-fragment-ktx:${nav_version}")
+    implementation("androidx.navigation:navigation-ui-ktx:${nav_version}")
+    implementation("androidx.transition:transition:1.6.0")
 }

@@ -3,8 +3,10 @@ package com.example.myapplication1
 import android.content.Context
 import android.net.Uri
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +16,13 @@ class ChatAdapter(val chatList: List<Chats>): RecyclerView.Adapter<ChatAdapter.C
     private var onClickListener: OnItemClickListener? = null
 
     fun interface OnItemClickListener {
-        fun onItemClick(position: Int, context: Context, type:String)
+        fun onItemClick(
+            position: Int,
+            context: Context,
+            type: String,
+            sharedView: View?,
+            motionEvent: MotionEvent?
+        )
     }
 
     fun setOnclickListener(listener: OnItemClickListener) {
@@ -37,8 +45,12 @@ class ChatAdapter(val chatList: List<Chats>): RecyclerView.Adapter<ChatAdapter.C
     ) {
         val chat = chatList[position]
 
+        val profileImageField: ImageView
+
+
+
         holder.itemView.apply{
-            val profileImageField = findViewById<ShapeableImageView>(R.id.userProfile)
+            profileImageField = findViewById<ShapeableImageView>(R.id.userProfile)
             val notificationField = findViewById<TextView>(R.id.notification)
             val nameField = findViewById<TextView>(R.id.name)
             val messageField = findViewById<TextView>(R.id.message)
@@ -69,13 +81,40 @@ class ChatAdapter(val chatList: List<Chats>): RecyclerView.Adapter<ChatAdapter.C
             timeField.text = chat.timeSent.toString()
         }
 
-        holder.itemView.findViewById<ShapeableImageView>(R.id.userProfile).setOnClickListener {
-            onClickListener?.onItemClick(position, holder.itemView.context, "dialog")
+        val transitionName = "profileImage_$position"
+        profileImageField.transitionName = transitionName
+
+        profileImageField.setOnTouchListener { view, motionEvent ->
+            when(motionEvent.action){
+                MotionEvent.ACTION_DOWN -> {
+                    onClickListener?.onItemClick(
+                        position,
+                        holder.itemView.context,
+                        "dialog",
+                        profileImageField,
+                        motionEvent
+                    )
+                    view.performClick()
+                    true
+                }
+                MotionEvent.ACTION_UP -> {
+                    false
+                }
+                else -> false
+            }
         }
 
+
         holder.itemView.setOnClickListener {
-            onClickListener?.onItemClick(position, holder.itemView.context, "normal")
+            onClickListener?.onItemClick(
+                position,
+                holder.itemView.context,
+                "normal",
+                holder.itemView,
+                null
+            )
         }
+
 
     }
 
