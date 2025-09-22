@@ -45,6 +45,7 @@ android {
 dependencies {
     implementation(libs.androidx.activity)
     implementation("androidx.constraintlayout:constraintlayout:2.2.1")
+    implementation(libs.androidx.fragment)
     val fragmentVersion = "1.8.9"
     val material = "1.12.0"
     val nav_version = "2.9.4"

@@ -16,6 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -109,7 +110,8 @@ class ContactMessages : Fragment() {
 
         go_back.setOnClickListener {
 //            parentFragmentManager.beginTransaction().remove(this).commit()
-            parentFragmentManager.beginTransaction().replace(R.id.mainHolder, MainChats()).commit()
+            findNavController().navigateUp()
+           // parentFragmentManager.beginTransaction().replace(R.id.mainHolder, MainChats()).commit()
         }
 
 //    requestPermissions(

@@ -15,6 +15,8 @@ class ContactsListActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets }
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().replace(R.id.mainHolder, MainChats()).commit()
-        } } }
+    }
+
+
+
+}

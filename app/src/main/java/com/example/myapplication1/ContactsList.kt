@@ -18,6 +18,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -140,12 +141,13 @@ class ContactsList : Fragment(),  ContactsAdapter.OnItemClickListener {
         adapter.setOnclickListener(this)
         back_btn.setOnClickListener {
             val main_chats = MainChats()
-            parentFragmentManager.beginTransaction().apply {
-                replace(R.id.mainHolder, main_chats);
-                addToBackStack("homeFragment")
-                setReorderingAllowed(true)
-                commit()
-            }
+            findNavController().navigateUp()
+//            parentFragmentManager.beginTransaction().apply {
+//                replace(R.id.mainHolder, main_chats);
+//                addToBackStack("homeFragment")
+//                setReorderingAllowed(true)
+//                commit()
+//            }
         }
 
 
@@ -194,11 +196,14 @@ class ContactsList : Fragment(),  ContactsAdapter.OnItemClickListener {
 
             Toast.makeText(requireContext(),contactList.elementAt(0).messages?.size.toString(), Toast.LENGTH_LONG).show()
 
-            parentFragmentManager.beginTransaction().apply {
-                replace(R.id.mainHolder, contactMessages);
-                setReorderingAllowed(true)
-                commit()
-            }
+            val nav = requireParentFragment().findNavController()
+            val action = ContactsListDirections.actionContactsList2ToContactMessages()
+            nav.navigate(action)
+//            parentFragmentManager.beginTransaction().apply {
+//                replace(R.id.mainHolder, contactMessages);
+//                setReorderingAllowed(true)
+//                commit()
+//            }
 
         }
         else if(type=="dialog"){
@@ -216,7 +221,7 @@ class ContactsList : Fragment(),  ContactsAdapter.OnItemClickListener {
                 .commit()
             //profileDialog.show(childFragmentManager,"profile dialog")
 
-            ContactsListDirections.actionContactsListToContactDetails2("1", "asd")
+            //ContactsListDirections.actionContactsListToContactDetails2("1", "asd")
         }
     }
 

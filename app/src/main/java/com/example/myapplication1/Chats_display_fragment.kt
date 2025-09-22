@@ -16,7 +16,9 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.time.LocalDate
@@ -213,8 +215,6 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_chats_display_fragment, container, false)
 
-                new_chat = view.findViewById<ImageView>(R.id.new_chat)
-        openNewChat(new_chat)
 
         val adapter = ChatAdapter(chatList)
 
@@ -230,6 +230,18 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
     return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        new_chat = view.findViewById<ImageView>(R.id.new_chat)
+
+            new_chat.setOnClickListener {
+                val navController = requireParentFragment().requireParentFragment().findNavController()
+                val action = MainChatsDirections.actionMainChatsToContactsList2()
+                navController.navigate(action)
+            }
+
+    }
+
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
@@ -240,14 +252,7 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
             }
     }
 
-    fun openNewChat(view:View){
-        view.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.mainHolder, ContactsList())
-                .addToBackStack("main_chat")
-                .commit()
-        }
-    }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onItemClick(
@@ -273,8 +278,12 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
                 arguments = args
             }
 
-            parentFragmentManager.beginTransaction().replace(R.id.mainHolder,contactMessages)
-                .addToBackStack("contactPage").setReorderingAllowed(true).commit()
+            val nav = requireParentFragment().requireParentFragment().findNavController()
+            val action = MainChatsDirections.actionMainChatsToContactMessages()
+            nav.navigate(action)
+
+//            parentFragmentManager.beginTransaction().replace(R.id.mainHolder,contactMessages)
+//                .addToBackStack("contactPage").setReorderingAllowed(true).commit()
         }else if(type=="dialog"){
 
             val name = chatList[position].sender?.name?:chatList[position].phoneNumber?:"Unknown"

@@ -7,16 +7,16 @@
     android:background="#000"
     android:id="@+id/mainChatsId"
     >
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/chats_frag_holder"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/nav_graph"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/footer"
-        />
+<!--    <androidx.viewpager2.widget.ViewPager2-->
+<!--        android:id="@+id/chats_frag_holder"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:name="androidx.navigation.fragment.NavHostFragment"-->
+<!--        app:defaultNavHost="true"-->
+<!--        app:navGraph="@navigation/nav_graph"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/footer"-->
+<!--        />-->
 
 
 <!--    <androidx.viewpager2.widget.ViewPager2-->
@@ -27,6 +27,33 @@
 <!--        app:layout_constraintBottom_toTopOf="@id/footer"-->
 <!--        app:layout_constraintStart_toStartOf="parent"-->
 <!--        app:layout_constraintEnd_toEndOf="parent" />-->
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/chats_frag_holder"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:navGraph="@navigation/main_bottom_nav_graph"
+        app:defaultNavHost="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/footer"
+        />
+
+    <!--    <androidx.fragment.app.FragmentContainerView-->
+    <!--        android:id="@+id/fragmentContainerView"-->
+    <!--        android:name="androidx.navigation.fragment.NavHostFragment"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        app:defaultNavHost="true"-->
+    <!--        app:navGraph="@navigation/chat_nav"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintBottom_toTopOf="@id/footer"-->
+    <!--        />-->
+
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/footer"
             android:layout_width="match_parent"
@@ -35,5 +62,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
