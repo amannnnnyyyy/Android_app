@@ -12,6 +12,7 @@
         android:scaleType="centerCrop"
         android:contentDescription="@string/profile_picture"
         android:src="@drawable/profile_picture"
+        android:transitionName="profile_pic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

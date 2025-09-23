@@ -16,7 +16,9 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigator
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,12 +32,13 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
             Contact(
                 1,
                 mutableListOf(
-                    Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
-                    Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
+                    Message(1, null, null, "Hello", "received", ReadStatus.UNREAD),
+                    Message(1, null, null, "Hey there", "received", ReadStatus.UNREAD)
                 ),
                 Uri.EMPTY.toString(),
                 name = "john",
-                messageDescription = "New User"
+                messageDescription = "New User",
+                phoneNumber = "+9719782367986"
             ),
             phoneNumber = null,
             status = ChatSeenStatus.Unread,
@@ -50,7 +53,8 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
                 ),
                 Uri.EMPTY.toString(),
                 name = "jack",
-                messageDescription = "New User"
+                messageDescription = "New User",
+                phoneNumber = "+9719782000086"
             ),
             phoneNumber = null,
             status = ChatSeenStatus.Unread,
@@ -65,7 +69,8 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
                 ),
                 Uri.EMPTY.toString(),
                 name = "smith",
-                messageDescription = "New User"
+                messageDescription = "New User",
+                phoneNumber = "+9719787777986"
             ),
             phoneNumber = null,
             status = ChatSeenStatus.Unread,
@@ -80,7 +85,8 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
                 ),
                 Uri.EMPTY.toString(),
                 name = "jason",
-                messageDescription = "New User"
+                messageDescription = "New User",
+                phoneNumber = "+97197823968858"
             ),
             phoneNumber = null,
             status = ChatSeenStatus.Unread,
@@ -95,7 +101,8 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
                 ),
                 Uri.EMPTY.toString(),
                 name = "john",
-                messageDescription = "New User"
+                messageDescription = "New User",
+                phoneNumber = "+9719782333333"
             ),
             phoneNumber = null,
             status = ChatSeenStatus.Unread,
@@ -110,7 +117,8 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
                 ),
                 Uri.EMPTY.toString(),
                 name = "drago",
-                messageDescription = "New User"
+                messageDescription = "New User",
+                phoneNumber = "+9719782888888"
             ),
             phoneNumber = null,
             status = ChatSeenStatus.Unread,
@@ -125,7 +133,8 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
                 ),
                 Uri.EMPTY.toString(),
                 name = "felix",
-                messageDescription = "New User"
+                messageDescription = "New User",
+                phoneNumber = "+9719782367111"
             ),
             phoneNumber = null,
             status = ChatSeenStatus.Unread,
@@ -140,7 +149,8 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
                 ),
                 Uri.EMPTY.toString(),
                 name = "clarence",
-                messageDescription = "New User"
+                messageDescription = "New User",
+                phoneNumber = "+9719782365555"
             ),
             phoneNumber = null,
             status = ChatSeenStatus.Unread,
@@ -155,7 +165,8 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
                 ),
                 Uri.EMPTY.toString(),
                 name = "florence",
-                messageDescription = "New User"
+                messageDescription = "New User",
+                phoneNumber = "+9719782367777"
             ),
             phoneNumber = null,
             status = ChatSeenStatus.Unread,
@@ -170,7 +181,8 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
                 ),
                 Uri.EMPTY.toString(),
                 name = "trevor",
-                messageDescription = "New User"
+                messageDescription = "New User",
+                phoneNumber = "+971978565565466"
             ),
             phoneNumber = null,
             status = ChatSeenStatus.Unread,
@@ -185,7 +197,8 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
                 ),
                 Uri.EMPTY.toString(),
                 name = "noah",
-                messageDescription = "New User"
+                messageDescription = "New User",
+                phoneNumber = "+9719782344444"
             ),
             phoneNumber = null,
             status = ChatSeenStatus.Unread,
@@ -235,7 +248,7 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
         new_chat = view.findViewById<ImageView>(R.id.new_chat)
 
             new_chat.setOnClickListener {
-                val navController = requireParentFragment().requireParentFragment().findNavController()
+                val navController = findNavController()
                 val action = MainChatsDirections.actionMainChatsToContactsList2()
                 navController.navigate(action)
             }
@@ -259,11 +272,10 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
         position: Int,
         context: Context,
         type: String,
-        view: View?,
+        viewSent: View?,
         motionEvent: MotionEvent?
     ) {
         if (type=="normal"){
-            //read messages
             chatList[position].messages?.forEach {
                 it.readStatus = ReadStatus.READ
             }
@@ -274,22 +286,32 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
                 putSerializable("contact",chatList.elementAt(position).sender)
             }
 
-            val contactMessages = ContactMessages().apply{
-                arguments = args
+            val profilePic: ImageView
+
+            val extras: FragmentNavigator.Extras
+
+
+            val nav = findNavController()
+            val action = MainChatsDirections.actionMainChatsToContactMessages(chatList[position])
+            if(viewSent!=null){
+                profilePic= viewSent.findViewById<ImageView>(R.id.userProfile)
+
+                extras = FragmentNavigatorExtras(profilePic to "profile_pic")
+                nav.navigate(action,extras)
             }
 
-            val nav = requireParentFragment().requireParentFragment().findNavController()
-            val action = MainChatsDirections.actionMainChatsToContactMessages()
-            nav.navigate(action)
 
-//            parentFragmentManager.beginTransaction().replace(R.id.mainHolder,contactMessages)
-//                .addToBackStack("contactPage").setReorderingAllowed(true).commit()
+
         }else if(type=="dialog"){
 
             val name = chatList[position].sender?.name?:chatList[position].phoneNumber?:"Unknown"
             val contact = chatList[position].sender
-            if (view != null && motionEvent!=null) {
-                openProfileDetail(position,name, contact, view,motionEvent)
+            if (view != null ) {
+                view?.let { v->
+                    contact?.let{ c->
+                        openProfileDetail(position,name, c, v)
+                    }
+                }
             }
          //   val profileDialog = ProfileDialog()
 //            val bundle = Bundle().apply {
@@ -303,48 +325,19 @@ class Chats_display_fragment : Fragment(), ChatAdapter.OnItemClickListener {
     }
 
 
-    private fun openProfileDetail(position: Int, name:String, contact:Contact?, view:View, motionEvent: MotionEvent){
-        val profileDialog = ProfileDialog()
-        val chatsDisplay = Chats_display_fragment()
+    private fun openProfileDetail(position: Int, name:String, contact:Contact, viewSent:View){
+        val profilePic: ImageView
 
-        val extras = FragmentNavigatorExtras(view to view.transitionName)
+        val extras: FragmentNavigator.Extras
 
-        ViewCompat.setTransitionName(view, "item_image")
+        val nav = findNavController()
+        val action = MainChatsDirections.actionMainChatsToProfileDialog("contactsList",contact)
+        if(viewSent!=null){
+            profilePic= viewSent.findViewById<ImageView>(R.id.userProfile)
 
-        val slideInAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_up_in)
-
-
-
-        ///////////////////
-        val clickX = motionEvent.x
-        val clickY = motionEvent.y
-
-        // Get view dimensions
-        val viewWidth = view.width.toFloat()
-        val viewHeight = view.height.toFloat()
-
-        val pivotX = clickX / viewWidth
-        val pivotY = clickY / viewHeight
-
-
-        ///////////////////
-
-
-
-
-
-        val bundle = Bundle().apply{
-            putString("transitionName", view.transitionName)
-            putSerializable("name", name)
-            putSerializable("Contact",contact)
-            putFloat("pivotX",pivotX)
-            putFloat("pivotY",pivotY)
+            extras = FragmentNavigatorExtras(profilePic to "profile_pic")
+            nav.navigate(action,extras)
         }
-        Toast.makeText(requireContext(),view.transitionName, Toast.LENGTH_SHORT).show()
-
-        profileDialog.arguments = bundle
-     //   parentFragmentManager.beginTransaction().apply {  }
-        profileDialog.show(childFragmentManager,"profile dialog")
     }
 
 

@@ -63,6 +63,7 @@
         android:background="@drawable/rounded_layout"
         app:shapeAppearanceOverlay="@style/RoundedCornersImageView"
         android:contentDescription="@string/profile_picture"
+        android:transitionName="profile_pic"
         android:src="@drawable/profile_picture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@id/guideline2"
