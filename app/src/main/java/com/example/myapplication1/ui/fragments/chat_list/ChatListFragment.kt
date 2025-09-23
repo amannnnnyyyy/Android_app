@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication1.R
@@ -19,7 +20,7 @@ import com.example.myapplication1.databinding.FragmentChatListBinding
 import com.example.myapplication1.ui.adapters.recycler_view_adapter.ChatListRecyclerViewAdapter
 
 
-class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
+class ChatListFragment : Fragment(R.layout.fragment_chat_list), ChatListRecyclerViewAdapter.OnItemClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,6 +32,8 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
         val searchBtn = binding.searchArea
 
         val adapter = ChatListRecyclerViewAdapter(ChatModel.chats.filter { it.hasMessage })
+        adapter.setClickListener(this)
+
 
         bottomNav.setOnItemSelectedListener {item ->
             when(item.itemId){
@@ -95,8 +98,14 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
             }
             else -> emptyList()
         }
+
         val adapter = ChatListRecyclerViewAdapter(chatList)
         recycler.adapter = adapter
+        adapter.setClickListener(this)
         recycler.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    override fun onClick(chatId: Int) {
+        Toast.makeText(requireContext(),"clicking, $chatId", Toast.LENGTH_SHORT).show()
     }
 }

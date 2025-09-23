@@ -3,18 +3,26 @@ package com.example.myapplication1.ui.adapters.recycler_view_adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication1.R
 import com.example.myapplication1.data.model.chat.Chat
 import com.example.myapplication1.data.model.contact.ContactModel
-import com.example.myapplication1.data.model.message.Message
 import com.example.myapplication1.data.model.message.MessageModel
 import com.google.android.material.imageview.ShapeableImageView
 
 class ChatListRecyclerViewAdapter(chatList:List<Chat>): RecyclerView.Adapter<ChatListRecyclerViewAdapter.ChatListRecyclerViewHolder>() {
     val chats = chatList
+
+    var onClickListener: OnItemClickListener? = null
+
+    fun interface OnItemClickListener{
+        fun onClick(chatId:Int)
+    }
+
+    fun setClickListener(listener: OnItemClickListener){
+        this.onClickListener = listener
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -41,6 +49,10 @@ class ChatListRecyclerViewAdapter(chatList:List<Chat>): RecyclerView.Adapter<Cha
             profilePic.setImageURI(contact?.profilePic)
             name.text = contact?.name
             message.text = lastMessage
+        }
+
+        holder.itemView.setOnClickListener {
+            onClickListener?.onClick(chat.id)
         }
     }
 
