@@ -18,5 +18,9 @@
         android:id="@+id/chatDetailFragment"
         android:name="com.example.myapplication1.ui.fragments.chat_detail.ChatDetailFragment"
         android:label="fragment_chat_detail"
-        tools:layout="@layout/fragment_chat_detail" />
+        tools:layout="@layout/fragment_chat_detail" >
+        <argument
+            android:name="chat_id"
+            app:argType="integer" />
+    </fragment>
 </navigation>
