@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication1.R
 import com.example.myapplication1.data.model.chat.Chat
 import com.example.myapplication1.data.model.contact.ContactModel
+import com.example.myapplication1.data.model.message.Message
+import com.example.myapplication1.data.model.message.MessageModel
 import com.google.android.material.imageview.ShapeableImageView
 
 class ChatListRecyclerViewAdapter(chatList:List<Chat>): RecyclerView.Adapter<ChatListRecyclerViewAdapter.ChatListRecyclerViewHolder>() {
@@ -28,15 +30,17 @@ class ChatListRecyclerViewAdapter(chatList:List<Chat>): RecyclerView.Adapter<Cha
         val chat = chats[position]
         val profilePic = holder.itemView.findViewById<ShapeableImageView>(R.id.userProfile)
         val name = holder.itemView.findViewById<TextView>(R.id.name)
+        val message = holder.itemView.findViewById<TextView>(R.id.message)
 
         val contact = ContactModel.contacts.find {
             it.id == chat.sender
         }
+        val lastMessage: String? = MessageModel.messagesList.find { it.chatId == chat.id }?.message
 
         holder.itemView.let{
             profilePic.setImageURI(contact?.profilePic)
-
             name.text = contact?.name
+            message.text = lastMessage
         }
     }
 

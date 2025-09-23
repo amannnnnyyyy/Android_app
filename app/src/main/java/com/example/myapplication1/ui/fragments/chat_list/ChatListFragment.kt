@@ -1,6 +1,8 @@
 package com.example.myapplication1.ui.fragments.chat_list
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication1.R
 import com.example.myapplication1.data.model.chat.Chat
 import com.example.myapplication1.data.model.chat.ChatModel
+import com.example.myapplication1.data.model.contact.ContactModel
 import com.example.myapplication1.data.model.message.MessageModel
 import com.example.myapplication1.data.model.message.ReadStatus
 import com.example.myapplication1.databinding.FragmentChatListBinding
@@ -25,8 +28,9 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
 
         val recycler = binding.recyclerView
         val bottomNav = binding.filterBtn
+        val searchBtn = binding.searchArea
 
-        val adapter = ChatListRecyclerViewAdapter(ChatModel.chats)
+        val adapter = ChatListRecyclerViewAdapter(ChatModel.chats.filter { it.hasMessage })
 
         bottomNav.setOnItemSelectedListener {item ->
             when(item.itemId){
@@ -41,6 +45,29 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
 
 
 
+        searchBtn.addTextChangedListener(object: TextWatcher{
+            override fun afterTextChanged(s: Editable?) {}
+
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {}
+
+            override fun onTextChanged(
+                s: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+                dynamicAdapter(recycler,"searching",s.toString())
+            }
+
+        })
+
+
+
         recycler.adapter = adapter
         recycler.layoutManager = LinearLayoutManager(requireContext())
 
@@ -48,14 +75,24 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list) {
         return binding.root
     }
 
-    fun dynamicAdapter(recycler: RecyclerView, type:String){
+    fun dynamicAdapter(recycler: RecyclerView, type:String, searchString:String?=null){
         val chatList: List<Chat> = when(type){
-            "all" ->    ChatModel.chats
-            "fav" ->    ChatModel.chats.filter { it.favourite }
+            "all" ->    ChatModel.chats.filter { it.hasMessage }
+            "fav" ->    ChatModel.chats.filter { it.favourite && it.hasMessage }
             "unread" -> ChatModel.chats.filter { ch->
-                            MessageModel.messagesList.any { msg -> msg.readStatus == ReadStatus.NOT_READ }
+                            MessageModel.messagesList.any { msg -> msg.readStatus == ReadStatus.NOT_READ && ch.hasMessage }
                         }
-            "groups" -> ChatModel.chats.filter { ch -> ch.group }
+            "groups" -> ChatModel.chats.filter { ch -> ch.group && ch.hasMessage}
+
+            "searching"->{
+                ChatModel.chats.filter { chat ->
+                    ContactModel.contacts.filter{ contact ->
+                        contact.name.contains(searchString?:"",ignoreCase = true)
+                    }.any {
+                        it.id == chat.sender
+                    }
+                }
+            }
             else -> emptyList()
         }
         val adapter = ChatListRecyclerViewAdapter(chatList)

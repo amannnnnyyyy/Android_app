@@ -25,10 +25,13 @@ object MessageModel {
 
     fun setUpMessages(){
         val chatList = ChatModel.chats
-        for (chat in chatList){
-            val msg = randomMessages()
-            msg.chatId = chat.id
-            message.add(msg)
+        for ((index,chat) in chatList.withIndex()){
+            if (index%2==0){
+                val msg = randomMessages()
+                msg.chatId = chat.id
+                chat.hasMessage = true
+                message.add(msg)
+            }
         }
     }
 

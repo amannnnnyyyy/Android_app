@@ -2,7 +2,7 @@ package com.example.myapplication1.data.model.chat
 
 import com.example.myapplication1.data.model.contact.Contact
 
-data class Chat(val id:Int, var sender: Int, val phoneNumber:String?=null, val favourite:Boolean, val group:Boolean){
+data class Chat(val id:Int, var sender: Int, val phoneNumber:String?=null, val favourite:Boolean, val group:Boolean, var hasMessage: Boolean){
 
 }
 
@@ -19,7 +19,8 @@ object ChatModel {
                 sender = contact.id,
                 phoneNumber = if(registered) contact.phoneNumber else null
             ,fav,
-                group),)
+                group,
+                false),)
         }
     }
 }
