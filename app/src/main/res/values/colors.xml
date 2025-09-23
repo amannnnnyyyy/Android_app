@@ -11,4 +11,7 @@
     <color name="whatsAppRed">#f00</color>
     <color name="clicked_background">#bbbbbbbb</color>
     <color name="transparent_full">#00000000</color>
+    <color name="white_transparent">#00ffffff</color>
+    <color name="greyish">#999</color>
+    <color name="almost_black">#222</color>
 </resources>

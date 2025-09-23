@@ -12,6 +12,8 @@ import com.example.myapplication1.ContactDetails
 import com.example.myapplication1.R
 import com.example.myapplication1.databinding.FragmentChatHolderBinding
 import com.example.myapplication1.ui.adapters.view_pager_adapter.ViewPager2Adapter
+import com.example.myapplication1.ui.fragments.chat_list.ChatListFragment
+import com.example.myapplication1.ui.fragments.recent_calls.RecentCallsFragment
 
 class ChatHolderFragment : Fragment(R.layout.fragment_chat_holder) {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -21,8 +23,8 @@ class ChatHolderFragment : Fragment(R.layout.fragment_chat_holder) {
         val viewPager2 = binding.viewPager
 
         val fragmentList = arrayListOf<Fragment>(
-            Chats_display_fragment(),
-            ContactDetails()
+            ChatListFragment(),
+            RecentCallsFragment()
         )
 
 

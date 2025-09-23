@@ -43,9 +43,9 @@ object MessageModel {
         Message(0,"John Adams", "How was your stay at the hotel?", "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", MessageType.RECEIVED,
             ReadStatus.READ),
         Message(0,"John Adams", "How was your stay at the hotel?", "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", MessageType.RECEIVED,
-            ReadStatus.NOT_READ),
+            ReadStatus.READ),
         Message(0,null, null, "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", MessageType.RECEIVED,
-            ReadStatus.NOT_READ)
+            ReadStatus.READ)
     )
 
 
