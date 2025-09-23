@@ -1,7 +1,6 @@
-package com.example.myapplication1.data.model.message
+package com.example.myapplication1.core.model.message
 
-import com.example.myapplication1.data.model.chat.Chat
-import com.example.myapplication1.data.model.chat.ChatModel
+import com.example.myapplication1.core.model.chat.ChatModel
 
 
 data class Message(var chatId: Int, val repliedTo:String?, val originalMessage:String?, val message:String, val type: MessageType= MessageType.RECEIVED, var readStatus:ReadStatus){

@@ -1,4 +1,4 @@
-package com.example.myapplication1.data.model.contact
+package com.example.myapplication1.core.model.contact
 
 import android.content.Context
 import android.net.Uri

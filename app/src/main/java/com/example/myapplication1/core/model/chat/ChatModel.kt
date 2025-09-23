@@ -1,6 +1,6 @@
-package com.example.myapplication1.data.model.chat
+package com.example.myapplication1.core.model.chat
 
-import com.example.myapplication1.data.model.contact.Contact
+import com.example.myapplication1.core.model.contact.Contact
 
 data class Chat(val id:Int, var sender: Int, val phoneNumber:String?=null, val favourite:Boolean, val group:Boolean, var hasMessage: Boolean){
 

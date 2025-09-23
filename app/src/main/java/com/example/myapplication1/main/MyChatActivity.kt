@@ -1,4 +1,4 @@
-package com.example.myapplication1.ui
+package com.example.myapplication1.main
 
 import android.Manifest
 import android.content.Context
@@ -13,10 +13,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.myapplication1.R
-import com.example.myapplication1.data.model.chat.ChatModel
-import com.example.myapplication1.data.model.contact.Contact
-import com.example.myapplication1.data.model.contact.ContactModel
-import com.example.myapplication1.data.model.message.MessageModel
+import com.example.myapplication1.core.model.chat.ChatModel
+import com.example.myapplication1.core.model.contact.Contact
+import com.example.myapplication1.core.model.contact.ContactModel
+import com.example.myapplication1.core.model.message.MessageModel
 
 class MyChatActivity : AppCompatActivity() {
     private val requestPermissionLauncher =
@@ -57,7 +57,7 @@ class MyChatActivity : AppCompatActivity() {
         val contactsList:MutableList<Contact> = mutableListOf()
 
         for ((index,contact) in contactNames.withIndex()){
-            contactsList.add(Contact(index,contact,"default", Uri.EMPTY))
+            contactsList.add(Contact(index, contact, "default", Uri.EMPTY))
         }
 
         ContactModel.contacts = contactsList

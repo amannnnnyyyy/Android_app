@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication1.R
-import com.example.myapplication1.data.model.chat.Chat
-import com.example.myapplication1.data.model.contact.ContactModel
-import com.example.myapplication1.data.model.message.MessageModel
+import com.example.myapplication1.core.model.chat.Chat
+import com.example.myapplication1.core.model.contact.ContactModel
+import com.example.myapplication1.core.model.message.MessageModel
 import com.google.android.material.imageview.ShapeableImageView
 
 class ChatListRecyclerViewAdapter(chatList:List<Chat>): RecyclerView.Adapter<ChatListRecyclerViewAdapter.ChatListRecyclerViewHolder>() {

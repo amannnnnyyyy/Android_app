@@ -9,5 +9,14 @@
         android:id="@+id/chatHolderFragment"
         android:name="com.example.myapplication1.ui.fragments.chat_holder.ChatHolderFragment"
         android:label="fragment_chat_holder"
-        tools:layout="@layout/fragment_chat_holder" />
+        tools:layout="@layout/fragment_chat_holder" >
+        <action
+            android:id="@+id/action_chatHolderFragment_to_chatDetailFragment"
+            app:destination="@id/chatDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatDetailFragment"
+        android:name="com.example.myapplication1.ui.fragments.chat_detail.ChatDetailFragment"
+        android:label="fragment_chat_detail"
+        tools:layout="@layout/fragment_chat_detail" />
 </navigation>
