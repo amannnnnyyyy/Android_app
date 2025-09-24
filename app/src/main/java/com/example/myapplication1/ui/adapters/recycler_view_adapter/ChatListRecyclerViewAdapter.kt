@@ -9,6 +9,7 @@ import com.example.myapplication1.R
 import com.example.myapplication1.core.model.chat.Chat
 import com.example.myapplication1.core.model.contact.ContactModel
 import com.example.myapplication1.core.model.message.MessageModel
+import com.example.myapplication1.core.model.message.ReadStatus
 import com.google.android.material.imageview.ShapeableImageView
 
 class ChatListRecyclerViewAdapter(chatList:List<Chat>): RecyclerView.Adapter<ChatListRecyclerViewAdapter.ChatListRecyclerViewHolder>() {
@@ -39,6 +40,7 @@ class ChatListRecyclerViewAdapter(chatList:List<Chat>): RecyclerView.Adapter<Cha
         val profilePic = holder.itemView.findViewById<ShapeableImageView>(R.id.userProfile)
         val name = holder.itemView.findViewById<TextView>(R.id.name)
         val message = holder.itemView.findViewById<TextView>(R.id.message)
+        val notificationIconNumber = holder.itemView.findViewById<TextView>(R.id.notification)
 
         val contact = ContactModel.contacts.find {
             it.id == chat.sender
@@ -54,6 +56,14 @@ class ChatListRecyclerViewAdapter(chatList:List<Chat>): RecyclerView.Adapter<Cha
         holder.itemView.setOnClickListener {
             onClickListener?.onClick(chat.id)
         }
+
+        val unreadNumber = MessageModel.messagesList.filter {
+            (it.chatId == chat.id) && (it.readStatus == ReadStatus.NOT_READ) }.size
+
+        if(unreadNumber>0)
+            notificationIconNumber.text = unreadNumber.toString()
+        else
+            notificationIconNumber.visibility = View.GONE
     }
 
     override fun getItemCount(): Int = chats.size

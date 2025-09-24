@@ -64,7 +64,7 @@ class MyChatActivity : AppCompatActivity() {
         val contactsList:MutableList<Contact> = mutableListOf()
 
         for ((index,contact) in contactNames.withIndex()){
-            contactsList.add(Contact(index, contact, "default", Uri.EMPTY))
+            contactsList.add(Contact(index, contact.name, contact.phoneNumber, contact.profilePic))
         }
 
         ContactModel.contacts = contactsList

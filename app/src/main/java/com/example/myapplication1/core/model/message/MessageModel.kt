@@ -37,17 +37,17 @@ object MessageModel {
     val messagesList = mutableListOf<Message>(
         Message(0,null, null, "How are you?", MessageType.RECEIVED, ReadStatus.READ),
         Message(0,"John Adams", "How are you?", "I am fine. How are you?", MessageType.SENT,
-            ReadStatus.READ),
+            ReadStatus.NOT_READ),
         Message(0,"You", "I am fine. How are you?", "I am good.",
-            readStatus = ReadStatus.READ),
+            readStatus = ReadStatus.NOT_READ),
         Message(0,null, null, "How was your stay at the hotel?", MessageType.RECEIVED,
-            ReadStatus.READ),
+            ReadStatus.NOT_READ),
         Message(0,"John Adams", "How was your stay at the hotel?", "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", MessageType.RECEIVED,
-            ReadStatus.READ),
+            ReadStatus.NOT_READ),
         Message(0,"John Adams", "How was your stay at the hotel?", "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", MessageType.RECEIVED,
-            ReadStatus.READ),
+            ReadStatus.NOT_READ),
         Message(0,null, null, "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", MessageType.RECEIVED,
-            ReadStatus.READ)
+            ReadStatus.NOT_READ)
     )
 
 

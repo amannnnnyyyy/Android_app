@@ -35,11 +35,12 @@
           android:layout_gravity="center"
           app:tint="@color/white"
           />
-      <ImageView
+      <com.google.android.material.imageview.ShapeableImageView
           android:id="@+id/user_profile"
           android:layout_width="40dp"
           android:layout_height="40dp"
           android:layout_gravity="center"
+          app:shapeAppearanceOverlay="@style/RoundedCornersImageView"
           android:background="@drawable/rounded_layout"
           android:contentDescription="@string/profile_picture"
           android:src="@drawable/profile_picture"
