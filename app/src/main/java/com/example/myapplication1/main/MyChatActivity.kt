@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -19,6 +20,9 @@ import com.example.myapplication1.core.model.contact.ContactModel
 import com.example.myapplication1.core.model.message.MessageModel
 
 class MyChatActivity : AppCompatActivity() {
+
+    val viewModel by viewModels<MyChatViewModel>()
+
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
@@ -48,6 +52,9 @@ class MyChatActivity : AppCompatActivity() {
             requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
         }
 
+        viewModel.contact.observe(this) {
+
+        }
     }
 
 

@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -52,6 +54,13 @@ class ChatDetailFragment : Fragment(R.layout.fragment_chat_detail) {
         contact?.let{ cont->
             binding.userProfile.setImageURI(cont.profilePic)
             binding.userName.text = cont.name
+
+            binding.wholeHeader.setOnClickListener {
+                val nav = findNavController()
+                Toast.makeText(requireContext(),"to detail",Toast.LENGTH_SHORT).show()
+                val direction = ChatDetailFragmentDirections.actionChatDetailFragmentToContactDetailsFragment(cont.id)
+                nav.navigate(direction)
+            }
         }
 
         chat?.let{ch ->
@@ -59,6 +68,7 @@ class ChatDetailFragment : Fragment(R.layout.fragment_chat_detail) {
             binding.messagesRecycler.adapter = adapter
             binding.messagesRecycler.layoutManager = LinearLayoutManager(requireContext())
         }
+
 
 
     return binding.root
