@@ -7,7 +7,7 @@ import androidx.core.net.toUri
 
 data class Contact(val id:Int,val name:String, val phoneNumber:String, val profilePic: Uri)
 object ContactModel {
-    var contacts: List<Contact> =emptyList()
+    var contacts: MutableList<Contact> = mutableListOf()
 
 //    fun fetchContacts(context: Context): List<Contact> {
 //        val contactList = mutableListOf<Contact>()

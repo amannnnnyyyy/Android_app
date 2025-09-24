@@ -50,6 +50,7 @@ class MyChatActivity : AppCompatActivity() {
             == PackageManager.PERMISSION_GRANTED
         ) {
             fetchContacts(this)
+            Log.i("-----Contacts", ContactModel.contacts.toString())
         } else {
             requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
         }
@@ -62,10 +63,11 @@ class MyChatActivity : AppCompatActivity() {
 
     fun fetchContacts(context: Context){
         viewModel.contact.observe(this) { contacts ->
-            Toast.makeText(context, "Fetched ${contacts.size} contacts", Toast.LENGTH_SHORT).show()
 
-            ContactModel.contacts = contacts
+           // ContactModel.contacts = contacts
+            Log.i("forchat",contacts.toString())
             ChatModel.setUpChat(contacts, false)
+            Log.i("forchat", ChatModel.chats.toString())
             MessageModel.setUpMessages()
         }
 //        val contactNames = ContactModel.fetchContacts(context)
