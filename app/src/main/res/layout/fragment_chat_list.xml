@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragments.chat_list.ChatListFragment"
-    android:background="@color/black">
+    android:background="@color/black"
+    >
 
     <TextView
         android:id="@+id/app_title"
@@ -16,9 +17,9 @@
         android:text="@string/my_chat_app"
         android:textColor="@color/white"
         android:padding="10dp"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:fontFamily="monospace"
+        android:textSize="22sp"
+        android:fontFamily="@font/my_font"
+        android:textFontWeight="900"
         android:letterSpacing="0.1"
         />
     <LinearLayout

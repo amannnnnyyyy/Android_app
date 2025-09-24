@@ -54,4 +54,7 @@
     <string name="my_chat_app">MyChatApp</string>
     <string name="unkown">Unkown</string>
     <string name="media_links_and_docs">Media, links, and docs</string>
+    <string name="recent_calls_title">Calls</string>
+    <string name="more">More</string>
+    <string name="favourites">Favourites</string>
 </resources>
