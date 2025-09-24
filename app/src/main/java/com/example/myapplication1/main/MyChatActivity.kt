@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.myapplication1.ContactsViewModel
 import com.example.myapplication1.R
 import com.example.myapplication1.core.model.chat.ChatModel
 import com.example.myapplication1.core.model.contact.Contact
@@ -59,19 +61,26 @@ class MyChatActivity : AppCompatActivity() {
 
 
     fun fetchContacts(context: Context){
-        val contactNames = ContactModel.fetchContacts(context)
+        viewModel.contact.observe(this) { contacts ->
+            Toast.makeText(context, "Fetched ${contacts.size} contacts", Toast.LENGTH_SHORT).show()
 
-        val contactsList:MutableList<Contact> = mutableListOf()
-
-        for ((index,contact) in contactNames.withIndex()){
-            contactsList.add(Contact(index, contact.name, contact.phoneNumber, contact.profilePic))
+            ContactModel.contacts = contacts
+            ChatModel.setUpChat(contacts, false)
+            MessageModel.setUpMessages()
         }
-
-        ContactModel.contacts = contactsList
-        ChatModel.setUpChat(contactsList,false)
-        MessageModel.setUpMessages()
-        Log.i("____Contacts", ContactModel.contacts.toString())
-        Log.i("____Chats", ChatModel.chats.toString())
-        Log.i("____Messages", MessageModel.messagesList.toString())
+//        val contactNames = ContactModel.fetchContacts(context)
+//
+//        val contactsList:MutableList<Contact> = mutableListOf()
+//
+//        for ((index,contact) in contactNames.withIndex()){
+//            contactsList.add(Contact(index, contact.name, contact.phoneNumber, contact.profilePic))
+//        }
+//
+//        ContactModel.contacts = contactsList
+//        ChatModel.setUpChat(contactsList,false)
+//        MessageModel.setUpMessages()
+//        Log.i("____Contacts", ContactModel.contacts.toString())
+//        Log.i("____Chats", ChatModel.chats.toString())
+//        Log.i("____Messages", MessageModel.messagesList.toString())
     }
 }

@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,11 +19,16 @@ import com.example.myapplication1.core.model.contact.ContactModel
 import com.example.myapplication1.core.model.message.MessageModel
 import com.example.myapplication1.core.model.message.ReadStatus
 import com.example.myapplication1.databinding.FragmentChatListBinding
+import com.example.myapplication1.main.MyChatViewModel
 import com.example.myapplication1.ui.adapters.recycler_view_adapter.ChatListRecyclerViewAdapter
 import com.example.myapplication1.ui.fragments.chat_holder.ChatHolderFragmentDirections
+import kotlin.getValue
 
 
 class ChatListFragment : Fragment(R.layout.fragment_chat_list), ChatListRecyclerViewAdapter.OnItemClickListener {
+    val viewModel by viewModels<MyChatViewModel>()
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
