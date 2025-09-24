@@ -30,8 +30,7 @@ class ChatHolderFragment : Fragment(R.layout.fragment_chat_holder) {
 
         // for view pager swipe
         val viewPagerAdapter = ViewPager2Adapter(this)
-        viewPagerAdapter.addFragment(ChatListFragment())
-        viewPagerAdapter.addFragment(RecentCallsFragment())
+        for (fragment in fragmentList) viewPagerAdapter.addFragment(fragment)
         viewPager2.adapter = viewPagerAdapter
 
         // to change bottom nav with view pager

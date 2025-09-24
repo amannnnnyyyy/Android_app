@@ -54,6 +54,7 @@ class ChatDetailFragment : Fragment(R.layout.fragment_chat_detail) {
         contact?.let{ cont->
             binding.userProfile.setImageURI(cont.profilePic)
             binding.userName.text = cont.name
+            binding.phoneNumber.text = cont.phoneNumber
 
             binding.wholeHeader.setOnClickListener {
                 val nav = findNavController()
