@@ -3,6 +3,7 @@ package com.example.myapplication1.view.adapters.recycler_view_adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication1.R
@@ -36,6 +37,12 @@ class ChatListRecyclerViewAdapter(chatList:List<Chat>): RecyclerView.Adapter<Cha
         holder: ChatListRecyclerViewHolder,
         position: Int
     ) {
+        val searchField = holder.itemView.findViewById<LinearLayout>(R.id.search)
+        if (position == 0){
+            searchField.visibility = View.VISIBLE
+        }else{
+            searchField.visibility = View.GONE
+        }
         val chat = chats[position]
         val profilePic = holder.itemView.findViewById<ShapeableImageView>(R.id.userProfile)
         val name = holder.itemView.findViewById<TextView>(R.id.name)
