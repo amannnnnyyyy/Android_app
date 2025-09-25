@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
@@ -36,6 +38,8 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list), ChatListRecycler
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var searchBtn: EditText;
 
+    private var keyBoardIsVisible: Boolean = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,12 +51,30 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list), ChatListRecycler
         bottomNav = binding.filterBtn
         searchBtn = binding.searchArea
 
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root){view, insets ->
+            keyBoardIsVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
+            val imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+
+            if (keyBoardIsVisible)
+            {
+                bottomNav.visibility = View.GONE
+                binding.chatListTopIcons.visibility = View.GONE
+                binding.appTitle.visibility = View.GONE
+            } else {
+                bottomNav.visibility = View.VISIBLE
+                binding.chatListTopIcons.visibility = View.VISIBLE
+                binding.appTitle.visibility = View.VISIBLE
+            }
+
+            insets
+        }
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
             activityViewModel.contact.observe(viewLifecycleOwner){ contacts->
                 viewModel.setUpChat(contacts,false)
@@ -98,7 +120,7 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list), ChatListRecycler
 
         searchBtn.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int){}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int)=dynamicAdapter(recycler, "searching", s.toString(), owner = viewLifecycleOwner)
         })
 

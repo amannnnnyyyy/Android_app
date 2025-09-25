@@ -58,6 +58,8 @@ class ChatDetailFragment : Fragment(R.layout.fragment_chat_detail) {
             }
         }
 
+        binding.goBack.setOnClickListener { findNavController().navigateUp() }
+
         contact?.let{ cont->
             binding.userProfile.setImageURI(cont.profilePic)
             binding.userName.text = cont.name

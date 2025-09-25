@@ -17,6 +17,7 @@ import com.example.myapplication1.core.model.message.ReadStatus
 class ChatListViewModel: ViewModel() {
     private val _chats: MutableLiveData<List<Chat>> = MutableLiveData<List<Chat>>()
     val chats = _chats as LiveData<List<Chat>>
+    val filtered = MutableLiveData<List<Chat>>()
 
 
     init {
@@ -48,19 +49,32 @@ class ChatListViewModel: ViewModel() {
         owner: LifecycleOwner,
         searchString: String? = null
     ): List<Chat> {
+        filtered.value = _chats.value
+        Log.i("searching_now","with $searchString")
         var returnedChats: List<Chat> = listOf<Chat>()
-        chats.observe(owner) { chatList ->
+        filtered.observe(owner) { chatList ->
             returnedChats = when (kind) {
                 "all" -> chatList.filter { it.hasMessage }
-                "fav" -> chatList.filter { it.favourite && it.hasMessage }
+                "fav" -> {
+                    val list = _chats.value.filter { it.favourite && it.hasMessage }
+                    filtered.postValue(chatList);
+                    list
+                }
                 "unread" -> chatList.filter { ch ->
-                    MessageModel.messagesList.any { msg -> msg.readStatus == ReadStatus.NOT_READ && ch.hasMessage }
+                    val list = MessageModel.messagesList.any { msg -> msg.readStatus == ReadStatus.NOT_READ && ch.hasMessage }
+                    filtered.postValue(chatList);
+                    list
                 }
 
-                "groups" -> chatList.filter { ch -> ch.group && ch.hasMessage }
+                "groups" -> {
+                    val list = chatList.filter { ch -> ch.group && ch.hasMessage };
+                    filtered.postValue(chatList);
+                    list
+                }
 
                 "searching" -> {
-                    chatList.filter { chat ->
+                    val list = if(filtered.value.isNotEmpty()) filtered.value else chatList
+                    list.filter { chat ->
                         ContactModel.contacts.filter { contact ->
                             contact.name.contains(searchString ?: "", ignoreCase = true)
                         }.any {
@@ -72,7 +86,8 @@ class ChatListViewModel: ViewModel() {
                 else -> emptyList()
             }
         }
-       // _chats.postValue(returnedChats)
+        filtered.postValue(returnedChats)
+        Log.i("searching_now","${_chats.value?.size}")
         return returnedChats
     }
 }

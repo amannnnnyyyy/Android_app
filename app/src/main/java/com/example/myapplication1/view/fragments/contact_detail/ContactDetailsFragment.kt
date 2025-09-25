@@ -5,15 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
+import com.example.myapplication1.ContactsViewModel
 import com.example.myapplication1.R
 import com.example.myapplication1.core.model.contact.ContactModel
 import com.example.myapplication1.databinding.ContactDetailsFragmentBinding
+import com.example.myapplication1.view.main.MyChatViewModel
 
 class ContactDetailsFragment : Fragment(R.layout.contact_details_fragment) {
-
     private val contactDetailArgs: ContactDetailsFragmentArgs by navArgs()
+    private val viewModel: MyChatViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,16 +28,16 @@ class ContactDetailsFragment : Fragment(R.layout.contact_details_fragment) {
 
         val binding = ContactDetailsFragmentBinding.inflate(inflater, container, false)
 
-        val contactId = contactDetailArgs.contactId
+        binding.goBack.setOnClickListener { findNavController().navigateUp() }
 
-        val contact = ContactModel.contacts.find { it.id == contactId }
-
-        contact?.let { con->
-            binding.userName.text = con.name
-            binding.phoneNumber.text = con.phoneNumber
-            binding.userProfilePicture.setImageURI(con.profilePic)
+        viewModel.contact.observe(viewLifecycleOwner){ contacts->
+            val contact = contacts.find { it.id == contactDetailArgs.contactId }
+            contact?.let { con ->
+                binding.userName.text = con.name
+                binding.phoneNumber.text = con.phoneNumber
+                binding.userProfilePicture.setImageURI(con.profilePic)
+            }
         }
-
         return binding.root
     }
 }
