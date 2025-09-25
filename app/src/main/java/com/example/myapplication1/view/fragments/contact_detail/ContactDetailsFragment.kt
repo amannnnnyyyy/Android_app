@@ -1,16 +1,13 @@
-package com.example.myapplication1.ui.fragments.contact_detail
+package com.example.myapplication1.view.fragments.contact_detail
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.navigation.fragment.navArgs
 import com.example.myapplication1.R
-import com.example.myapplication1.core.model.chat.ChatModel
 import com.example.myapplication1.core.model.contact.ContactModel
-import com.example.myapplication1.core.model.message.MessageModel
 import com.example.myapplication1.databinding.ContactDetailsFragmentBinding
 
 class ContactDetailsFragment : Fragment(R.layout.contact_details_fragment) {

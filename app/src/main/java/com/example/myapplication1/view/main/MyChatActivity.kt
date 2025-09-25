@@ -1,12 +1,9 @@
-package com.example.myapplication1.main
+package com.example.myapplication1.view.main
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -14,21 +11,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.myapplication1.ContactsViewModel
 import com.example.myapplication1.R
 import com.example.myapplication1.core.model.chat.ChatModel
-import com.example.myapplication1.core.model.contact.Contact
 import com.example.myapplication1.core.model.contact.ContactModel
 import com.example.myapplication1.core.model.message.MessageModel
+import com.example.myapplication1.view.fragments.chat_list.ChatListViewModel
 
 class MyChatActivity : AppCompatActivity() {
 
     val viewModel by viewModels<MyChatViewModel>()
+    val chatListViewModel: ChatListViewModel by viewModels()
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                fetchContacts(this)
+                fetchContacts()
                 Log.i("-----Contacts", ContactModel.contacts.toString())
             } else {
                 Log.i("-----Contacts", "Permission denied")
@@ -49,7 +46,7 @@ class MyChatActivity : AppCompatActivity() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
             == PackageManager.PERMISSION_GRANTED
         ) {
-            fetchContacts(this)
+            fetchContacts()
             Log.i("-----Contacts", ContactModel.contacts.toString())
         } else {
             requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
@@ -60,29 +57,18 @@ class MyChatActivity : AppCompatActivity() {
         }
     }
 
-
-    fun fetchContacts(context: Context){
+    fun fetchContacts(){
         viewModel.contact.observe(this) { contacts ->
-
-           // ContactModel.contacts = contacts
             Log.i("forchat",contacts.toString())
-            ChatModel.setUpChat(contacts, false)
-            Log.i("forchat", ChatModel.chats.toString())
-            MessageModel.setUpMessages()
+
+            if (ChatModel.chats.isEmpty()){
+                ChatModel.setUpChat(contacts, false)
+                chatListViewModel.setUpChat(contacts,true)
+                MessageModel.setUpMessages()
+            }
         }
-//        val contactNames = ContactModel.fetchContacts(context)
-//
-//        val contactsList:MutableList<Contact> = mutableListOf()
-//
-//        for ((index,contact) in contactNames.withIndex()){
-//            contactsList.add(Contact(index, contact.name, contact.phoneNumber, contact.profilePic))
-//        }
-//
-//        ContactModel.contacts = contactsList
-//        ChatModel.setUpChat(contactsList,false)
-//        MessageModel.setUpMessages()
-//        Log.i("____Contacts", ContactModel.contacts.toString())
-//        Log.i("____Chats", ChatModel.chats.toString())
-//        Log.i("____Messages", MessageModel.messagesList.toString())
+        chatListViewModel.chats.observe(this){
+            Log.i("index-inside-chat", "from activity ${it}]")
+        }
     }
 }

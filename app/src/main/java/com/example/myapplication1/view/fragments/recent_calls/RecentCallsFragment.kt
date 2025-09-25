@@ -1,4 +1,4 @@
-package com.example.myapplication1.ui.fragments.recent_calls
+package com.example.myapplication1.view.fragments.recent_calls
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

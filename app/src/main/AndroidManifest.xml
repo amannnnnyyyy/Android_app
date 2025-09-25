@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication1">
         <activity
-            android:name=".main.MyChatActivity"
+            android:name=".view.main.MyChatActivity"
             android:exported="true" />
         <activity
             android:name=".MainActivity"

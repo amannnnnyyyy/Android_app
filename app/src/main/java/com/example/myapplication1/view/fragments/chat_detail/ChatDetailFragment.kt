@@ -1,4 +1,4 @@
-package com.example.myapplication1.ui.fragments.chat_detail
+package com.example.myapplication1.view.fragments.chat_detail
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -18,7 +18,7 @@ import com.example.myapplication1.core.model.contact.ContactModel
 import com.example.myapplication1.core.model.message.Message
 import com.example.myapplication1.core.model.message.MessageModel
 import com.example.myapplication1.databinding.FragmentChatDetailBinding
-import com.example.myapplication1.ui.adapters.recycler_view_adapter.MessagesRecyclerViewAdapter
+import com.example.myapplication1.view.adapters.recycler_view_adapter.MessagesRecyclerViewAdapter
 import kotlin.getValue
 
 class ChatDetailFragment : Fragment(R.layout.fragment_chat_detail) {

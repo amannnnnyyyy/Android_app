@@ -1,4 +1,4 @@
-package com.example.myapplication1.ui.fragments.chat_holder
+package com.example.myapplication1.view.fragments.chat_holder
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,13 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.get
 import androidx.viewpager2.widget.ViewPager2
-import com.example.myapplication1.Chats_display_fragment
-import com.example.myapplication1.ContactDetails
 import com.example.myapplication1.R
 import com.example.myapplication1.databinding.FragmentChatHolderBinding
-import com.example.myapplication1.ui.adapters.view_pager_adapter.ViewPager2Adapter
-import com.example.myapplication1.ui.fragments.chat_list.ChatListFragment
-import com.example.myapplication1.ui.fragments.recent_calls.RecentCallsFragment
+import com.example.myapplication1.view.adapters.view_pager_adapter.ViewPager2Adapter
+import com.example.myapplication1.view.fragments.chat_list.ChatListFragment
+import com.example.myapplication1.view.fragments.recent_calls.RecentCallsFragment
 
 class ChatHolderFragment : Fragment(R.layout.fragment_chat_holder) {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

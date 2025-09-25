@@ -1,4 +1,4 @@
-package com.example.myapplication1.main
+package com.example.myapplication1.view.main
 
 import android.app.Application
 import android.net.Uri

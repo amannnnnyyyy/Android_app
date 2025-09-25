@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragments.contact_detail.ContactDetailsFragment"
+    tools:context=".view.fragments.contact_detail.ContactDetailsFragment"
     android:background="@color/almost_black">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/header"
