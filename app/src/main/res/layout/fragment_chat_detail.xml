@@ -23,6 +23,7 @@
       android:layout_height="wrap_content"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toStartOf="@id/header_buttons"
       app:layout_constraintHorizontal_bias="0"
       android:padding="10dp"
       >

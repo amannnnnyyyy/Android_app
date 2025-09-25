@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -63,26 +64,8 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list), ChatListRecycler
         }
     }
 
-    fun dynamicAdapter(chatList:List<Chat>, recycler: RecyclerView, type:String, searchString:String?=null){
-        val chats: List<Chat> = when(type){
-            "all" ->    chatList.filter { it.hasMessage }
-            "fav" ->    chatList.filter { it.favourite && it.hasMessage }
-            "unread" -> chatList.filter { ch->
-                            MessageModel.messagesList.any { msg -> msg.readStatus == ReadStatus.NOT_READ && ch.hasMessage }
-                        }
-            "groups" -> chatList.filter { ch -> ch.group && ch.hasMessage}
-
-            "searching"->{
-                chatList.filter { chat ->
-                    ContactModel.contacts.filter{ contact ->
-                        contact.name.contains(searchString?:"",ignoreCase = true)
-                    }.any {
-                        it.id == chat.sender
-                    }
-                }
-            }
-            else -> emptyList()
-        }
+    fun dynamicAdapter(recycler: RecyclerView, type:String, searchString:String?=null, owner: LifecycleOwner){
+        val chats: List<Chat> = viewModel.getFilteredChats(type, owner =owner ,searchString)
 
         val adapter = ChatListRecyclerViewAdapter(chats)
         recycler.adapter = adapter
@@ -104,10 +87,10 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list), ChatListRecycler
 
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.all -> dynamicAdapter(chats,recycler, "all")
-                R.id.fav -> dynamicAdapter(chats,recycler, "fav")
-                R.id.unread -> dynamicAdapter(chats,recycler, "unread")
-                R.id.groups -> dynamicAdapter(chats,recycler, "groups")
+                R.id.all -> dynamicAdapter(recycler, "all", owner = viewLifecycleOwner)
+                R.id.fav -> dynamicAdapter(recycler, "fav", owner = viewLifecycleOwner)
+                R.id.unread -> dynamicAdapter(recycler, "unread", owner = viewLifecycleOwner)
+                R.id.groups -> dynamicAdapter(recycler, "groups", owner = viewLifecycleOwner)
             }
             true
 
@@ -116,7 +99,7 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list), ChatListRecycler
         searchBtn.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int)=dynamicAdapter(chats,recycler, "searching", s.toString())
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int)=dynamicAdapter(recycler, "searching", s.toString(), owner = viewLifecycleOwner)
         })
 
         recycler.adapter = adapter

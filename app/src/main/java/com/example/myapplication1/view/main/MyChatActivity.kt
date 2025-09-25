@@ -64,6 +64,7 @@ class MyChatActivity : AppCompatActivity() {
             if (ChatModel.chats.isEmpty()){
                 chatListViewModel.setUpChat(contacts,true)
             }
+            Log.i("found_chats","${contacts.size} ${contacts.filter { it.name=="Yadasa" }.size}")
         }
         chatListViewModel.chats.observe(this){
             Log.i("index-inside-chat", "from activity ${it}]")
