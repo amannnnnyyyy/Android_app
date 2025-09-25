@@ -5,11 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionInflater
 import com.example.myapplication1.R
 import com.example.myapplication1.core.model.chat.Chat
 import com.example.myapplication1.core.model.chat.ChatModel
@@ -30,10 +33,14 @@ class ChatDetailFragment : Fragment(R.layout.fragment_chat_detail) {
     private var adapter: RecyclerView.Adapter<MessagesRecyclerViewAdapter.MessagesViewHolder>? = null
 
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        sharedElementEnterTransition = TransitionInflater.from(activity).inflateTransition(android.R.transition.move)
+        sharedElementReturnTransition = TransitionInflater.from(activity).inflateTransition(android.R.transition.move)
+
         val binding = FragmentChatDetailBinding.inflate(inflater, container, false)
 
         val chatId = chatDetailArgs.chatId
@@ -55,12 +62,14 @@ class ChatDetailFragment : Fragment(R.layout.fragment_chat_detail) {
             binding.userProfile.setImageURI(cont.profilePic)
             binding.userName.text = cont.name
             binding.phoneNumber.text = cont.phoneNumber
-
             binding.wholeHeader.setOnClickListener {
+                val extras  = FragmentNavigatorExtras(
+                    binding.userProfile to "profile_pic"
+                )
                 val nav = findNavController()
                 Toast.makeText(requireContext(),"to detail",Toast.LENGTH_SHORT).show()
                 val direction = ChatDetailFragmentDirections.actionChatDetailFragmentToContactDetailsFragment(cont.id)
-                nav.navigate(direction)
+                nav.navigate(direction,extras)
             }
         }
 

@@ -8,8 +8,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.myapplication1.core.model.chat.ChatModel
 import com.example.myapplication1.core.model.contact.Contact
 import com.example.myapplication1.core.model.contact.ContactModel
+import com.example.myapplication1.core.model.message.MessageModel
 
 class MyChatViewModel(application: Application): AndroidViewModel(application) {
 
@@ -47,6 +49,8 @@ class MyChatViewModel(application: Application): AndroidViewModel(application) {
                     }
                 }
                 _contacts.postValue(contacts)
+                ChatModel.setUpChat(contacts, false)
+                MessageModel.setUpMessages()
 //            }
 //        }
     }

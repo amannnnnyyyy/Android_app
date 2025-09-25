@@ -62,13 +62,12 @@ class MyChatActivity : AppCompatActivity() {
             Log.i("forchat",contacts.toString())
 
             if (ChatModel.chats.isEmpty()){
-                ChatModel.setUpChat(contacts, false)
                 chatListViewModel.setUpChat(contacts,true)
-                MessageModel.setUpMessages()
             }
         }
         chatListViewModel.chats.observe(this){
             Log.i("index-inside-chat", "from activity ${it}]")
+
         }
     }
 }

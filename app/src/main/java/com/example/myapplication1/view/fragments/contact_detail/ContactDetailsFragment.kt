@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
+import androidx.transition.TransitionInflater
 import com.example.myapplication1.R
 import com.example.myapplication1.core.model.contact.ContactModel
 import com.example.myapplication1.databinding.ContactDetailsFragmentBinding
@@ -18,6 +19,9 @@ class ContactDetailsFragment : Fragment(R.layout.contact_details_fragment) {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        sharedElementEnterTransition = TransitionInflater.from(activity).inflateTransition(android.R.transition.move)
+        sharedElementReturnTransition = TransitionInflater.from(activity).inflateTransition(android.R.transition.move)
+
         val binding = ContactDetailsFragmentBinding.inflate(inflater, container, false)
 
         val contactId = contactDetailArgs.contactId
