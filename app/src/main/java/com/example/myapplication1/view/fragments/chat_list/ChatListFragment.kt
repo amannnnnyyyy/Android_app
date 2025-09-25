@@ -56,7 +56,6 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list), ChatListRecycler
             activityViewModel.contact.observe(viewLifecycleOwner){ contacts->
                 viewModel.setUpChat(contacts,false)
                 viewModel.chats.observe(viewLifecycleOwner) { chats ->
-                    val chatsFromModel = ChatModel.chats
                     Log.i("destinationFragment", "Inside chat list 21 $chats")
                     updateUI(chats)
 
