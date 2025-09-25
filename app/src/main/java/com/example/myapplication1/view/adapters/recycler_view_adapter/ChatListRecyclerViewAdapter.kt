@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication1.R
@@ -48,6 +49,7 @@ class ChatListRecyclerViewAdapter(chatList:List<Chat>): RecyclerView.Adapter<Cha
         val name = holder.itemView.findViewById<TextView>(R.id.name)
         val message = holder.itemView.findViewById<TextView>(R.id.message)
         val notificationIconNumber = holder.itemView.findViewById<TextView>(R.id.notification)
+        val chatsView = holder.itemView.findViewById<RelativeLayout>(R.id.chats)
 
         val contact = ContactModel.contacts.find {
             it.id == chat.sender
@@ -60,7 +62,7 @@ class ChatListRecyclerViewAdapter(chatList:List<Chat>): RecyclerView.Adapter<Cha
             message.text = lastMessage
         }
 
-        holder.itemView.setOnClickListener {
+        chatsView.setOnClickListener {
             onClickListener?.onClick(chat.id)
         }
 

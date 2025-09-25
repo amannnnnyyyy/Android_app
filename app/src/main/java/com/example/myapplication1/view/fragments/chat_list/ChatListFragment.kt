@@ -52,33 +52,15 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list), ChatListRecycler
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.chats.observe(viewLifecycleOwner) { chats ->
-            val chatsFromModel = ChatModel.chats
-            Log.i("destinationFragment", "Inside chat list 2 $chats")
 
-            val adapter = ChatListRecyclerViewAdapter(chatsFromModel.filter { it.hasMessage })
-            adapter.setClickListener(this)
-
-            bottomNav.setOnItemSelectedListener { item ->
-                when (item.itemId) {
-                    R.id.all -> dynamicAdapter(chats,recycler, "all")
-                    R.id.fav -> dynamicAdapter(chats,recycler, "fav")
-                    R.id.unread -> dynamicAdapter(chats,recycler, "unread")
-                    R.id.groups -> dynamicAdapter(chats,recycler, "groups")
-                }
-                true
+            activityViewModel.contact.observe(viewLifecycleOwner){ contacts->
+                viewModel.setUpChat(contacts,false)
+                viewModel.chats.observe(viewLifecycleOwner) { chats ->
+                    val chatsFromModel = ChatModel.chats
+                    Log.i("destinationFragment", "Inside chat list 21 $chats")
+                    updateUI(chats)
 
             }
-
-            searchBtn.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable?) {}
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int)=dynamicAdapter(chats,recycler, "searching", s.toString())
-            })
-
-            recycler.adapter = adapter
-            recycler.layoutManager = LinearLayoutManager(requireContext())
-
         }
     }
 
@@ -113,5 +95,32 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list), ChatListRecycler
         val navController = findNavController()
         val action = ChatHolderFragmentDirections.actionChatHolderFragmentToChatDetailFragment(chatId)
         navController.navigate(action)
+    }
+
+
+
+    private fun updateUI(chats: List<Chat>){
+        val adapter = ChatListRecyclerViewAdapter(chats.filter { it.hasMessage })
+        adapter.setClickListener(this)
+
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.all -> dynamicAdapter(chats,recycler, "all")
+                R.id.fav -> dynamicAdapter(chats,recycler, "fav")
+                R.id.unread -> dynamicAdapter(chats,recycler, "unread")
+                R.id.groups -> dynamicAdapter(chats,recycler, "groups")
+            }
+            true
+
+        }
+
+        searchBtn.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int)=dynamicAdapter(chats,recycler, "searching", s.toString())
+        })
+
+        recycler.adapter = adapter
+        recycler.layoutManager = LinearLayoutManager(requireContext())
     }
 }

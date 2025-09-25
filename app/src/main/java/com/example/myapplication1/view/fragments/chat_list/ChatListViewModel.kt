@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.myapplication1.SharedViewModel
 import com.example.myapplication1.core.model.chat.Chat
 import com.example.myapplication1.core.model.contact.Contact
 
@@ -14,13 +15,6 @@ class ChatListViewModel: ViewModel() {
 
 
     init {
-        setUpChat(
-            listOf(Contact(
-                id = -1,
-                name = "default",
-                phoneNumber = "default",
-                profilePic = Uri.EMPTY
-            )), registered = false)
     }
 
 
@@ -36,7 +30,7 @@ class ChatListViewModel: ViewModel() {
                 phoneNumber = if(registered) contact.phoneNumber else null
                 ,fav,
                 group,
-                false),)
+                true),)
         }
         _chats.value = chatList
         //_chats.postValue(chatList)
