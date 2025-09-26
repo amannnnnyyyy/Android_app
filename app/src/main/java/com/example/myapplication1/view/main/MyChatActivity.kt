@@ -20,7 +20,7 @@ import com.example.myapplication1.view.fragments.chat_list.ChatListViewModel
 class MyChatActivity : AppCompatActivity() {
 
     val viewModel by viewModels<MyChatViewModel>()
-    val chatListViewModel: ChatListViewModel by viewModels()
+    //val chatListViewModel: ChatListViewModel by viewModels()
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -62,13 +62,13 @@ class MyChatActivity : AppCompatActivity() {
             Log.i("forchat",contacts.toString())
 
             if (ChatModel.chats.isEmpty()){
-                chatListViewModel.setUpChat(contacts,true)
+               // chatListViewModel.setUpChat(contacts,true)
             }
             Log.i("found_chats","${contacts.size} ${contacts.filter { it.name=="Yadasa" }.size}")
         }
-        chatListViewModel.chats.observe(this){
-            Log.i("index-inside-chat", "from activity ${it}]")
-
-        }
+//        chatListViewModel.chats.observe(this){
+//            Log.i("index-inside-chat", "from activity ${it}]")
+//
+//        }
     }
 }

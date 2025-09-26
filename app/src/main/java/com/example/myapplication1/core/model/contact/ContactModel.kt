@@ -5,7 +5,7 @@ import android.net.Uri
 import android.provider.ContactsContract
 import androidx.core.net.toUri
 
-data class Contact(val id:Int,val name:String, var phoneNumber:String, val profilePic: Uri, val contactId:String?=null)
+data class Contact(val name:String, var phoneNumber:String, val profilePic: Uri, val contactId: Int)
 object ContactModel {
     var contacts: MutableList<Contact> = mutableListOf()
 

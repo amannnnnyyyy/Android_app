@@ -17,7 +17,8 @@ import com.example.myapplication1.view.main.MyChatViewModel
 
 class ContactDetailsFragment : Fragment(R.layout.contact_details_fragment) {
     private val contactDetailArgs: ContactDetailsFragmentArgs by navArgs()
-    private val viewModel: MyChatViewModel by viewModels()
+
+    private val contactDetailsViewModel: ContactDetailsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,8 +31,10 @@ class ContactDetailsFragment : Fragment(R.layout.contact_details_fragment) {
 
         binding.goBack.setOnClickListener { findNavController().navigateUp() }
 
-        viewModel.contact.observe(viewLifecycleOwner){ contacts->
-            val contact = contacts.find { it.id == contactDetailArgs.contactId }
+        contactDetailsViewModel.fetchContactDetail(contactDetailArgs.contactId)//contactDetailArgs.contactId)
+//        contactDetailsViewModel.contactDetail.observe()
+
+        contactDetailsViewModel.contactDetails.observe(viewLifecycleOwner){ contact->
             contact?.let { con ->
                 binding.userName.text = con.name
                 binding.phoneNumber.text = con.phoneNumber

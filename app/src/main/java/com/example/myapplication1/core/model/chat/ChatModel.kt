@@ -15,10 +15,9 @@ object ChatModel {
         for ((index,contact) in contacts.withIndex()){
             val fav = (index==4)
             val group = index%3==0
-            Log.i("index","${index.toString()} ${contact.id}")
             chats.add(Chat(
                 index,
-                sender = contact.id,
+                sender = contact.contactId,
                 phoneNumber = if(registered) contact.phoneNumber else null
             ,fav,
                 group,

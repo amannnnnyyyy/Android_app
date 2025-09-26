@@ -4,6 +4,7 @@ import android.app.Application
 import android.net.Uri
 import android.provider.ContactsContract
 import android.util.Log
+import androidx.core.database.getStringOrNull
 import androidx.core.net.toUri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -25,9 +26,10 @@ class MyChatViewModel(application: Application): AndroidViewModel(application) {
     fun fetch() {
 //        viewModelScope.launch {
 //            val contactList = withContext(Dispatchers.IO){
+        Log.d("MyChatViewModel", "fetch - $this")
                 val context = getApplication<Application>().applicationContext
                 val contacts = mutableListOf<Contact>()
-                val visitedNameList = mutableSetOf<String>()
+                val visitedNameList = mutableSetOf<Int>()
 
                 val cursor = context.contentResolver.query(
                     ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
@@ -41,11 +43,11 @@ class MyChatViewModel(application: Application): AndroidViewModel(application) {
                     val phoneNumberIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
                     val photoUriIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI)
                     while (it.moveToNext()) {
-                        val id = it.getString(idIndex)
-                        val name = it.getString(nameIndex)
-                        val phoneNumber = it.getString(phoneNumberIndex)
-                        val photo = it.getString(photoUriIndex)?.toUri()
-                        val contact = Contact(i, name, phoneNumber, photo?:Uri.EMPTY, id)
+                        val id = it.getInt(idIndex)
+                        val name = it.getStringOrNull(nameIndex)
+                        val phoneNumber = it.getStringOrNull(phoneNumberIndex)
+                        val photo = it.getStringOrNull(photoUriIndex)?.toUri()
+                        val contact = Contact(name?:"Unknown", phoneNumber?:"Unknown", photo?:Uri.EMPTY, id)
                         if (!visitedNameList.contains(id)){
                             visitedNameList.add(id)
                             contacts.add(contact)
@@ -60,6 +62,7 @@ class MyChatViewModel(application: Application): AndroidViewModel(application) {
                         i++
                     }
                 }
+                cursor?.close()
                 _contacts.postValue(contacts)
                 ChatModel.setUpChat(contacts, false)
                 MessageModel.setUpMessages()

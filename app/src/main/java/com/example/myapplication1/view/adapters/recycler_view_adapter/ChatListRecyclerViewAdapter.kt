@@ -52,7 +52,7 @@ class ChatListRecyclerViewAdapter(chatList:List<Chat>): RecyclerView.Adapter<Cha
         val chatsView = holder.itemView.findViewById<RelativeLayout>(R.id.chats)
 
         val contact = ContactModel.contacts.find {
-            it.id == chat.sender
+            it.contactId == chat.sender
         }
         val lastMessage: String? = MessageModel.messagesList.find { it.chatId == chat.id }?.message
 

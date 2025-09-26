@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
@@ -19,9 +20,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication1.R
 import com.example.myapplication1.core.model.chat.Chat
 import com.example.myapplication1.core.model.chat.ChatModel
-import com.example.myapplication1.core.model.contact.ContactModel
-import com.example.myapplication1.core.model.message.MessageModel
-import com.example.myapplication1.core.model.message.ReadStatus
 import com.example.myapplication1.databinding.FragmentChatListBinding
 import com.example.myapplication1.view.main.MyChatViewModel
 import com.example.myapplication1.view.adapters.recycler_view_adapter.ChatListRecyclerViewAdapter
@@ -32,7 +30,7 @@ import kotlin.getValue
 
 class ChatListFragment : Fragment(R.layout.fragment_chat_list), ChatListRecyclerViewAdapter.OnItemClickListener {
     val viewModel: ChatListViewModel by viewModels()
-    val activityViewModel: MyChatViewModel by viewModels()
+    val myChatViewModel: MyChatViewModel by activityViewModels()
 
     private lateinit var recycler: RecyclerView;
     private lateinit var bottomNav: BottomNavigationView
@@ -76,13 +74,13 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list), ChatListRecycler
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-            activityViewModel.contact.observe(viewLifecycleOwner){ contacts->
-                viewModel.setUpChat(contacts,false)
-                viewModel.chats.observe(viewLifecycleOwner) { chats ->
-                    Log.i("destinationFragment", "Inside chat list 21 $chats")
-                    updateUI(chats)
+        myChatViewModel.contact.observe(viewLifecycleOwner) { contacts ->
+            viewModel.setUpChat(contacts, false)
+        }
 
-            }
+        viewModel.chats.observe(viewLifecycleOwner) { chats ->
+            Log.i("destinationFragment", "Inside chat list 21 $chats")
+            updateUI(chats)
         }
     }
 

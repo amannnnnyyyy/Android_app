@@ -26,12 +26,10 @@ class ChatHolderFragment : Fragment(R.layout.fragment_chat_holder) {
         )
 
 
-        // for view pager swipe
         val viewPagerAdapter = ViewPager2Adapter(this)
         for (fragment in fragmentList) viewPagerAdapter.addFragment(fragment)
         viewPager2.adapter = viewPagerAdapter
 
-        // to change bottom nav with view pager
         bottomNavView.setOnItemSelectedListener { item ->
             when(item.itemId){
                 R.id.chatsWithRecycler -> viewPager2.currentItem = 0
@@ -40,7 +38,6 @@ class ChatHolderFragment : Fragment(R.layout.fragment_chat_holder) {
             true
         }
 
-        // for bottom nav click
         viewPager2.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)

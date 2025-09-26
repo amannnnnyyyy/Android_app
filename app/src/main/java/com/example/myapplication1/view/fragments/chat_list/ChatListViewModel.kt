@@ -29,11 +29,11 @@ class ChatListViewModel: ViewModel() {
         for ((index, contact) in contacts.withIndex()) {
             val fav = (index == 4)
             val group = index % 3 == 0
-            Log.i("index-inside-chat", "$index ${contact.id}")
+            Log.i("index-inside-chat", "$index ${contact.contactId}")
             chatList.add(
                 Chat(
                     index,
-                    sender = contact.id,
+                    sender = contact.contactId,
                     phoneNumber = if (registered) contact.phoneNumber else null, fav,
                     group,
                     true
@@ -78,7 +78,7 @@ class ChatListViewModel: ViewModel() {
                         ContactModel.contacts.filter { contact ->
                             contact.name.contains(searchString ?: "", ignoreCase = true)
                         }.any {
-                            it.id == chat.sender
+                            it.contactId == chat.sender
                         }
                     }
                 }
