@@ -57,4 +57,5 @@
     <string name="recent_calls_title">Calls</string>
     <string name="more">More</string>
     <string name="favourites">Favourites</string>
+    <string name="contacts">%1$d Contacts</string>
 </resources>

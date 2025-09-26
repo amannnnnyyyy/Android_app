@@ -64,6 +64,13 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
             insets
         }
 
+
+        binding.newChat.setOnClickListener {
+            val nav = findNavController()
+            val direction = ChatHolderFragmentDirections.actionChatHolderFragmentToContactListFragment2()
+            nav.navigate(direction)
+        }
+
         return binding.root
     }
 

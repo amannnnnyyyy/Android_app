@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_chatHolderFragment_to_chatDetailFragment"
             app:destination="@id/chatDetailFragment" />
+        <action
+            android:id="@+id/action_chatHolderFragment_to_contactListFragment2"
+            app:destination="@id/contactListFragment" />
     </fragment>
     <fragment
         android:id="@+id/chatDetailFragment"
@@ -42,4 +45,9 @@
             android:name="contact_id"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/contactListFragment"
+        android:name="com.example.myapplication1.view.fragments.contact_list.ContactListFragment"
+        android:label="fragment_contact_list"
+        tools:layout="@layout/fragment_contact_list" />
 </navigation>

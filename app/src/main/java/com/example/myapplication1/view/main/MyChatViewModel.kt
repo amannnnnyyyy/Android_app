@@ -24,9 +24,6 @@ class MyChatViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun fetch() {
-//        viewModelScope.launch {
-//            val contactList = withContext(Dispatchers.IO){
-        Log.d("MyChatViewModel", "fetch - $this")
                 val context = getApplication<Application>().applicationContext
                 val contacts = mutableListOf<Contact>()
                 val visitedNameList = mutableSetOf<Int>()
@@ -54,7 +51,7 @@ class MyChatViewModel(application: Application): AndroidViewModel(application) {
                             ContactModel.contacts.add(contact)
                         }else{
                             val cont = contacts.find { it.contactId == id }
-                            cont?.phoneNumber += phoneNumber
+                            cont?.phoneNumber += ", $phoneNumber"
                         }
                         Log.i("check_duplicates","$name   $id")
                         i++
@@ -63,7 +60,5 @@ class MyChatViewModel(application: Application): AndroidViewModel(application) {
                 cursor?.close()
                 _contacts.postValue(contacts)
                 ChatModel.setUpChat(contacts, false)
-//            }
-//        }
     }
 }

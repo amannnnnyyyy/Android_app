@@ -1,7 +1,6 @@
 package com.example.myapplication1
 
 import android.Manifest
-import android.app.Activity
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -14,7 +13,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -236,7 +234,7 @@ class ContactsList : Fragment(),  ContactsAdapter.OnItemClickListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.fragment_contacts_list, container, false)
+        val view =  inflater.inflate(R.layout.fragment_contacts_list_old, container, false)
 
         numberOfContacts = view.findViewById<TextView>(R.id.number_of_contacts)
 
@@ -365,16 +363,16 @@ class ContactsList : Fragment(),  ContactsAdapter.OnItemClickListener {
             val extras: FragmentNavigator.Extras
 
             val nav = requireParentFragment().findNavController()
-            val action = ContactsListDirections.actionContactsList2ToContactMessages(chatList[position])
-
-            if(profilePic!=null){
-
-                extras = FragmentNavigatorExtras(
-                    profilePic to "profile_pic"
-                )
-                nav.navigate(action,extras)
-
-            }
+//            val action = ContactsListDirections.actionContactsList2ToContactMessages(chatList[position])
+//
+//            if(profilePic!=null){
+//
+//                extras = FragmentNavigatorExtras(
+//                    profilePic to "profile_pic"
+//                )
+//                nav.navigate(action,extras)
+//
+//            }
 
 
         }
@@ -383,17 +381,17 @@ class ContactsList : Fragment(),  ContactsAdapter.OnItemClickListener {
 
             val nav = requireParentFragment().findNavController()
             val con = chatList.elementAt(position).sender ?:contactList.elementAt(position)
-            val action = ContactsListDirections.actionContactsList2ToProfileDialog("contactsList",con)
-
-
-            if(profilePic!=null){
-
-                extras = FragmentNavigatorExtras(
-                    profilePic to "profile_pic"
-                )
-                nav.navigate(action,extras)
-
-            }
+//            val action = ContactsListDirections.actionContactsList2ToProfileDialog("contactsList",con)
+//
+//
+//            if(profilePic!=null){
+//
+//                extras = FragmentNavigatorExtras(
+//                    profilePic to "profile_pic"
+//                )
+//                nav.navigate(action,extras)
+//
+//            }
 
 //            profileDialog.arguments =bundle
 //            parentFragmentManager
