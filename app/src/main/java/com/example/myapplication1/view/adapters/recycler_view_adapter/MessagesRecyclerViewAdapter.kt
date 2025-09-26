@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication1.R
 import com.example.myapplication1.core.model.message.Message
+import com.example.myapplication1.core.model.message.MessageType
 
 class MessagesRecyclerViewAdapter(val messagesList: List<Message>)
     : RecyclerView.Adapter<MessagesRecyclerViewAdapter.MessagesViewHolder>() {
@@ -25,8 +26,26 @@ class MessagesRecyclerViewAdapter(val messagesList: List<Message>)
     ) {
         val msg  = messagesList[position]
 
-        holder.messageBubble2.visibility = View.GONE
-        holder.reply.visibility = View.GONE
+        if (msg.type == MessageType.SENT){
+            holder.messageBubble2.visibility = View.GONE
+
+            if (msg.repliedTo!=null){
+                holder.username.text = msg.repliedTo
+                holder.repliedToMessage.text = msg.message
+            }else holder.reply.visibility = View.GONE
+            holder.sentMessage.text = msg.originalMessage
+        }else if(msg.type== MessageType.RECEIVED){
+            holder.messageBubble.visibility = View.GONE
+
+            if(msg.repliedTo!=null){
+                holder.username2.text = msg.repliedTo
+                holder.repliedToMessage2.text = msg.originalMessage
+            }
+            else{
+                holder.reply2.visibility = View.GONE
+            }
+            holder.sentMessage2.text = msg.message
+        }
 
         holder.username.text = msg.repliedTo
         holder.sentMessage.text = msg.message

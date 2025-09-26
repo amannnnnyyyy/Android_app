@@ -41,6 +41,7 @@
             android:padding="15dp"
             />
         <ImageView
+            android:id="@+id/searching"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:contentDescription="@string/search"

@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -47,6 +48,16 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
         recycler = binding.recyclerView
         bottomNav = binding.filterBtn
         searchBtn = binding.searchArea
+
+        binding.searching.setOnClickListener {
+            binding.appTitle.visibility = View.GONE
+            binding.chatListTopIcons.visibility = View.GONE
+            binding.searching.visibility = View.VISIBLE
+            binding.searching.requestFocus()
+            activity?.let {
+                WindowCompat.getInsetsController(it.window, binding.searching).show(WindowInsetsCompat.Type.ime())
+            }
+        }
 
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.root){view, insets ->
