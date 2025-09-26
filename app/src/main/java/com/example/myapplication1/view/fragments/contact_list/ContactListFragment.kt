@@ -9,9 +9,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myapplication1.ContactsListDirections
 import com.example.myapplication1.R
 import com.example.myapplication1.core.model.contact.Contact
 import com.example.myapplication1.databinding.FragmentContactListBinding
+import com.example.myapplication1.view.adapters.recycler_view_adapter.ContactClicked
 import com.example.myapplication1.view.adapters.recycler_view_adapter.ContactsListRecyclerViewAdapter
 import com.example.myapplication1.view.main.MyChatViewModel
 import kotlinx.coroutines.delay
@@ -40,10 +42,22 @@ class ContactListFragment : Fragment(R.layout.fragment_contact_list) {
 
     fun updateUI(contacts:List<Contact>, binding: FragmentContactListBinding){
         binding.goBack.setOnClickListener { findNavController().popBackStack() }
-        val adapter = ContactsListRecyclerViewAdapter(contacts)
+        val adapter = ContactsListRecyclerViewAdapter(contacts,
+            {
+                when(it){
+                    is ContactClicked.ItemClick -> navigateToChatDetails(it.chatId, it.contactId)
+                }
+            })
         binding.recycler.adapter = adapter
         binding.recycler.layoutManager = LinearLayoutManager(requireContext())
         binding.contactNumbers.text = getString(R.string.contacts, contacts.size)
+    }
+
+
+    fun navigateToChatDetails(chatId: Int, contactId: Int){
+        val nav = findNavController()
+        val direction = ContactListFragmentDirections.actionContactListFragmentToChatDetailFragment(chatId,contactId)
+        nav.navigate(direction)
     }
 
 }

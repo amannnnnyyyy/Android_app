@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication1.R
 import com.example.myapplication1.core.model.contact.Contact
 
-class ContactsListRecyclerViewAdapter(contacts:List<Contact>): RecyclerView.Adapter<ContactsListRecyclerViewAdapter.ContactsListViewHolder>() {
+class ContactsListRecyclerViewAdapter(contacts:List<Contact>,  private val onUpdateChange: (ContactClicked)-> Unit): RecyclerView.Adapter<ContactsListRecyclerViewAdapter.ContactsListViewHolder>() {
     private val contactList = contacts
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -26,6 +26,10 @@ class ContactsListRecyclerViewAdapter(contacts:List<Contact>): RecyclerView.Adap
         holder.profileImage.setImageURI(contact.profilePic)
         holder.name.text = contact.name
         holder.phoneNumber.text = contact.phoneNumber
+
+        holder.itemView.setOnClickListener {
+            onUpdateChange.invoke(ContactClicked.ItemClick(0,contact.contactId))
+        }
     }
 
     override fun getItemCount(): Int  = contactList.size
@@ -34,5 +38,10 @@ class ContactsListRecyclerViewAdapter(contacts:List<Contact>): RecyclerView.Adap
         val profileImage: ImageView = itemView.findViewById<ImageView>(R.id.userProfile)
         val name: TextView = itemView.findViewById<TextView>(R.id.name)
         val phoneNumber: TextView = itemView.findViewById<TextView>(R.id.description)
+
     }
+}
+
+sealed class ContactClicked{
+    class ItemClick(val chatId: Int, val contactId: Int):ContactClicked()
 }
