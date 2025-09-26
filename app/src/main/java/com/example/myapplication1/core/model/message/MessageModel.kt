@@ -1,5 +1,6 @@
 package com.example.myapplication1.core.model.message
 
+import com.example.myapplication1.core.model.chat.Chat
 import com.example.myapplication1.core.model.chat.ChatModel
 
 
@@ -22,15 +23,13 @@ object MessageModel {
 
 
 
-    fun setUpMessages(){
-        val chatList = ChatModel.chats
-        for ((index,chat) in chatList.withIndex()){
-            if (index%2==0){
+    fun setUpMessages(chats:List<Chat>){
+        //val chatList = ChatModel.chats
+        for (chat in chats){
                 val msg = randomMessages()
                 msg.chatId = chat.id
                 chat.hasMessage = true
                 message.add(msg)
-            }
         }
     }
 

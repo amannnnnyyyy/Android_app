@@ -24,13 +24,14 @@
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintEnd_toStartOf="@id/header_buttons"
+      app:layout_constraintBottom_toTopOf="@id/recyclerStart"
       app:layout_constraintHorizontal_bias="0"
       android:padding="10dp"
       >
       <ImageView
           android:id="@+id/go_back"
           android:layout_width="30dp"
-          android:layout_height="30dp"
+          android:layout_height="20dp"
           android:contentDescription="@string/go_back"
           android:src="@drawable/left_arrow"
           android:layout_centerVertical="true"
@@ -82,18 +83,19 @@
     <LinearLayout
         android:id="@+id/header_buttons"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintWidth_percent="0.35"
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/profiles"
+        app:layout_constraintBottom_toTopOf="@id/recyclerStart"
         android:padding="10dp"
         >
         <ImageView
             android:id="@+id/camera"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:contentDescription="@string/camera"
             android:src="@drawable/camera"
             android:layout_gravity="center"
@@ -102,8 +104,8 @@
             />
         <ImageView
             android:id="@+id/audio_call"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:contentDescription="@string/audio_call"
             android:src="@drawable/audio_call"
             android:layout_gravity="center"
@@ -112,8 +114,8 @@
             />
         <ImageView
             android:id="@+id/more_options"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:contentDescription="@string/more_options"
             android:src="@drawable/more"
             android:layout_gravity="center"
@@ -121,16 +123,61 @@
             app:tint="@color/white"
             />
     </LinearLayout>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/recyclerStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15"
+        />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/recyclerEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.9"
+        />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messages_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header_buttons"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recyclerStart"
+        app:layout_constraintBottom_toTopOf="@id/recyclerEnd"
         app:layout_constraintVertical_bias="0"
+        android:layout_marginBottom="50dp"
         />
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/contentTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Content Loaded!"
+            android:textSize="24sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

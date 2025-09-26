@@ -23,12 +23,13 @@ import com.example.myapplication1.core.model.chat.ChatModel
 import com.example.myapplication1.databinding.FragmentChatListBinding
 import com.example.myapplication1.view.main.MyChatViewModel
 import com.example.myapplication1.view.adapters.recycler_view_adapter.ChatListRecyclerViewAdapter
+import com.example.myapplication1.view.adapters.recycler_view_adapter.ListenerType
 import com.example.myapplication1.view.fragments.chat_holder.ChatHolderFragmentDirections
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlin.getValue
 
 
-class ChatListFragment : Fragment(R.layout.fragment_chat_list), ChatListRecyclerViewAdapter.OnItemClickListener {
+class ChatListFragment : Fragment(R.layout.fragment_chat_list){
     val viewModel: ChatListViewModel by viewModels()
     val myChatViewModel: MyChatViewModel by activityViewModels()
 
@@ -42,8 +43,6 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list), ChatListRecycler
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.i("destinationFragment", "Inside chat list 1 ${ChatModel.chats}")
-
         val binding = FragmentChatListBinding.inflate(inflater, container, false)
         recycler = binding.recyclerView
         bottomNav = binding.filterBtn
@@ -52,8 +51,6 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list), ChatListRecycler
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.root){view, insets ->
             keyBoardIsVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
-            val imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
-
             if (keyBoardIsVisible)
             {
                 bottomNav.visibility = View.GONE
@@ -64,7 +61,6 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list), ChatListRecycler
                 binding.chatListTopIcons.visibility = View.VISIBLE
                 binding.appTitle.visibility = View.VISIBLE
             }
-
             insets
         }
 
@@ -79,7 +75,6 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list), ChatListRecycler
         }
 
         viewModel.chats.observe(viewLifecycleOwner) { chats ->
-            Log.i("destinationFragment", "Inside chat list 21 $chats")
             updateUI(chats)
         }
     }
@@ -87,24 +82,44 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list), ChatListRecycler
     fun dynamicAdapter(recycler: RecyclerView, type:String, searchString:String?=null, owner: LifecycleOwner){
         val chats: List<Chat> = viewModel.getFilteredChats(type, owner =owner ,searchString)
 
-        val adapter = ChatListRecyclerViewAdapter(chats)
+        val adapter = ChatListRecyclerViewAdapter(chats,
+            {
+                when(it){
+                    is ListenerType.ItemClick -> onClick(it.chatId,it.contactId)
+                    is ListenerType.SearchClick -> {
+                        dynamicAdapter(recycler, "searching", it.searchString.toString(), owner = viewLifecycleOwner)
+                    }
+                }
+            }
+            )
         recycler.adapter = adapter
-        adapter.setClickListener(this)
         recycler.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    override fun onClick(chatId: Int) {
+     fun onClick(chatId: Int, contactId:Int) {
         val navController = findNavController()
-        val action = ChatHolderFragmentDirections.actionChatHolderFragmentToChatDetailFragment(chatId)
+        val action = ChatHolderFragmentDirections.actionChatHolderFragmentToChatDetailFragment(chatId, contactId)
         navController.navigate(action)
     }
 
 
 
     private fun updateUI(chats: List<Chat>){
-        val adapter = ChatListRecyclerViewAdapter(chats.filter { it.hasMessage })
-        adapter.setClickListener(this)
+        val adapter = ChatListRecyclerViewAdapter(
+            chats.filter { it.hasMessage },
+            {
+                when (it) {
+                    is ListenerType.ItemClick -> onClick(
+                        it.chatId,
+                        it.contactId
+                    )
 
+                    is ListenerType.SearchClick -> {
+                        dynamicAdapter(recycler, "searching", it.searchString.toString(), owner = viewLifecycleOwner)
+                    }
+                }
+            }
+            )
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.all -> dynamicAdapter(recycler, "all", owner = viewLifecycleOwner)

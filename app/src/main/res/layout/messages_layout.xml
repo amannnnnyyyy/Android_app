@@ -32,8 +32,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="@id/vert_guide"
+        app:layout_constraintBottom_toTopOf="@id/message_bubble2"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constrainedWidth="true">
+        app:layout_constrainedWidth="true"
+        android:layout_marginBottom="15dp"
+        >
 
         <LinearLayout
             android:id="@+id/reply"
@@ -83,18 +86,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/reply" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/message_bubble2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:background="@drawable/recieved_message_layout"
         android:padding="8dp"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/vert_guide2"
-        app:layout_constraintTop_toBottomOf="@id/message_bubble"
-        android:layout_marginTop="5dp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintHorizontal_bias="0"
-        app:layout_constrainedWidth="true">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/message_bubble"
+        android:layout_marginBottom="15dp"
+
+        >
 
         <LinearLayout
             android:id="@+id/reply2"
@@ -102,34 +110,31 @@
             android:layout_height="match_parent"
             android:background="@drawable/replied_message_layout"
             android:orientation="horizontal"
-            android:padding="0dp"
-            >
+            android:padding="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:background="@drawable/replied_recieved_message_layout"
-                android:padding="5dp"
-                >
+                android:orientation="vertical"
+                android:padding="5dp">
+
                 <TextView
                     android:id="@+id/userName2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Name of User"
                     android:background="@color/transparent_full"
-                    android:textColor="#ecd"
-                    />
+                    android:text="Name of User"
+                    android:textColor="#ecd" />
 
                 <TextView
                     android:id="@+id/replied_to_message2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@color/transparent_full"
                     android:ellipsize="end"
                     android:text="message from the user"
-                    android:background="@color/transparent_full"
-                    android:textColor="#aaa"
-                    />
+                    android:textColor="#aaa" />
             </LinearLayout>
         </LinearLayout>
 
@@ -137,10 +142,10 @@
             android:id="@+id/sent_message2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/transparent_full"
             android:text="Reply message written"
             android:textColor="#fff"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="@color/transparent_full"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/reply2" />
     </androidx.constraintlayout.widget.ConstraintLayout>

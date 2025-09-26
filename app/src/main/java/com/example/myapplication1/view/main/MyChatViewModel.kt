@@ -53,10 +53,8 @@ class MyChatViewModel(application: Application): AndroidViewModel(application) {
                             contacts.add(contact)
                             ContactModel.contacts.add(contact)
                         }else{
-                            val cont = contacts.find { con->
-                                con.contactId == id }
-                                //if (cont?.phoneNumber!= phoneNumber)
-                                    cont?.phoneNumber += phoneNumber
+                            val cont = contacts.find { it.contactId == id }
+                            cont?.phoneNumber += phoneNumber
                         }
                         Log.i("check_duplicates","$name   $id")
                         i++
@@ -65,7 +63,6 @@ class MyChatViewModel(application: Application): AndroidViewModel(application) {
                 cursor?.close()
                 _contacts.postValue(contacts)
                 ChatModel.setUpChat(contacts, false)
-                MessageModel.setUpMessages()
 //            }
 //        }
     }

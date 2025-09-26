@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myapplication1.SharedViewModel
 import com.example.myapplication1.core.model.chat.Chat
+import com.example.myapplication1.core.model.chat.ChatModel
 import com.example.myapplication1.core.model.contact.Contact
 import com.example.myapplication1.core.model.contact.ContactModel
 import com.example.myapplication1.core.model.message.MessageModel
@@ -26,21 +27,27 @@ class ChatListViewModel: ViewModel() {
 
     fun setUpChat(contacts: List<Contact>, registered: Boolean) {
         val chatList = mutableListOf<Chat>()
+        val contactsList = mutableListOf<Contact>()
         for ((index, contact) in contacts.withIndex()) {
             val fav = (index == 4)
             val group = index % 3 == 0
             Log.i("index-inside-chat", "$index ${contact.contactId}")
-            chatList.add(
-                Chat(
-                    index,
-                    sender = contact.contactId,
-                    phoneNumber = if (registered) contact.phoneNumber else null, fav,
-                    group,
-                    true
-                ),
-            )
+            if (index%8==0){
+                chatList.add(
+                    Chat(
+                        index,
+                        sender = contact.contactId,
+                        phoneNumber = if (registered) contact.phoneNumber else null, fav,
+                        group,
+                        true
+                    ),
+                )
+                contactsList.add(contact)
+            }
         }
         //_chats.value = chatList
+        //ChatModel.setUpChat(contactsList,false)
+        MessageModel.setUpMessages(chatList)
         _chats.postValue(chatList)
     }
 

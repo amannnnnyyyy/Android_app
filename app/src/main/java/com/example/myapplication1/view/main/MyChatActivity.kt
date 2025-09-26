@@ -47,7 +47,6 @@ class MyChatActivity : AppCompatActivity() {
             == PackageManager.PERMISSION_GRANTED
         ) {
             fetchContacts()
-            Log.i("-----Contacts", ContactModel.contacts.toString())
         } else {
             requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
         }
@@ -66,9 +65,5 @@ class MyChatActivity : AppCompatActivity() {
             }
             Log.i("found_chats","${contacts.size} ${contacts.filter { it.name=="Yadasa" }.size}")
         }
-//        chatListViewModel.chats.observe(this){
-//            Log.i("index-inside-chat", "from activity ${it}]")
-//
-//        }
     }
 }

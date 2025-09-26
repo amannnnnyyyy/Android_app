@@ -31,8 +31,7 @@ class ContactDetailsFragment : Fragment(R.layout.contact_details_fragment) {
 
         binding.goBack.setOnClickListener { findNavController().navigateUp() }
 
-        contactDetailsViewModel.fetchContactDetail(contactDetailArgs.contactId)//contactDetailArgs.contactId)
-//        contactDetailsViewModel.contactDetail.observe()
+        contactDetailsViewModel.fetchContactDetail(contactDetailArgs.contactId)
 
         contactDetailsViewModel.contactDetails.observe(viewLifecycleOwner){ contact->
             contact?.let { con ->

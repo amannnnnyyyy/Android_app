@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -27,6 +28,8 @@ import com.example.myapplication1.databinding.FragmentChatDetailBinding
 import com.example.myapplication1.view.adapters.recycler_view_adapter.MessagesRecyclerViewAdapter
 import com.example.myapplication1.view.fragments.chat_list.ChatListViewModel
 import com.example.myapplication1.view.main.MyChatViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.getValue
 
 class ChatDetailFragment : Fragment(R.layout.fragment_chat_detail) {
@@ -35,11 +38,7 @@ class ChatDetailFragment : Fragment(R.layout.fragment_chat_detail) {
     private var chat: Chat? = null
     private var messages: List<Message> = emptyList()
     private var adapter: RecyclerView.Adapter<MessagesRecyclerViewAdapter.MessagesViewHolder>? = null
-
-    private val chatListViewModel: ChatListViewModel by viewModels()
     private val viewModel: ChatDetailViewModel by viewModels()
-    private val activityViewModel: MyChatViewModel by activityViewModels()
-
     private var binding: FragmentChatDetailBinding? = null
 
     override fun onCreateView(
@@ -51,23 +50,10 @@ class ChatDetailFragment : Fragment(R.layout.fragment_chat_detail) {
 
         binding = FragmentChatDetailBinding.inflate(inflater, container, false)
 
-        val chatId = chatDetailArgs.chatId
-
-
-        chat = ChatModel.chats.find { it.id == chatId }
-
-        chat?.let { ch ->
-            contact = ContactModel.contacts.find {
-                it.contactId == ch.sender
-            }
-
-            messages = MessageModel.messagesList.filter { msg->
-                msg.chatId == ch.id
-            }
-        }
-
-
-
+        binding?.progressBar?.visibility = View.VISIBLE
+        binding?.profiles?.visibility = View.GONE
+        binding?.headerButtons?.visibility = View.GONE
+        binding?.messagesRecycler?.visibility = View.GONE
 
     return binding?.root
     }
@@ -76,25 +62,39 @@ class ChatDetailFragment : Fragment(R.layout.fragment_chat_detail) {
         super.onViewCreated(view, savedInstanceState)
 
 
-        activityViewModel.contact.observe(viewLifecycleOwner){ con->
-            chatListViewModel.setUpChat(con,false)
-            Log.i("amIHere","nothing yet ${chatListViewModel.chats.value}  $con")
-            chatListViewModel.chats.observe(viewLifecycleOwner){ch->
-                viewModel.setUpChatDetails(ch)
-                Log.i("amIHere","chat details are available")
-                viewModel.chatDetails.observe(viewLifecycleOwner){
-                    Log.i("amIHere","Detail view update")
-                    updateUI(binding!!)
-                }
+        viewModel.fetchSender(chatDetailArgs.contactId)
+
+        if (viewModel.chatDetails.value?.isEmpty()?:true)
+        {
+            Log.i("isitempty","${viewModel.chatDetails.value} triggered")
+            viewModel.setUpChatDetails(ChatModel.chats)
+        }
+
+        viewModel.sender.observe(viewLifecycleOwner){ con ->
+            lifecycleScope.launch {
+                delay(100)
+                updateHeader(con, binding!!)
             }
+        }
+        viewModel.chatDetails.observe(viewLifecycleOwner){ msg->
+            val chatIds:List<Int> = msg.map {
+                it.chatId
+            }
+            Log.i("chatids",": $chatIds")
+            messages = findSpecificMessage(chatDetailArgs.chatId, messages)
+            updateUI(binding!!, msg)
         }
     }
 
+    fun updateHeader(contact: Contact, binding: FragmentChatDetailBinding){
+        contact.let{ cont->
+            binding.progressBar.visibility = View.GONE
+            binding.profiles.visibility = View.VISIBLE
+            binding.headerButtons.visibility = View.VISIBLE
+            binding.messagesRecycler.visibility = View.VISIBLE
 
-    fun updateUI(binding: FragmentChatDetailBinding){
-        binding.goBack.setOnClickListener { findNavController().navigateUp() }
+            Log.i("chatids",": ${cont.contactId}")
 
-        contact?.let{ cont->
             binding.userProfile.setImageURI(cont.profilePic)
             binding.userName.text = cont.name
             binding.phoneNumber.text = cont.phoneNumber
@@ -108,11 +108,17 @@ class ChatDetailFragment : Fragment(R.layout.fragment_chat_detail) {
                 nav.navigate(direction,extras)
             }
         }
-
-        chat?.let{ch ->
-            adapter = MessagesRecyclerViewAdapter(messages)
-            binding.messagesRecycler.adapter = adapter
-            binding.messagesRecycler.layoutManager = LinearLayoutManager(requireContext())
-        }
     }
+
+
+    fun updateUI(binding: FragmentChatDetailBinding, messageList:List<Message>){
+        binding.goBack.setOnClickListener { findNavController().popBackStack() }
+
+        adapter = MessagesRecyclerViewAdapter(messageList)
+        binding.messagesRecycler.adapter = adapter
+        binding.messagesRecycler.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    fun findSpecificMessage(chatId: Int, messages: List<Message>): List<Message> =  messages.filter { msg-> msg.chatId == chatId }
+
 }
