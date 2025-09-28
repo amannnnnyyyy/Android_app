@@ -50,10 +50,10 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
         searchBtn = binding.searchArea
 
         binding.searching.setOnClickListener {
-            binding.appTitle.visibility = View.GONE
-            binding.chatListTopIcons.visibility = View.GONE
-            binding.searching.visibility = View.VISIBLE
-            binding.searching.requestFocus()
+            binding.searchArea.requestFocus()
+//            binding.appTitle.visibility = View.GONE
+//            binding.chatListTopIcons.visibility = View.GONE
+//            binding.searching.visibility = View.VISIBLE
             activity?.let {
                 WindowCompat.getInsetsController(it.window, binding.searching).show(WindowInsetsCompat.Type.ime())
             }
@@ -138,16 +138,22 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
                 }
             }
             )
+
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.all -> dynamicAdapter(recycler, "all", owner = viewLifecycleOwner)
-                R.id.fav -> dynamicAdapter(recycler, "fav", owner = viewLifecycleOwner)
-                R.id.unread -> dynamicAdapter(recycler, "unread", owner = viewLifecycleOwner)
-                R.id.groups -> dynamicAdapter(recycler, "groups", owner = viewLifecycleOwner)
+                R.id.all -> viewModel.changeDisplayedChatType("all")
+                R.id.fav -> viewModel.changeDisplayedChatType("fav")
+                R.id.unread -> viewModel.changeDisplayedChatType("unread")
+                R.id.groups -> viewModel.changeDisplayedChatType("groups")
             }
             true
 
         }
+
+        viewModel._choiceToDisplayChats.observe(viewLifecycleOwner){ type->
+            dynamicAdapter(recycler, type, owner = viewLifecycleOwner)
+        }
+
 
         searchBtn.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
@@ -155,7 +161,8 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int)=dynamicAdapter(recycler, "searching", s.toString(), owner = viewLifecycleOwner)
         })
 
-        recycler.adapter = adapter
-        recycler.layoutManager = LinearLayoutManager(requireContext())
+        dynamicAdapter(recycler, viewModel._choiceToDisplayChats.value, owner = viewLifecycleOwner)
+        //recycler.adapter = adapter
+        //recycler.layoutManager = LinearLayoutManager(requireContext())
     }
 }

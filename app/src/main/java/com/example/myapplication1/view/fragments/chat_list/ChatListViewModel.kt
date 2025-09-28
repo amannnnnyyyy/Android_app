@@ -20,7 +20,14 @@ class ChatListViewModel: ViewModel() {
     val chats = _chats as LiveData<List<Chat>>
     val filtered = MutableLiveData<List<Chat>>()
 
+    val _choiceToDisplayChats = MutableLiveData("all")
+    val choiceToDisplayChats = _choiceToDisplayChats as LiveData<String>
 
+
+
+    fun changeDisplayedChatType(type:String){
+        _choiceToDisplayChats.postValue(type)
+    }
     init {
     }
 
