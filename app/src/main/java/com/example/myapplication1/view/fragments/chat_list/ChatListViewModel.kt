@@ -20,9 +20,8 @@ class ChatListViewModel: ViewModel() {
     val chats = _chats as LiveData<List<Chat>>
     val filtered = MutableLiveData<List<Chat>>()
 
-    val _choiceToDisplayChats = MutableLiveData("all")
+    private val _choiceToDisplayChats = MutableLiveData("all")
     val choiceToDisplayChats = _choiceToDisplayChats as LiveData<String>
-
 
 
     fun changeDisplayedChatType(type:String){
@@ -63,29 +62,14 @@ class ChatListViewModel: ViewModel() {
         owner: LifecycleOwner,
         searchString: String? = null
     ): List<Chat> {
-        filtered.value = _chats.value
-        Log.i("searching_now","with $searchString")
+        if (filtered.value?.isEmpty()?:true || searchString==null) filtered.value = chats.value
         var returnedChats: List<Chat> = listOf<Chat>()
         filtered.observe(owner) { chatList ->
             returnedChats = when (kind) {
                 "all" -> chatList.filter { it.hasMessage }
-                "fav" -> {
-                    val list = _chats.value.filter { it.favourite && it.hasMessage }
-                    filtered.postValue(chatList);
-                    list
-                }
-                "unread" -> chatList.filter { ch ->
-                    val list = MessageModel.messagesList.any { msg -> msg.readStatus == ReadStatus.NOT_READ && ch.hasMessage }
-                    filtered.postValue(chatList);
-                    list
-                }
-
-                "groups" -> {
-                    val list = chatList.filter { ch -> ch.group && ch.hasMessage };
-                    filtered.postValue(chatList);
-                    list
-                }
-
+                "fav" -> _chats.value.filter { it.favourite && it.hasMessage }
+                "unread" -> chatList.filter { ch -> MessageModel.messagesList.any { msg -> msg.readStatus == ReadStatus.NOT_READ && ch.hasMessage } }
+                "groups" -> chatList.filter { ch -> ch.group && ch.hasMessage };
                 "searching" -> {
                     val list = if(filtered.value.isNotEmpty()) filtered.value else chatList
                     list.filter { chat ->
@@ -96,12 +80,10 @@ class ChatListViewModel: ViewModel() {
                         }
                     }
                 }
-
                 else -> emptyList()
             }
         }
         filtered.postValue(returnedChats)
-        Log.i("searching_now","${_chats.value?.size}")
         return returnedChats
     }
 }
