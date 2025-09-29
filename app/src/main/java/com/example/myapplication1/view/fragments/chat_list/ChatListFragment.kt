@@ -13,6 +13,7 @@ import android.view.Surface
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -62,25 +63,7 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
     ): View? {
         binding = FragmentChatListBinding.inflate(inflater, container, false)
 
-        menuProvider = object: MenuProvider {
-            override fun onCreateMenu(
-                menu: Menu,
-                menuInflater: MenuInflater
-            ) {
-                menuInflater.inflate(R.menu.chat_filter_menu, menu)
-            }
-
-            override fun onPrepareMenu(menu: Menu) {
-                val more = menu.findItem(R.id.all)
-               // more?.isVisible = false
-                super.onPrepareMenu(menu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return handleMenu(menuItem)
-            }
-
-        }
+        menuProvider = myMenuProvider()
 
 
         binding?.let { bind->
@@ -88,15 +71,15 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
             bottomNav = bind.filterBtn
             searchBtn = bind.searchArea
 
-//            bind.searching.setOnClickListener {
-//                bind.searchArea.requestFocus()
-////            binding.appTitle.visibility = View.GONE
-////            binding.chatListTopIcons.visibility = View.GONE
-////            binding.searching.visibility = View.VISIBLE
-//                activity?.let {
-//                    WindowCompat.getInsetsController(it.window, bind.searching).show(WindowInsetsCompat.Type.ime())
-//                }
-//            }
+            bind.searching.setOnClickListener {
+                bind.searchArea.requestFocus()
+//            binding.appTitle.visibility = View.GONE
+//            binding.chatListTopIcons.visibility = View.GONE
+                bind.searching.visibility = View.VISIBLE
+                activity?.let {
+                    WindowCompat.getInsetsController(it.window, bind.searching).show(WindowInsetsCompat.Type.ime())
+                }
+            }
 
 
             ViewCompat.setOnApplyWindowInsetsListener(bind.root){view, insets ->
@@ -257,4 +240,29 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
             else ->  false
         }
     }
+
+
+    fun myMenuProvider(): MenuProvider{
+        return object: MenuProvider {
+            override fun onCreateMenu(
+                menu: Menu,
+                menuInflater: MenuInflater
+            ) {
+                menuInflater.inflate(R.menu.chat_filter_menu, menu)
+            }
+
+            override fun onPrepareMenu(menu: Menu) {
+                val more = menu.findItem(R.id.all)
+                // more?.isVisible = false
+                super.onPrepareMenu(menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return handleMenu(menuItem)
+            }
+
+        }
+    }
+
+
 }

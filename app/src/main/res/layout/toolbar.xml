@@ -21,7 +21,7 @@
     <LinearLayout
         android:id="@+id/chat_list_top_icons"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
         >
         <View
@@ -35,16 +35,18 @@
             android:contentDescription="@string/camera"
             android:src="@drawable/camera"
             app:tint="@color/white"
+            android:layout_gravity="center_vertical"
             android:padding="15dp"
             />
-        <ImageView
-            android:id="@+id/searching"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:contentDescription="@string/search"
-            android:src="@drawable/search_icon"
-            app:tint="@color/white"
-            android:padding="8dp"
-            />
+<!--        <ImageView-->
+<!--            android:id="@+id/searching"-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:contentDescription="@string/search"-->
+<!--            android:src="@drawable/search_icon"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            app:tint="@color/white"-->
+<!--            android:padding="8dp"-->
+<!--            />-->
     </LinearLayout>
 </androidx.appcompat.widget.Toolbar>

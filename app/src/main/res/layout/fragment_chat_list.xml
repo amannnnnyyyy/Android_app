@@ -9,10 +9,29 @@
     android:background="@color/black"
     >
     <include layout="@layout/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/searching"
         android:id="@+id/toolbar"/>
 
 
-
+    <ImageView
+        android:id="@+id/searching"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:contentDescription="@string/search"
+        android:src="@drawable/search_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/toolbar"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/toolbar"
+        app:tint="@color/white"
+        android:padding="8dp"
+        />
     <LinearLayout
         android:id="@+id/search"
         android:layout_width="0dp"
