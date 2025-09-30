@@ -53,6 +53,7 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
     private lateinit var myRecycler: RecyclerView;
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var searchBtn: EditText;
+    private var searchString: String = "";
     private var binding: FragmentChatListBinding? = null
 
     private var keyBoardIsVisible: Boolean = false
@@ -123,8 +124,7 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
     }
 
     fun dynamicAdapter(recycler: RecyclerView, type:String, searchString:String?=null, owner: LifecycleOwner){
-        val chats: List<Chat> = viewModel.getFilteredChats(type, owner =owner ,searchString)
-        Log.i("chatsFiltered","$chats")
+        val chats: List<Chat> = viewModel.getFilteredChats(type ,searchString)
 
         val adapter = ChatListRecyclerViewAdapter(chats,
             {
@@ -191,13 +191,18 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
             Log.i("howMany","choice too?")
             dynamicAdapter(recycler, type, owner = viewLifecycleOwner)
         }
-
-
+        val emptyText:String = ""
+        searchBtn.setText(emptyText)
         searchBtn.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int){}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int)=dynamicAdapter(recycler, "searching", s.toString(), owner = viewLifecycleOwner)
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int)
+                {
+                    if (searchString!=s.toString()) dynamicAdapter(recycler, "searching", s.toString(), owner = viewLifecycleOwner)
+                    searchString = s.toString()
+                }
         })
+        Log.i("searchingWith","=========")
 
         dynamicAdapter(recycler, viewModel.choiceToDisplayChats.value, owner = viewLifecycleOwner)
     }

@@ -32,19 +32,18 @@ class ChatListViewModel: ViewModel() {
 
     fun getFilteredChats(
         kind: String,
-        owner: LifecycleOwner,
         searchString: String? = null
     ): List<Chat> {
-        if (filtered.value?.isEmpty()?:true || searchString==null)
-            filtered.value = _chats.value
+        filtered.value = _chats.value
         var returnedChats: List<Chat> = listOf<Chat>()
-        filtered.observe(owner) { chatList ->
+        val chatList = filtered.value
             returnedChats = when (kind) {
                 "all" -> chatList.filter { it.hasMessage }
                 "fav" -> chatList.filter { it.favourite && it.hasMessage }
-               // "unread" -> chatList.filter { ch -> MessageModel.messagesList.any { msg -> msg.readStatus == ReadStatus.NOT_READ && ch.hasMessage } }
+                "unread" -> chatList.filter { ch -> MessageModel.message.any { msg -> msg.readStatus == ReadStatus.NOT_READ && ch.hasMessage } }
                 "groups" -> chatList.filter { ch -> ch.group && ch.hasMessage };
                 "searching" -> {
+                    Log.i("searchingWith","I am searching for: $searchString\n\t found: ${filtered.value.size}")
                     val list = if(filtered.value.isNotEmpty()) filtered.value else chatList
                     list.filter { chat ->
                         ContactModel.contacts.filter { contact ->
@@ -55,7 +54,6 @@ class ChatListViewModel: ViewModel() {
                     }
                 }
                 else -> emptyList()
-            }
         }
         filtered.postValue(returnedChats)
         return returnedChats
