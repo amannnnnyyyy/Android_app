@@ -85,7 +85,7 @@ class ChatListRecyclerViewAdapter(
         val contact = ContactModel.contacts.find {
             it.contactId == chat.sender
         }
-        val lastMessage: String? = MessageModel.messagesList.find { it.chatId == chat.id }?.message
+        val lastMessage: String? = MessageModel.message.find { it.chatId == chat.id }?.message
 
         holder.itemView.let{
             profilePic.setImageURI(contact?.profilePic)
@@ -103,7 +103,7 @@ class ChatListRecyclerViewAdapter(
             }
         }
 
-        val unreadNumber = MessageModel.messagesList.filter {
+        val unreadNumber = MessageModel.message.filter {
             (it.chatId == chat.id) && (it.readStatus == ReadStatus.NOT_READ) }.size
 
         if(unreadNumber>0)

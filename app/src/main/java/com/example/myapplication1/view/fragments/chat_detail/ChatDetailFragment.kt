@@ -24,6 +24,8 @@ import com.example.myapplication1.core.model.contact.Contact
 import com.example.myapplication1.core.model.contact.ContactModel
 import com.example.myapplication1.core.model.message.Message
 import com.example.myapplication1.core.model.message.MessageModel
+import com.example.myapplication1.core.model.message.MessageType
+import com.example.myapplication1.core.model.message.ReadStatus
 import com.example.myapplication1.databinding.FragmentChatDetailBinding
 import com.example.myapplication1.view.adapters.recycler_view_adapter.MessagesRecyclerViewAdapter
 import com.example.myapplication1.view.fragments.chat_list.ChatListViewModel
@@ -64,25 +66,17 @@ class ChatDetailFragment : Fragment(R.layout.fragment_chat_detail) {
 
         viewModel.fetchSender(chatDetailArgs.contactId)
 
-        if (viewModel.chatDetails.value?.isEmpty()?:true)
-        {
-            Log.i("isitempty","${viewModel.chatDetails.value} triggered")
-            viewModel.setUpChatDetails(ChatModel.chats)
-        }
-
         viewModel.sender.observe(viewLifecycleOwner){ con ->
             lifecycleScope.launch {
-                delay(100)
+                //delay(100)
+                contact = con
                 updateHeader(con, binding!!)
             }
         }
         viewModel.chatDetails.observe(viewLifecycleOwner){ msg->
-            val chatIds:List<Int> = msg.map {
-                it.chatId
-            }
-            Log.i("chatids",": $chatIds")
-            messages = findSpecificMessage(chatDetailArgs.chatId, messages)
-            updateUI(binding!!, msg)
+            messages = findSpecificMessage(chatDetailArgs.chatId, msg)
+            Log.i("setupTheChat","lets see chatId:${chatDetailArgs.chatId}  $msg\n${chatDetailArgs.chatId} $msg \n $messages")
+                updateUI(binding!!, messages)
         }
     }
 
@@ -114,9 +108,25 @@ class ChatDetailFragment : Fragment(R.layout.fragment_chat_detail) {
     fun updateUI(binding: FragmentChatDetailBinding, messageList:List<Message>){
         binding.goBack.setOnClickListener { findNavController().popBackStack() }
 
-        adapter = MessagesRecyclerViewAdapter(messageList)
-        binding.messagesRecycler.adapter = adapter
-        binding.messagesRecycler.layoutManager = LinearLayoutManager(requireContext())
+        viewModel.sender.observe(viewLifecycleOwner){ contact ->
+            binding.send.setOnClickListener {
+                val text = binding.searchArea.text
+                binding.searchArea.text = null
+                val message = Message(
+                    chatDetailArgs.chatId,
+                    repliedTo = null,
+                    originalMessage = null,
+                    message = text.toString(),
+                    type = MessageType.SENT,
+                    readStatus = ReadStatus.READ,
+                )
+
+                viewModel.sendMessage(message)
+            }
+            adapter = MessagesRecyclerViewAdapter(messageList, contact)
+            binding.messagesRecycler.adapter = adapter
+            binding.messagesRecycler.layoutManager = LinearLayoutManager(requireContext())
+        }
     }
 
     fun findSpecificMessage(chatId: Int, messages: List<Message>): List<Message> =  messages.filter { msg-> msg.chatId == chatId }

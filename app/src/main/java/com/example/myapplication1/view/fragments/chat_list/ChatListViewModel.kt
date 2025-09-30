@@ -16,45 +16,18 @@ import com.example.myapplication1.core.model.message.MessageModel
 import com.example.myapplication1.core.model.message.ReadStatus
 
 class ChatListViewModel: ViewModel() {
-    private val _chats: MutableLiveData<List<Chat>> = MutableLiveData<List<Chat>>()
-    val chats = _chats as LiveData<List<Chat>>
+    private val _chats: LiveData<List<Chat>> = MutableLiveData<List<Chat>>(ChatModel.chats)
+    val chats = _chats as MutableLiveData<List<Chat>>
     val filtered = MutableLiveData<List<Chat>>()
 
     private val _choiceToDisplayChats = MutableLiveData("all")
     val choiceToDisplayChats = _choiceToDisplayChats as LiveData<String>
 
-
     fun changeDisplayedChatType(type:String){
         _choiceToDisplayChats.postValue(type)
     }
     init {
-    }
-
-
-    fun setUpChat(contacts: List<Contact>, registered: Boolean) {
-        val chatList = mutableListOf<Chat>()
-        val contactsList = mutableListOf<Contact>()
-        for ((index, contact) in contacts.withIndex()) {
-            val fav = (index == 4)
-            val group = index % 3 == 0
-            Log.i("index-inside-chat", "$index ${contact.contactId}")
-            if (index%8==0){
-                chatList.add(
-                    Chat(
-                        index,
-                        sender = contact.contactId,
-                        phoneNumber = if (registered) contact.phoneNumber else null, fav,
-                        group,
-                        true
-                    ),
-                )
-                contactsList.add(contact)
-            }
-        }
-        //_chats.value = chatList
-        //ChatModel.setUpChat(contactsList,false)
-        MessageModel.setUpMessages(chatList)
-        _chats.postValue(chatList)
+        chats.postValue(ChatModel.chats)
     }
 
     fun getFilteredChats(
@@ -62,13 +35,14 @@ class ChatListViewModel: ViewModel() {
         owner: LifecycleOwner,
         searchString: String? = null
     ): List<Chat> {
-        if (filtered.value?.isEmpty()?:true || searchString==null) filtered.value = chats.value
+        if (filtered.value?.isEmpty()?:true || searchString==null)
+            filtered.value = _chats.value
         var returnedChats: List<Chat> = listOf<Chat>()
         filtered.observe(owner) { chatList ->
             returnedChats = when (kind) {
                 "all" -> chatList.filter { it.hasMessage }
-                "fav" -> _chats.value.filter { it.favourite && it.hasMessage }
-                "unread" -> chatList.filter { ch -> MessageModel.messagesList.any { msg -> msg.readStatus == ReadStatus.NOT_READ && ch.hasMessage } }
+                "fav" -> chatList.filter { it.favourite && it.hasMessage }
+               // "unread" -> chatList.filter { ch -> MessageModel.messagesList.any { msg -> msg.readStatus == ReadStatus.NOT_READ && ch.hasMessage } }
                 "groups" -> chatList.filter { ch -> ch.group && ch.hasMessage };
                 "searching" -> {
                     val list = if(filtered.value.isNotEmpty()) filtered.value else chatList

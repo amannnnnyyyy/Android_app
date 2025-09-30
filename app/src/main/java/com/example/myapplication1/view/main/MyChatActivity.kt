@@ -58,12 +58,7 @@ class MyChatActivity : AppCompatActivity() {
 
     fun fetchContacts(){
         viewModel.contact.observe(this) { contacts ->
-            Log.i("forchat",contacts.toString())
-
-            if (ChatModel.chats.isEmpty()){
-               // chatListViewModel.setUpChat(contacts,true)
-            }
-            Log.i("found_chats","${contacts.size} ${contacts.filter { it.name=="Yadasa" }.size}")
+//            viewModel.fetch()
         }
     }
 }

@@ -11,6 +11,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import androidx.transition.TransitionInflater
 import com.example.myapplication1.R
 import com.example.myapplication1.databinding.FragmentProfileDialogBinding
 import com.example.myapplication1.databinding.ProfileDialogFragmentBinding
@@ -40,6 +41,9 @@ class ProfileDialogFragment : DialogFragment(R.layout.fragment_profile_dialog) {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        sharedElementEnterTransition = TransitionInflater.from(activity).inflateTransition(android.R.transition.move)
+        sharedElementReturnTransition = TransitionInflater.from(activity).inflateTransition(android.R.transition.move)
+
         _binding = FragmentProfileDialogBinding.inflate(inflater, container, false)
         return binding.root
     }

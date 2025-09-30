@@ -8,10 +8,11 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication1.R
+import com.example.myapplication1.core.model.contact.Contact
 import com.example.myapplication1.core.model.message.Message
 import com.example.myapplication1.core.model.message.MessageType
 
-class MessagesRecyclerViewAdapter(val messagesList: List<Message>)
+class MessagesRecyclerViewAdapter(val messagesList: List<Message>, val contact: Contact)
     : RecyclerView.Adapter<MessagesRecyclerViewAdapter.MessagesViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -31,14 +32,15 @@ class MessagesRecyclerViewAdapter(val messagesList: List<Message>)
 
             if (msg.repliedTo!=null){
                 holder.username.text = msg.repliedTo
-                holder.repliedToMessage.text = msg.message
-            }else holder.reply.visibility = View.GONE
+                holder.repliedToMessage.text = msg.originalMessage
+            }
+            else holder.reply.visibility = View.GONE
             holder.sentMessage.text = msg.originalMessage
         }else if(msg.type== MessageType.RECEIVED){
             holder.messageBubble.visibility = View.GONE
 
             if(msg.repliedTo!=null){
-                holder.username2.text = msg.repliedTo
+                holder.username2.text = holder.itemView.context.getString(R.string.you)
                 holder.repliedToMessage2.text = msg.originalMessage
             }
             else{
@@ -47,7 +49,7 @@ class MessagesRecyclerViewAdapter(val messagesList: List<Message>)
             holder.sentMessage2.text = msg.message
         }
 
-        holder.username.text = msg.repliedTo
+        holder.username.text = contact.name
         holder.sentMessage.text = msg.message
 
     }

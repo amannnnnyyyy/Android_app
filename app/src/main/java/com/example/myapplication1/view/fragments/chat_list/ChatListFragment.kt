@@ -30,9 +30,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionInflater
 import com.example.myapplication1.R
 import com.example.myapplication1.core.model.chat.Chat
 import com.example.myapplication1.core.model.chat.ChatModel
+import com.example.myapplication1.core.model.message.MessageModel
 import com.example.myapplication1.databinding.FragmentChatDetailBinding
 import com.example.myapplication1.databinding.FragmentChatListBinding
 import com.example.myapplication1.databinding.FragmentContactListBinding
@@ -48,10 +50,7 @@ import kotlin.getValue
 
 class ChatListFragment : Fragment(R.layout.fragment_chat_list){
     val viewModel: ChatListViewModel by viewModels()
-    val gson = Gson()
-    val myChatViewModel: MyChatViewModel by activityViewModels()
-
-    private lateinit var recycler: RecyclerView;
+    private lateinit var myRecycler: RecyclerView;
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var searchBtn: EditText;
     private var binding: FragmentChatListBinding? = null
@@ -64,19 +63,20 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        sharedElementEnterTransition = TransitionInflater.from(activity).inflateTransition(android.R.transition.move)
+        sharedElementReturnTransition = TransitionInflater.from(activity).inflateTransition(android.R.transition.move)
+
         binding = FragmentChatListBinding.inflate(inflater, container, false)
 
         menuProvider = myMenuProvider()
 
         binding?.let { bind->
-            recycler = bind.recyclerView
+            myRecycler = bind.recyclerView
             bottomNav = bind.filterBtn
             searchBtn = bind.searchArea
 
             bind.searching.setOnClickListener {
                 bind.searchArea.requestFocus()
-//            binding.appTitle.visibility = View.GONE
-//            binding.chatListTopIcons.visibility = View.GONE
                 bind.searching.visibility = View.VISIBLE
                 activity?.let {
                     WindowCompat.getInsetsController(it.window, bind.searching).show(WindowInsetsCompat.Type.ime())
@@ -115,17 +115,16 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
             (activity as? AppCompatActivity)?.setSupportActionBar(toolbar)
         }
 
-        myChatViewModel.contact.observe(viewLifecycleOwner) { contacts ->
-            viewModel.setUpChat(contacts, false)
-        }
-
+        viewModel.chats.postValue(viewModel.chats.value)
         viewModel.chats.observe(viewLifecycleOwner) { chats ->
-            updateUI(chats)
+            Log.i("setupTheChat", "works ${ viewModel.chats.value }\n\t ${MessageModel.message}")
+            updateUI(chats, myRecycler)
         }
     }
 
     fun dynamicAdapter(recycler: RecyclerView, type:String, searchString:String?=null, owner: LifecycleOwner){
         val chats: List<Chat> = viewModel.getFilteredChats(type, owner =owner ,searchString)
+        Log.i("chatsFiltered","$chats")
 
         val adapter = ChatListRecyclerViewAdapter(chats,
             {
@@ -143,10 +142,10 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
         Log.i("howMany","Adapter")
         val rotation = context?.display?.rotation ?: 0
         when (rotation) {
-            Surface.ROTATION_0 -> rotated(0)
-            Surface.ROTATION_90 -> rotated(90)
-            Surface.ROTATION_180 -> rotated(180)
-            Surface.ROTATION_270 -> rotated(270)
+            Surface.ROTATION_0 -> rotated(0, recycler)
+            Surface.ROTATION_90 -> rotated(90, recycler)
+            Surface.ROTATION_180 -> rotated(180, recycler)
+            Surface.ROTATION_270 -> rotated(270, recycler)
             else -> "Unknown"
         }
     }
@@ -159,7 +158,7 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
 
 
 
-    private fun updateUI(chats: List<Chat>){
+    private fun updateUI(chats: List<Chat>, recycler: RecyclerView){
         val adapter = ChatListRecyclerViewAdapter(
             chats.filter { it.hasMessage },
             {
@@ -201,11 +200,9 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
         })
 
         dynamicAdapter(recycler, viewModel.choiceToDisplayChats.value, owner = viewLifecycleOwner)
-        //recycler.adapter = adapter
-        //recycler.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    fun rotated(degree:Int){
+    fun rotated(degree:Int, recycler: RecyclerView){
        binding?.let{ bind->
            if (degree==90 || degree==180 || degree==270){
                bind.search.visibility = View.GONE
@@ -213,12 +210,7 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
                bind.filterBtn.layoutParams.height = 0
                Log.i("howMany","Added")
               menuProvider?.let { requireActivity().addMenuProvider(it, viewLifecycleOwner, Lifecycle.State.RESUMED) }
-              val params =  bind.recyclerView.layoutParams as ConstraintLayout.LayoutParams
-             //  params.topToBottom = bind.chatListTopIcons.id
                recycler.layoutManager = GridLayoutManager(requireContext(),2)
-          //     bind.moreOptions.setOnClickListener {
-
-            //   }
            }else{
                menuProvider?.let { requireActivity().removeMenuProvider(it) }
                bind.search.visibility = View.VISIBLE
@@ -278,6 +270,4 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
 
         profileDialog.show(childFragmentManager,null)
     }
-
-
 }

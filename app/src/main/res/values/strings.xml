@@ -52,10 +52,12 @@
     <string name="user_messages">user messages</string>
     <string name="camera">camera</string>
     <string name="my_chat_app">MyChatApp</string>
-    <string name="unkown">Unkown</string>
+    <string name="unkown">Unknown</string>
     <string name="media_links_and_docs">Media, links, and docs</string>
     <string name="recent_calls_title">Calls</string>
     <string name="more">More</string>
     <string name="favourites">Favourites</string>
     <string name="contacts">%1$d Contacts</string>
+    <string name="you">You</string>
+
 </resources>

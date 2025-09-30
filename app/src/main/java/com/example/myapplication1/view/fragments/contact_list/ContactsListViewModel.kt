@@ -13,21 +13,15 @@ class ContactsListViewModel: ViewModel() {
     val filtered = MutableLiveData<List<Contact>>()
 
     private var currentSearchString =  MutableLiveData<String>("")
-
-
-
     fun setUpContacts(contacts: List<Contact>){
         _contacts.postValue(contacts)
     }
-
-
 
     fun getFilteredChats(
         owner: LifecycleOwner,
         searchString: String
     ): List<Contact> {
         var returnedContacts: List<Contact> = listOf<Contact>()
-        Log.i("hereSearching","searching for $searchString ${currentSearchString.value}")
         if (searchString!=currentSearchString.value){
             currentSearchString.value = searchString
             filtered.value = _contacts.value
