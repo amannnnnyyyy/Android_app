@@ -86,31 +86,12 @@ class ProfileDialogFragment : DialogFragment(R.layout.fragment_profile_dialog) {
                     val nav = findNavController()
                     contactDetailsDirection?.let { nav.navigate(it) }
                 }
-
-//                binding.messages.setOnClickListener {
-//                    val nav = findNavController()
-//                    val direction = hereFrom?.let { start->
-//                        if (start == "contacts") ContactListFragmentDirections.actionContactListFragmentToChatDetailFragment(1, con.contactId)
-//                        else if (start == "chats") ChatHolderFragmentDirections.actionChatHolderFragmentToChatDetailFragment(1,con.contactId)
-//                    }
-//                    direction?.let { nav.navigate(it) }
-//                }
-//
-//                binding.info.setOnClickListener {
-//                    val nav = findNavController()
-//                    val direction = hereFrom?.let { start->
-//                        if (start == "contacts") ContactListFragmentDirections.actionContactListFragmentToContactDetailsFragment( con.contactId)
-//                        else if (start == "chats") ChatHolderFragmentDirections.actionChatHolderFragmentToContactDetailsFragment(con.contactId)
-//                    }
-//                    direction?.let { nav.navigate(it) }
-//                }
             }
         }
     }
 
     override fun onPause() {
         super.onPause()
-//        Log.i("calledHere","pause")
         _binding = null
         dismiss()
     }
