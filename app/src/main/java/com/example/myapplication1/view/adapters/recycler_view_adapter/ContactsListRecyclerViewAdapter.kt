@@ -30,6 +30,10 @@ class ContactsListRecyclerViewAdapter(contacts:List<Contact>,  private val onUpd
         holder.itemView.setOnClickListener {
             onUpdateChange.invoke(ContactClicked.ItemClick(0,contact.contactId))
         }
+
+        holder.profileImage.setOnClickListener {
+            onUpdateChange.invoke(ContactClicked.ProfileClick(contact.contactId))
+        }
     }
 
     override fun getItemCount(): Int  = contactList.size
@@ -44,4 +48,5 @@ class ContactsListRecyclerViewAdapter(contacts:List<Contact>,  private val onUpd
 
 sealed class ContactClicked{
     class ItemClick(val chatId: Int, val contactId: Int):ContactClicked()
+    class ProfileClick(val contactId:Int): ContactClicked()
 }

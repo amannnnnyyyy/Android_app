@@ -40,12 +40,15 @@ import com.example.myapplication1.view.main.MyChatViewModel
 import com.example.myapplication1.view.adapters.recycler_view_adapter.ChatListRecyclerViewAdapter
 import com.example.myapplication1.view.adapters.recycler_view_adapter.ListenerType
 import com.example.myapplication1.view.fragments.chat_holder.ChatHolderFragmentDirections
+import com.example.myapplication1.view.fragments.profile_dialog.ProfileDialogFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.gson.Gson
 import kotlin.getValue
 
 
 class ChatListFragment : Fragment(R.layout.fragment_chat_list){
     val viewModel: ChatListViewModel by viewModels()
+    val gson = Gson()
     val myChatViewModel: MyChatViewModel by activityViewModels()
 
     private lateinit var recycler: RecyclerView;
@@ -64,7 +67,6 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
         binding = FragmentChatListBinding.inflate(inflater, container, false)
 
         menuProvider = myMenuProvider()
-
 
         binding?.let { bind->
             recycler = bind.recyclerView
@@ -132,6 +134,7 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
                     is ListenerType.SearchClick -> {
                         dynamicAdapter(recycler, "searching", it.searchString.toString(), owner = viewLifecycleOwner)
                     }
+                    is ListenerType.ProfileClicked -> navigateToProfileDialog(it.contactId)
                 }
             }
             )
@@ -169,6 +172,7 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
                     is ListenerType.SearchClick -> {
                         dynamicAdapter(recycler, "searching", it.searchString.toString(), owner = viewLifecycleOwner)
                     }
+                    is ListenerType.ProfileClicked -> navigateToProfileDialog(it.contactId)
                 }
             }
             )
@@ -262,6 +266,17 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
             }
 
         }
+    }
+
+    fun navigateToProfileDialog(contactId:Int){
+        val profileDialog = ProfileDialogFragment()
+        val bundle = Bundle().apply {
+            putInt("contact_id", contactId)
+            putString("from","chats")
+        }
+        profileDialog.arguments = bundle
+
+        profileDialog.show(childFragmentManager,null)
     }
 
 

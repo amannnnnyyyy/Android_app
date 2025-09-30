@@ -93,7 +93,11 @@ class ChatListRecyclerViewAdapter(
             message.text = lastMessage
         }
 
+
         contact?.let { con->
+            profilePic.setOnClickListener {
+                onUpdateChange.invoke(ListenerType.ProfileClicked(con.contactId))
+            }
             chatsView.setOnClickListener {
                 onUpdateChange.invoke(ListenerType.ItemClick(chat.id,con.contactId))
             }
@@ -121,6 +125,8 @@ class ChatListRecyclerViewAdapter(
 sealed class ListenerType{
     class ItemClick(val chatId:Int, val contactId: Int): ListenerType()
     class SearchClick(val searchString: CharSequence?): ListenerType()
+
+    class ProfileClicked(val contactId: Int): ListenerType()
 }
 
 //interface UpdateListener{

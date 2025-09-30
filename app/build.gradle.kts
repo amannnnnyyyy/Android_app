@@ -70,4 +70,5 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:${nav_version}")
     implementation("androidx.navigation:navigation-ui-ktx:${nav_version}")
     implementation("androidx.transition:transition:1.6.0")
+    implementation("com.google.code.gson:gson:2.10.1")
 }

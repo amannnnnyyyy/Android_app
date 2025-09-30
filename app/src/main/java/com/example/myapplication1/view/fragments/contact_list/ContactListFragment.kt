@@ -22,6 +22,7 @@ import com.example.myapplication1.core.model.contact.Contact
 import com.example.myapplication1.databinding.FragmentContactListBinding
 import com.example.myapplication1.view.adapters.recycler_view_adapter.ContactClicked
 import com.example.myapplication1.view.adapters.recycler_view_adapter.ContactsListRecyclerViewAdapter
+import com.example.myapplication1.view.fragments.profile_dialog.ProfileDialogFragment
 import com.example.myapplication1.view.main.MyChatViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -102,6 +103,7 @@ class ContactListFragment : Fragment(R.layout.fragment_contact_list) {
                     {
                         when(it){
                             is ContactClicked.ItemClick -> navigateToChatDetails(it.chatId, it.contactId)
+                            is ContactClicked.ProfileClick-> navigateToDialog(it.contactId)
                         }
                     })
                 binding.recycler.adapter = adapter
@@ -112,6 +114,7 @@ class ContactListFragment : Fragment(R.layout.fragment_contact_list) {
                 {
                     when(it){
                         is ContactClicked.ItemClick -> navigateToChatDetails(it.chatId, it.contactId)
+                        is ContactClicked.ProfileClick-> navigateToDialog(it.contactId)
                     }
                 })
             binding.recycler.adapter = adapter
@@ -124,6 +127,19 @@ class ContactListFragment : Fragment(R.layout.fragment_contact_list) {
         val nav = findNavController()
         val direction = ContactListFragmentDirections.actionContactListFragmentToChatDetailFragment(chatId,contactId)
         nav.navigate(direction)
+    }
+
+    fun navigateToDialog(contactId: Int){
+        val profileDialog =  ProfileDialogFragment()
+        val bundle = Bundle().apply {
+                putInt("contact_id",contactId)
+                putString("from","contacts")
+            }
+        profileDialog.arguments = bundle
+        profileDialog.show(childFragmentManager,null)
+//        val nav = findNavController()
+//        val direction = ContactListFragmentDirections.actionContactListFragmentToProfileDialogFragment()
+//        nav.navigate(direction)
     }
 
 }
