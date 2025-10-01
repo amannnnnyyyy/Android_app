@@ -14,7 +14,9 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication1.R
@@ -34,6 +36,11 @@ class ContactListFragment : Fragment(R.layout.fragment_contact_list) {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+
+            }
+        }
         val binding = FragmentContactListBinding.inflate(inflater,container, false)
 
         myChatViewModel.contact.observe(viewLifecycleOwner){
@@ -42,6 +49,7 @@ class ContactListFragment : Fragment(R.layout.fragment_contact_list) {
                 binding.progressBar.visibility = View.VISIBLE
                 delay(400)
                 binding.progressBar.visibility = View.GONE
+
                 updateUI(it, binding)
             }
         }

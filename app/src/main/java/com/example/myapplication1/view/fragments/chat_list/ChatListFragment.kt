@@ -188,11 +188,9 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
         }
 
         viewModel.choiceToDisplayChats.observe(viewLifecycleOwner){ type->
-            Log.i("howMany","choice too?")
             dynamicAdapter(recycler, type, owner = viewLifecycleOwner)
         }
-        val emptyText:String = ""
-        searchBtn.setText(emptyText)
+
         searchBtn.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int){}
@@ -202,7 +200,6 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
                     searchString = s.toString()
                 }
         })
-        Log.i("searchingWith","=========")
 
         dynamicAdapter(recycler, viewModel.choiceToDisplayChats.value, owner = viewLifecycleOwner)
     }
@@ -213,7 +210,6 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
                bind.search.visibility = View.GONE
                bind.filterBtn.visibility = View.GONE
                bind.filterBtn.layoutParams.height = 0
-               Log.i("howMany","Added")
               menuProvider?.let { requireActivity().addMenuProvider(it, viewLifecycleOwner, Lifecycle.State.RESUMED) }
                recycler.layoutManager = GridLayoutManager(requireContext(),2)
            }else{
@@ -228,7 +224,6 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
 
 
     fun handleMenu(item: MenuItem): Boolean {
-        Log.i("clicking", "I am clicking ${item.itemId}")
         return when(item.itemId){
             R.id.all->{
                 viewModel.changeDisplayedChatType("all")

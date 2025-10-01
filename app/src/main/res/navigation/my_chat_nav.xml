@@ -56,4 +56,13 @@
             android:id="@+id/action_contactListFragment_to_contactDetailsFragment"
             app:destination="@id/contactDetailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/mainHomeFragment"
+        android:name="com.example.myapplication1.view.fragments.home.MainHomeFragment"
+        android:label="fragment_home_main"
+        tools:layout="@layout/fragment_home_main" >
+        <action
+            android:id="@+id/action_mainHomeFragment_to_chatHolderFragment"
+            app:destination="@id/chatHolderFragment" />
+    </fragment>
 </navigation>

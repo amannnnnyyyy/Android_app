@@ -40,10 +40,13 @@
 
         <LinearLayout
             android:id="@+id/reply"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:background="@drawable/replied_message_layout"
             android:orientation="horizontal"
+            android:elevation="1dp"
             android:padding="0dp"
             >
 
@@ -68,7 +71,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:text="message from the user"
+                    android:text="message f"
                     android:background="@color/transparent_full"
                     android:textColor="#aaa"
                     />
@@ -117,6 +120,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/replied_recieved_message_layout"
                 android:orientation="vertical"
+                android:elevation="3dp"
                 android:padding="5dp">
 
                 <TextView

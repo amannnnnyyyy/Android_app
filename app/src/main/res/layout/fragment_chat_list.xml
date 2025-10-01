@@ -94,10 +94,10 @@
         app:layout_constraintTop_toBottomOf="@id/filter_btn"
         />
 
-    <ImageView
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/new_chat"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:src="@drawable/new_chat"
@@ -105,8 +105,10 @@
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintVertical_bias="1"
         android:layout_margin="20dp"
+        app:rippleColor="@color/white"
+        android:backgroundTint="#090"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:tint="#0f0"
+        app:tint="#fff"
         />
 
 
