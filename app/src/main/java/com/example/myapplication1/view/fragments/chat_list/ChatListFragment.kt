@@ -1,5 +1,7 @@
 package com.example.myapplication1.view.fragments.chat_list
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -134,6 +136,8 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
                         dynamicAdapter(recycler, "searching", it.searchString.toString(), owner = viewLifecycleOwner)
                     }
                     is ListenerType.ProfileClicked -> navigateToProfileDialog(it.contactId)
+
+                    is ListenerType.AdSeeMoreClicked -> redirectToUrl(it.redirectUrl)
                 }
             }
             )
@@ -172,6 +176,9 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
                         dynamicAdapter(recycler, "searching", it.searchString.toString(), owner = viewLifecycleOwner)
                     }
                     is ListenerType.ProfileClicked -> navigateToProfileDialog(it.contactId)
+
+                    is ListenerType.AdSeeMoreClicked -> redirectToUrl(it.redirectUrl)
+
                 }
             }
             )
@@ -284,5 +291,11 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
         super.onDestroy()
 
         binding = null
+    }
+
+
+    fun redirectToUrl(url: Uri){
+        val intent = Intent(Intent.ACTION_VIEW, url)
+        requireActivity().startActivity(intent)
     }
 }
