@@ -1,6 +1,7 @@
 package com.example.myapplication1.view.main
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -11,11 +12,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.findNavController
 import com.example.myapplication1.R
 import com.example.myapplication1.core.model.chat.ChatModel
 import com.example.myapplication1.core.model.contact.ContactModel
 import com.example.myapplication1.core.model.message.MessageModel
 import com.example.myapplication1.view.fragments.chat_list.ChatListViewModel
+import com.example.myapplication1.view.fragments.home.MainHomeFragment
 
 class MyChatActivity : AppCompatActivity() {
 
@@ -54,6 +57,7 @@ class MyChatActivity : AppCompatActivity() {
         viewModel.contact.observe(this) {
 
         }
+
     }
 
     fun fetchContacts(){

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
@@ -92,7 +93,7 @@ class ChatDetailFragment : Fragment(R.layout.fragment_chat_detail) {
             binding.userProfile.setImageURI(cont.profilePic)
             binding.userName.text = cont.name
             binding.phoneNumber.text = cont.phoneNumber
-            binding.wholeHeader.setOnClickListener {
+            binding.profiles.setOnClickListener {
                 val extras  = FragmentNavigatorExtras(
                     binding.userProfile to "profile_pic"
                 )
@@ -123,9 +124,11 @@ class ChatDetailFragment : Fragment(R.layout.fragment_chat_detail) {
 
                 viewModel.sendMessage(message)
             }
+            
             adapter = MessagesRecyclerViewAdapter(messageList, contact)
             binding.messagesRecycler.adapter = adapter
             binding.messagesRecycler.layoutManager = LinearLayoutManager(requireContext())
+            binding.messagesRecycler.scrollToPosition(messageList.size - 1)
         }
     }
 

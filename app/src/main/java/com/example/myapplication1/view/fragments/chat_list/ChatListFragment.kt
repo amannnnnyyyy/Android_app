@@ -116,7 +116,7 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
             (activity as? AppCompatActivity)?.setSupportActionBar(toolbar)
         }
 
-        viewModel.chats.postValue(viewModel.chats.value)
+//        viewModel.chats.postValue(viewModel.chats.value)
         viewModel.chats.observe(viewLifecycleOwner) { chats ->
             Log.i("setupTheChat", "works ${ viewModel.chats.value }\n\t ${MessageModel.message}")
             updateUI(chats, myRecycler)
@@ -193,13 +193,21 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
 
         searchBtn.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int){}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int)
-                {
-                    if (searchString!=s.toString()) dynamicAdapter(recycler, "searching", s.toString(), owner = viewLifecycleOwner)
-                    searchString = s.toString()
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val input = s.toString()
+                if (input != searchString) {
+                    searchString = input
+                    if (input.isNotBlank()) {
+                        dynamicAdapter(myRecycler, "searching", input, owner = viewLifecycleOwner)
+                    } else {
+                        dynamicAdapter(myRecycler, viewModel.choiceToDisplayChats.value ?: "all", owner = viewLifecycleOwner)
+                    }
                 }
+            }
         })
+
 
         dynamicAdapter(recycler, viewModel.choiceToDisplayChats.value, owner = viewLifecycleOwner)
     }
@@ -269,5 +277,12 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
         profileDialog.arguments = bundle
 
         profileDialog.show(childFragmentManager,null)
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        binding = null
     }
 }

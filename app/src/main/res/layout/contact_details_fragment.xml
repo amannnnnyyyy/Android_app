@@ -404,7 +404,7 @@
 
             <RelativeLayout
                 android:id="@+id/chat_lock_whole"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/disappearing_whole"
@@ -453,7 +453,7 @@
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/privacy_whole"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/chat_lock_whole"
@@ -496,7 +496,7 @@
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/create_group_whole"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/privacy_whole"
@@ -515,30 +515,36 @@
                     android:text="@string/group_create_header"
                     android:textColor="@color/greyish"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginBottom="10dp"
                     />
-                <ImageView
-                    android:id="@+id/create_group_icon"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/people"
-                    android:layout_below="@id/create_group"
-                    android:background="@drawable/whatsapp_create_group_background"
-                    app:tint="#090"
-                    android:layout_marginEnd="10dp"
-                    android:paddingVertical="5dp"
-                    />
-
-                <TextView
-                    android:id="@+id/create_group_description"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/create_group_message"
                     android:layout_below="@id/create_group"
-                    android:layout_toEndOf="@id/create_group_icon"
-                    android:textColor="@color/white"
-                    android:orientation="horizontal"
-                    />
+
+                    >
+                    <ImageView
+                        android:id="@+id/create_group_icon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/people"
+                        android:background="@drawable/whatsapp_create_group_background"
+                        app:tint="#090"
+                        android:layout_marginEnd="10dp"
+                        android:paddingVertical="5dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/create_group_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/create_group_message"
+                        android:layout_toEndOf="@id/create_group_icon"
+                        android:textColor="@color/white"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        />
+                </LinearLayout>
             </RelativeLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

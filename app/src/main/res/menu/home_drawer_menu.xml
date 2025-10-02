@@ -18,21 +18,25 @@
             android:icon="@drawable/chat"
             />
     </group>
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_login"
-            android:title="Login"
-            android:icon="@drawable/enter"
-            />
-        <item
-            android:id="@+id/nav_profile"
-            android:title="Profile"
-            android:icon="@drawable/profile"
-            />
-        <item
-            android:id="@+id/logout"
-            android:title="Logout"
-            android:icon="@drawable/logout"
-            />
-    </group>
+        <item android:title="Profile">
+            <menu>
+                <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_login"
+                    android:title="Login"
+                    android:icon="@drawable/enter"
+                    />
+                <item
+                    android:id="@+id/nav_profile"
+                    android:title="Profile"
+                    android:icon="@drawable/profile"
+                    />
+                <item
+                    android:id="@+id/logout"
+                    android:title="Logout"
+                    android:icon="@drawable/logout"
+                    />
+                </group>
+            </menu>
+        </item>
 </menu>

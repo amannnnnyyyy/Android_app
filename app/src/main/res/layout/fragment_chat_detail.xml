@@ -1,209 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chat_detail_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".view.fragments.chat_detail.ChatDetailFragment"
     android:background="@drawable/blackwall"
-    >
-    <View
-        android:id="@+id/whole_header"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+    tools:context=".view.fragments.chat_detail.ChatDetailFragment">
+
+    <RelativeLayout
+        android:id="@+id/profiles"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:padding="10dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@color/black"
-        app:layout_constraintBottom_toBottomOf="@id/profiles"
-        />
-  <RelativeLayout
-      android:id="@+id/profiles"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintEnd_toStartOf="@id/header_buttons"
-      app:layout_constraintBottom_toTopOf="@id/recyclerStart"
-      app:layout_constraintHorizontal_bias="0"
-      android:padding="10dp"
-      >
-      <ImageView
-          android:id="@+id/go_back"
-          android:layout_width="30dp"
-          android:layout_height="20dp"
-          android:contentDescription="@string/go_back"
-          android:src="@drawable/left_arrow"
-          android:layout_centerVertical="true"
-          app:tint="@color/white"
-          />
-      <com.google.android.material.imageview.ShapeableImageView
-          android:id="@+id/user_profile"
-          android:layout_width="40dp"
-          android:layout_height="40dp"
-          android:layout_toEndOf="@id/go_back"
-          android:layout_centerVertical="true"
-          android:transitionName="profile_pic"
-          app:shapeAppearanceOverlay="@style/RoundedCornersImageView"
-          android:background="@drawable/rounded_layout"
-          android:contentDescription="@string/profile_picture"
-          android:src="@drawable/profile_picture"
-          android:layout_marginHorizontal="5dp"
-          />
-      <LinearLayout
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_toEndOf="@id/user_profile"
-          android:layout_centerVertical="true"
-            android:orientation="vertical"
-          >
-          <TextView
-              android:id="@+id/user_name"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:ellipsize="end"
-              android:lines="1"
-              android:text="@string/user_name"
-              android:textSize="11sp"
-              android:textColor="@color/white"
-              />
-          <TextView
-              android:id="@+id/phone_number"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:ellipsize="end"
-              android:lines="1"
-              android:text="@string/phone_number"
-              android:textSize="11sp"
-              android:textColor="@color/white"
-              />
-      </LinearLayout>
-  </RelativeLayout>
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/go_back"
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/go_back"
+            android:src="@drawable/left_arrow"
+            app:tint="@color/white" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/user_profile"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_toEndOf="@id/go_back"
+            android:layout_marginHorizontal="5dp"
+            android:layout_centerVertical="true"
+            android:transitionName="profile_pic"
+            app:shapeAppearanceOverlay="@style/RoundedCornersImageView"
+            android:background="@drawable/rounded_layout"
+            android:contentDescription="@string/profile_picture"
+            android:src="@drawable/profile_picture" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/user_profile"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_name"
+                android:textSize="11sp"
+                android:textColor="@color/white"
+                android:ellipsize="end"
+                android:maxLines="1" />
+
+            <TextView
+                android:id="@+id/phone_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/phone_number"
+                android:textSize="11sp"
+                android:textColor="@color/white"
+                android:ellipsize="end"
+                android:maxLines="1" />
+        </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/header_buttons"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.35"
-        app:layout_constraintHorizontal_bias="1"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/profiles"
-        app:layout_constraintBottom_toTopOf="@id/recyclerStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:padding="10dp"
-        >
+        app:layout_constraintTop_toTopOf="@id/profiles"
+        app:layout_constraintBottom_toBottomOf="@id/profiles"
+        app:layout_constraintEnd_toEndOf="parent">
+
         <ImageView
             android:id="@+id/camera"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:contentDescription="@string/camera"
             android:src="@drawable/camera"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="5dp"
+            android:contentDescription="@string/camera"
             app:tint="@color/white"
-            />
+            android:layout_marginHorizontal="5dp" />
+
         <ImageView
             android:id="@+id/audio_call"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:contentDescription="@string/audio_call"
             android:src="@drawable/audio_call"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="5dp"
+            android:contentDescription="@string/audio_call"
             app:tint="@color/white"
-            />
+            android:layout_marginHorizontal="5dp" />
+
         <ImageView
             android:id="@+id/more_options"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:contentDescription="@string/more_options"
             android:src="@drawable/more"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="5dp"
+            android:contentDescription="@string/more_options"
             app:tint="@color/white"
-            />
+            android:layout_marginHorizontal="5dp" />
     </LinearLayout>
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/recyclerStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.1"
-        />
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/recyclerEnd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.9"
-        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messages_recycler"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        app:layout_constraintTop_toBottomOf="@id/profiles"
+        app:layout_constraintBottom_toTopOf="@id/message_input"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recyclerStart"
-        app:layout_constraintBottom_toTopOf="@id/recyclerEnd"
-        app:layout_constraintVertical_bias="0"
-        />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/message_input"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginBottom="10dp"
-        >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-            <EditText
-                android:id="@+id/search_area"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="50dp"
-                android:autofillHints="mom,dad,sis,bro"
-                android:background="@drawable/rounded_input_layout"
-                android:inputType="text"
-                android:hint="@string/write_something"
-                android:textColor="@color/white"
-                android:padding="10dp"
-                android:textColorHint="@color/greyish"
-                />
-            <ImageView
-                android:id="@+id/send"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:padding="10dp"
-                android:contentDescription="@string/search"
-                android:src="@drawable/send"
-                app:tint="#060"
-                />
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+        android:layout_marginHorizontal="10dp">
 
+        <EditText
+            android:id="@+id/search_area"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:hint="@string/write_something"
+            android:inputType="text"
+            android:background="@drawable/rounded_input_layout"
+            android:textColor="@color/white"
+            android:textColorHint="@color/greyish"
+            android:padding="10dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:imeOptions="actionSend"
+            />
+
+        <ImageView
+            android:id="@+id/send"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="10dp"
+            android:src="@drawable/send"
+            android:contentDescription="send"
+            app:tint="#060" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
