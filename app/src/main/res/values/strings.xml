@@ -47,4 +47,19 @@
     <string name="add_to_list">Add to list</string>
     <string name="block_message">Block John Electronics</string>
     <string name="report_message">Report John Electronics</string>
+    <string name="unknown">Unknown</string>
+    <string name="user_details">user details</string>
+    <string name="user_messages">user messages</string>
+    <string name="camera">camera</string>
+    <string name="my_chat_app">MyChatApp</string>
+    <string name="unkown">Unknown</string>
+    <string name="media_links_and_docs">Media, links, and docs</string>
+    <string name="recent_calls_title">Calls</string>
+    <string name="more">More</string>
+    <string name="favourites">Favourites</string>
+    <string name="contacts">%1$d Contacts</string>
+    <string name="you">You</string>
+    <string name="openDrawer">Open Navigation Drawer</string>
+    <string name="closeDrawer">Close Navigation <Drawer></Drawer></string>
+
 </resources>

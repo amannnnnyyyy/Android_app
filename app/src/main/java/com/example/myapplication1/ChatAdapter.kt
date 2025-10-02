@@ -3,8 +3,10 @@ package com.example.myapplication1
 import android.content.Context
 import android.net.Uri
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +16,13 @@ class ChatAdapter(val chatList: List<Chats>): RecyclerView.Adapter<ChatAdapter.C
     private var onClickListener: OnItemClickListener? = null
 
     fun interface OnItemClickListener {
-        fun onItemClick(position: Int, context: Context)
+        fun onItemClick(
+            position: Int,
+            context: Context,
+            type: String,
+            sharedView: View?,
+            motionEvent: MotionEvent?
+        )
     }
 
     fun setOnclickListener(listener: OnItemClickListener) {
@@ -37,15 +45,19 @@ class ChatAdapter(val chatList: List<Chats>): RecyclerView.Adapter<ChatAdapter.C
     ) {
         val chat = chatList[position]
 
+        val profileImageField: ImageView
+
+
+
         holder.itemView.apply{
-            val profileImageField = findViewById<ShapeableImageView>(R.id.userProfile)
+            profileImageField = findViewById<ShapeableImageView>(R.id.userProfile)
             val notificationField = findViewById<TextView>(R.id.notification)
             val nameField = findViewById<TextView>(R.id.name)
             val messageField = findViewById<TextView>(R.id.message)
             val timeField = findViewById<TextView>(R.id.time)
 
             nameField.text = if (chat.sender!=null)
-                                chat.sender.name
+                                chat?.sender?.name
                         else if (chat.phoneNumber!=null) chat.phoneNumber
                         else "Unknown"
 
@@ -54,7 +66,7 @@ class ChatAdapter(val chatList: List<Chats>): RecyclerView.Adapter<ChatAdapter.C
                               else "not yet implemented"
 
             profileImageField.setImageURI(if (chat.sender!=null)
-                                            chat.sender.profilePicture.toUri()
+                                            chat?.sender?.profilePicture?.toUri()
                                           else Uri.EMPTY
                                 )
             val unreadMessages: Int? = chat.sender?.messages?.filter {
@@ -69,9 +81,50 @@ class ChatAdapter(val chatList: List<Chats>): RecyclerView.Adapter<ChatAdapter.C
             timeField.text = chat.timeSent.toString()
         }
 
+        val transitionName = "profileImage_$position"
+        profileImageField.transitionName = transitionName
+
+//        profileImageField.setOnTouchListener { view, motionEvent ->
+//            when(motionEvent.action){
+//                MotionEvent.ACTION_DOWN -> {
+//                    onClickListener?.onItemClick(
+//                        position,
+//                        holder.itemView.context,
+//                        "dialog",
+//                        profileImageField,
+//                        motionEvent
+//                    )
+//                    view.performClick()
+//                    true
+//                }
+//                MotionEvent.ACTION_UP -> {
+//                    false
+//                }
+//                else -> false
+//            }
+//        }
+
+
         holder.itemView.setOnClickListener {
-            onClickListener?.onItemClick(position, holder.itemView.context)
+            onClickListener?.onItemClick(
+                position,
+                holder.itemView.context,
+                "normal",
+                holder.itemView,
+                null
+            )
         }
+
+        profileImageField.setOnClickListener {
+            onClickListener?.onItemClick(
+                position,
+                holder.itemView.context,
+                "dialog",
+                profileImageField,
+                null
+            )
+        }
+
 
     }
 

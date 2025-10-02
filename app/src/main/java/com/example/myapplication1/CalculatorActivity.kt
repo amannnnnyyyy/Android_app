@@ -30,7 +30,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.myapplication1.ui.theme.MyApplication1Theme
+import com.example.myapplication1.view.theme.MyApplication1Theme
 
 class CalculatorActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

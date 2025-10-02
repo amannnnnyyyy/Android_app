@@ -1,8 +1,9 @@
 package com.example.myapplication1
 
 import android.Manifest
-import android.app.Activity
 import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.util.Log
@@ -12,25 +13,201 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.navigation.fragment.FragmentNavigator
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.time.LocalDate
+import kotlin.random.Random
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ContactsList.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ContactsList : Fragment(),  ContactsAdapter.OnItemClickListener {
-    // TODO: Rename and change types of parameters
+    @RequiresApi(Build.VERSION_CODES.O)
+    private val chatList: List<Chats> = listOf(
+        Chats(
+            Contact(
+                1,
+                mutableListOf(
+                    Message(1, null, null, "Hello", "received", ReadStatus.UNREAD),
+                    Message(1, null, null, "Hey there", "received", ReadStatus.UNREAD)
+                ),
+                Uri.EMPTY.toString(),
+                name = "john",
+                messageDescription = "New User",
+                phoneNumber = "+9719782367986"
+            ),
+            phoneNumber = null,
+            status = ChatSeenStatus.Unread,
+            timeSent = LocalDate.now()
+        ),
+        Chats(
+            Contact(
+                1,
+                mutableListOf(
+                    Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
+                    Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
+                ),
+                Uri.EMPTY.toString(),
+                name = "jack",
+                messageDescription = "New User",
+                phoneNumber = "+9719782000086"
+            ),
+            phoneNumber = null,
+            status = ChatSeenStatus.Unread,
+            timeSent = LocalDate.now()
+        ),
+        Chats(
+            Contact(
+                1,
+                mutableListOf(
+                    Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
+                    Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
+                ),
+                Uri.EMPTY.toString(),
+                name = "smith",
+                messageDescription = "New User",
+                phoneNumber = "+9719787777986"
+            ),
+            phoneNumber = null,
+            status = ChatSeenStatus.Unread,
+            timeSent = LocalDate.now()
+        ),
+        Chats(
+            Contact(
+                1,
+                mutableListOf(
+                    Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
+                    Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
+                ),
+                Uri.EMPTY.toString(),
+                name = "jason",
+                messageDescription = "New User",
+                phoneNumber = "+97197823968858"
+            ),
+            phoneNumber = null,
+            status = ChatSeenStatus.Unread,
+            timeSent = LocalDate.now()
+        ),
+        Chats(
+            Contact(
+                1,
+                mutableListOf(
+                    Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
+                    Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
+                ),
+                Uri.EMPTY.toString(),
+                name = "john",
+                messageDescription = "New User",
+                phoneNumber = "+9719782333333"
+            ),
+            phoneNumber = null,
+            status = ChatSeenStatus.Unread,
+            timeSent = LocalDate.now()
+        ),
+        Chats(
+            Contact(
+                1,
+                mutableListOf(
+                    Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
+                    Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
+                ),
+                Uri.EMPTY.toString(),
+                name = "drago",
+                messageDescription = "New User",
+                phoneNumber = "+9719782888888"
+            ),
+            phoneNumber = null,
+            status = ChatSeenStatus.Unread,
+            timeSent = LocalDate.now()
+        ),
+        Chats(
+            Contact(
+                1,
+                mutableListOf(
+                    Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
+                    Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
+                ),
+                Uri.EMPTY.toString(),
+                name = "felix",
+                messageDescription = "New User",
+                phoneNumber = "+9719782367111"
+            ),
+            phoneNumber = null,
+            status = ChatSeenStatus.Unread,
+            timeSent = LocalDate.now()
+        ),
+        Chats(
+            Contact(
+                1,
+                mutableListOf(
+                    Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
+                    Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
+                ),
+                Uri.EMPTY.toString(),
+                name = "clarence",
+                messageDescription = "New User",
+                phoneNumber = "+9719782365555"
+            ),
+            phoneNumber = null,
+            status = ChatSeenStatus.Unread,
+            timeSent = LocalDate.now()
+        ),
+        Chats(
+            Contact(
+                1,
+                mutableListOf(
+                    Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
+                    Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
+                ),
+                Uri.EMPTY.toString(),
+                name = "florence",
+                messageDescription = "New User",
+                phoneNumber = "+9719782367777"
+            ),
+            phoneNumber = null,
+            status = ChatSeenStatus.Unread,
+            timeSent = LocalDate.now()
+        ),
+        Chats(
+            Contact(
+                1,
+                mutableListOf(
+                    Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
+                    Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
+                ),
+                Uri.EMPTY.toString(),
+                name = "trevor",
+                messageDescription = "New User",
+                phoneNumber = "+971978565565466"
+            ),
+            phoneNumber = null,
+            status = ChatSeenStatus.Unread,
+            timeSent = LocalDate.now()
+        ),
+        Chats(
+            Contact(
+                1,
+                mutableListOf(
+                    Message(1,null,null,"Hello","received", ReadStatus.UNREAD),
+                    Message(1,null,null,"Hey there","received", ReadStatus.UNREAD)
+                ),
+                Uri.EMPTY.toString(),
+                name = "noah",
+                messageDescription = "New User",
+                phoneNumber = "+9719782344444"
+            ),
+            phoneNumber = null,
+            status = ChatSeenStatus.Unread,
+            timeSent = LocalDate.now()
+        )
+    )
     private var param1: String? = null
     private var param2: String? = null
 
@@ -51,12 +228,13 @@ class ContactsList : Fragment(),  ContactsAdapter.OnItemClickListener {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.fragment_contacts_list, container, false)
+        val view =  inflater.inflate(R.layout.fragment_contacts_list_old, container, false)
 
         numberOfContacts = view.findViewById<TextView>(R.id.number_of_contacts)
 
@@ -106,12 +284,18 @@ class ContactsList : Fragment(),  ContactsAdapter.OnItemClickListener {
                     val photoString = cursor.getString(photoUri)
                     val photo = photoString?.toUri()
 
-                    contactList.add(Contact(
+                    val contact = Contact(
                         id,
                         null,
                         photo.toString(),
-                        name?:"unknown",
-                        phone?:"unknown"))
+                        name ?: "unknown",
+                        phone ?: "unknown",
+                        phoneNumber = phone.toString()
+                    )
+                    contactList.add(contact)
+                    Log.i("phoneNumber",contact.phoneNumber)
+
+                    findContactForChat(contact = contact)
 
                     // images.add(Image(id,name,uri))
                 }
@@ -122,7 +306,9 @@ class ContactsList : Fragment(),  ContactsAdapter.OnItemClickListener {
         }
 
 
-        val adapter = ContactsAdapter(contactList)
+        val adapter = ContactsAdapter(chatList.map {
+            it.sender
+        }.toSet() as Set<Contact>)
         val myRecycler = view.findViewById<RecyclerView>(R.id.recyclerView)
         myRecycler.adapter = adapter
         myRecycler.layoutManager = LinearLayoutManager(requireContext())
@@ -137,12 +323,13 @@ class ContactsList : Fragment(),  ContactsAdapter.OnItemClickListener {
         adapter.setOnclickListener(this)
         back_btn.setOnClickListener {
             val main_chats = MainChats()
-            parentFragmentManager.beginTransaction().apply {
-                replace(R.id.main, main_chats);
-                addToBackStack("homeFragment")
-                setReorderingAllowed(true)
-                commit()
-            }
+            findNavController().navigateUp()
+//            parentFragmentManager.beginTransaction().apply {
+//                replace(R.id.mainHolder, main_chats);
+//                addToBackStack("homeFragment")
+//                setReorderingAllowed(true)
+//                commit()
+//            }
         }
 
 
@@ -152,15 +339,6 @@ class ContactsList : Fragment(),  ContactsAdapter.OnItemClickListener {
 
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ContactsList.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             ContactsList().apply {
@@ -172,43 +350,62 @@ class ContactsList : Fragment(),  ContactsAdapter.OnItemClickListener {
     }
 
     val args = Bundle()
-    override fun onItemClick(position: Int) {
-        val messagesList = mutableListOf<Message>(
-            Message(contactList.elementAt(0).id,null, null, "How are you?", "received", ReadStatus.READ),
-            Message(contactList.elementAt(0).id,"John Adams", "How are you?", "I am fine. How are you?", "sent",
-                ReadStatus.READ),
-            Message(contactList.elementAt(0).id,"You", "I am fine. How are you?", "I am good.",
-                readStatus =ReadStatus.READ),
-            Message(contactList.elementAt(0).id,null, null, "How was your stay at the hotel?", "received",
-                ReadStatus.READ),
-            Message(contactList.elementAt(0).id,"John Adams", "How was your stay at the hotel?", "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", "sent",
-                ReadStatus.READ),
-            Message(contactList.elementAt(0).id,"John Adams", "How was your stay at the hotel?", "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", "received",
-                ReadStatus.UNREAD),
-            Message(contactList.elementAt(0).id,null, null, "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", "received",
-                ReadStatus.UNREAD)
-        )
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onItemClick(position: Int, type:String, profilePic: View) {
+        if (type=="normal"){
+            val messagesList = MessagesData().getMessageForContact(contactList.elementAt(position).id,contactList.elementAt(position).name)
 
-        contactList.elementAt(0).apply {
-            this.messages = messagesList
+            contactList.elementAt(0).apply {
+                this.messages = messagesList
+            }
+
+
+            val extras: FragmentNavigator.Extras
+
+            val nav = requireParentFragment().findNavController()
+//            val action = ContactsListDirections.actionContactsList2ToContactMessages(chatList[position])
+//
+//            if(profilePic!=null){
+//
+//                extras = FragmentNavigatorExtras(
+//                    profilePic to "profile_pic"
+//                )
+//                nav.navigate(action,extras)
+//
+//            }
+
+
         }
+        else if(type=="dialog"){
+            val extras: FragmentNavigator.Extras
 
-// neo graph  nav
-        args.apply {
-            putSerializable("contact",contactList.elementAt(position))
+            val nav = requireParentFragment().findNavController()
+            val con = chatList.elementAt(position).sender ?:contactList.elementAt(position)
+//            val action = ContactsListDirections.actionContactsList2ToProfileDialog("contactsList",con)
+//
+//
+//            if(profilePic!=null){
+//
+//                extras = FragmentNavigatorExtras(
+//                    profilePic to "profile_pic"
+//                )
+//                nav.navigate(action,extras)
+//
+//            }
+
+//            profileDialog.arguments =bundle
+//            parentFragmentManager
+//                .beginTransaction()
+//                .add(profileDialog,"profile_detail")
+//                .commit()
         }
+    }
 
-        val contactMessages = ContactMessages().apply{
-            arguments = args
-        }
 
-        Toast.makeText(requireContext(),contactList.elementAt(0).messages?.size.toString(), Toast.LENGTH_LONG).show()
-
-        parentFragmentManager.beginTransaction().apply {
-            replace(R.id.main, contactMessages);
-            setReorderingAllowed(true)
-            commit()
-        }
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun findContactForChat(max:Int = chatList.size, contact: Contact){
+        val randomIndex = Random.nextInt(0,max)
+        chatList[randomIndex].sender = contact
     }
 
 

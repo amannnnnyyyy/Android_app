@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+        <navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chat_nav"
+    app:startDestination="@id/mainChats">
+    <fragment
+        android:id="@+id/mainChats"
+        android:name="com.example.myapplication1.MainChats"
+        android:label="MainChats" >
+<!--        <navGraph  android:value="@navigation/main_bottom_nav_graph"/>-->
+        <action
+            android:id="@+id/action_mainChats_to_contactsList2"
+            app:destination="@id/contactsList2" />
+        <action
+            android:id="@+id/action_mainChats_to_contactMessages"
+            app:destination="@id/contactMessages"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_mainChats_to_profileDialog"
+            app:destination="@id/profileDialog" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactsList2"
+        android:name="com.example.myapplication1.ContactsList"
+        android:label="ContactsList" >
+        <action
+            android:id="@+id/action_contactsList2_to_contactMessages"
+            app:destination="@id/contactMessages"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_contactsList2_to_profileDialog"
+            app:destination="@id/profileDialog"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactMessages"
+        android:name="com.example.myapplication1.ContactMessages"
+        android:label="ContactMessages" >
+        <argument
+            android:name="chats"
+            app:argType="com.example.myapplication1.Chats" />
+        <action
+            android:id="@+id/action_contactMessages_to_contactDetails3"
+            app:destination="@id/contactDetails3"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactDetails3"
+        android:name="com.example.myapplication1.ContactDetails"
+        android:label="fragment_contact_details"
+        tools:layout="@layout/fragment_contact_details" >
+        <argument
+            android:name="contact"
+            app:argType="com.example.myapplication1.Contact" />
+    </fragment>
+    <dialog
+        android:id="@+id/profileDialog"
+        android:name="com.example.myapplication1.ProfileDialog"
+        android:label="ProfileDialog" >
+        <argument
+            android:name="sender"
+            app:argType="string" />
+        <argument
+            android:name="contact"
+            app:argType="com.example.myapplication1.Contact" />
+    </dialog>
+
+    <fragment
+        android:id="@+id/chatsWithRecycler"
+        android:name="com.example.myapplication1.Chats_display_fragment"
+        android:label="fragment_chats_display_fragment"
+        tools:layout="@layout/fragment_chats_display_fragment" >
+        <action
+            android:id="@+id/action_chats_display_fragment2_to_contactsList2"
+            app:destination="@id/ContactsPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/ContactsPage"
+        android:name="com.example.myapplication1.ContactsList"
+        android:label="ContactsList" />
+</navigation>

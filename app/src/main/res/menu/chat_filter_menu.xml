@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/all"
+        android:title="Alls"/>
+    <item
+        android:id="@+id/unread"
+        android:title="Unread"/>
+    <item
+        android:id="@+id/fav"
+        android:title="Favourites"/>
+    <item
+        android:id="@+id/groups"
+        android:title="Groups"/>
+    <item
+        android:id="@+id/add"
+        android:title="+"/>
+
+</menu>

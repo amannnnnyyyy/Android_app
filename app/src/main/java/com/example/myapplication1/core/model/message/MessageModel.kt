@@ -1,0 +1,64 @@
+package com.example.myapplication1.core.model.message
+
+import android.util.Log
+import com.example.myapplication1.core.model.chat.Chat
+import com.example.myapplication1.core.model.chat.ChatModel
+
+
+data class Message(var chatId: Int, val repliedTo:String?, val originalMessage:String?, val message:String, val type: MessageType= MessageType.RECEIVED, var readStatus:ReadStatus){
+
+}
+enum class ReadStatus{
+    READ,
+    NOT_READ
+}
+
+
+enum class MessageType{
+    SENT,
+    RECEIVED
+}
+
+object MessageModel {
+    var message: MutableList<Message> = mutableListOf()
+
+
+
+    fun setUpMessages(chatId:Int){
+       // val msg = messagesList[0]
+        //msg.chatId = chatId
+        message.add(Message(chatId,null, null, "How are you?", MessageType.RECEIVED, ReadStatus.READ))
+        message.add(Message(chatId,"Unknown", "How are you?", "I am fine. How are you?", MessageType.SENT,
+            ReadStatus.NOT_READ))
+
+        message.add(Message(chatId,"You", "I am fine. How are you?", "I am good.",  readStatus = ReadStatus.NOT_READ))
+        message.add(Message(chatId,null, null, "How was your stay at the hotel?", MessageType.SENT,
+            ReadStatus.NOT_READ))
+
+        message.add(Message(chatId,"Unknown", "How was your stay at the hotel?", "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", MessageType.RECEIVED,
+            ReadStatus.NOT_READ))
+    //  Log.i("setupTheChat","inside messages   $msg")
+    }
+
+//    val messagesList = mutableListOf<Message>(
+//        Message(0,null, null, "How are you?", MessageType.RECEIVED, ReadStatus.READ),
+//        Message(0,"John Adams", "How are you?", "I am fine. How are you?", MessageType.SENT,
+//            ReadStatus.NOT_READ),
+//        Message(0,"You", "I am fine. How are you?", "I am good.",
+//            readStatus = ReadStatus.NOT_READ),
+//        Message(0,null, null, "How was your stay at the hotel?", MessageType.RECEIVED,
+//            ReadStatus.NOT_READ),
+//        Message(0,"John Adams", "How was your stay at the hotel?", "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", MessageType.RECEIVED,
+//            ReadStatus.NOT_READ),
+//        Message(0,"John Adams", "How was your stay at the hotel?", "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", MessageType.RECEIVED,
+//            ReadStatus.NOT_READ),
+//        Message(0,null, null, "It was fine, it ain't much to talk about tho, I've been staying in a 4-start hotel and they're hospitable", MessageType.RECEIVED,
+//            ReadStatus.NOT_READ)
+//    )
+
+
+//    fun randomMessages():Message{
+//            val random = (0..(messagesList.size-1)).random()
+//            return messagesList[random]
+//    }
+}

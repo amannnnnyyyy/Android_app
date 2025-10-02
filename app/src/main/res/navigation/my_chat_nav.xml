@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_chat_nav"
+    app:startDestination="@id/mainHomeFragment">
+
+    <fragment
+        android:id="@+id/chatHolderFragment"
+        android:name="com.example.myapplication1.view.fragments.chat_holder.ChatHolderFragment"
+        android:label="fragment_chat_holder"
+        tools:layout="@layout/fragment_chat_holder" >
+        <action
+            android:id="@+id/action_chatHolderFragment_to_chatDetailFragment"
+            app:destination="@id/chatDetailFragment" />
+        <action
+            android:id="@+id/action_chatHolderFragment_to_contactListFragment2"
+            app:destination="@id/contactListFragment" />
+        <action
+            android:id="@+id/action_chatHolderFragment_to_contactDetailsFragment"
+            app:destination="@id/contactDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatDetailFragment"
+        android:name="com.example.myapplication1.view.fragments.chat_detail.ChatDetailFragment"
+        android:label="fragment_chat_detail"
+        tools:layout="@layout/fragment_chat_detail" >
+        <argument
+            android:name="chat_id"
+            app:argType="integer" />
+        <argument
+            android:name="contactId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_chatDetailFragment_to_contactDetailsFragment"
+            app:destination="@id/contactDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactDetailsFragment"
+        android:name="com.example.myapplication1.view.fragments.contact_detail.ContactDetailsFragment"
+        android:label="contact_details_fragment"
+        tools:layout="@layout/contact_details_fragment" >
+        <argument
+            android:name="contact_id"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactListFragment"
+        android:name="com.example.myapplication1.view.fragments.contact_list.ContactListFragment"
+        android:label="fragment_contact_list"
+        tools:layout="@layout/fragment_contact_list" >
+        <action
+            android:id="@+id/action_contactListFragment_to_chatDetailFragment"
+            app:destination="@id/chatDetailFragment" />
+        <action
+            android:id="@+id/action_contactListFragment_to_contactDetailsFragment"
+            app:destination="@id/contactDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainHomeFragment"
+        android:name="com.example.myapplication1.view.fragments.home.MainHomeFragment"
+        android:label="fragment_home_main"
+        tools:layout="@layout/fragment_home_main" >
+        <action
+            android:id="@+id/action_mainHomeFragment_to_chatHolderFragment"
+            app:destination="@id/chatHolderFragment" />
+    </fragment>
+</navigation>

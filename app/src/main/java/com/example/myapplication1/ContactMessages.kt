@@ -16,8 +16,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionInflater
 
 class ContactMessages : Fragment() {
     private val REQUEST_CALL_PERMISSION = 101
@@ -40,7 +44,9 @@ class ContactMessages : Fragment() {
     lateinit var audio_call_btn: ImageView
     lateinit var go_back: ImageView
 
-    var contact: Contact? = null
+    private val messagesArgs: ContactMessagesArgs by navArgs()
+
+    var chat: Chats? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +58,9 @@ class ContactMessages : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        sharedElementEnterTransition = TransitionInflater.from(activity).inflateTransition(android.R.transition.move)
+        sharedElementReturnTransition = TransitionInflater.from(activity).inflateTransition(android.R.transition.move)
+
         val view =  inflater.inflate(R.layout.fragment_contact_messages, container, false)
 
 
@@ -62,17 +71,22 @@ class ContactMessages : Fragment() {
 
         go_back = view.findViewById<ImageView>(R.id.go_back)
 
-        arguments?.let{
-            contact = it.getSerializable("contact", Contact::class.java)
+//        arguments?.let{
+//            contact = it.getSerializable("contact", Contact::class.java)
+//
+//            username.text = contact?.name?:username.text
+//            profilePic.setImageURI(contact?.profilePicture?.toUri())
+//            description.text = contact?.messageDescription?:description.text
+//        }
 
-            username.text = contact?.name?:username.text
-            profilePic.setImageURI(contact?.profilePicture?.toUri())
-            description.text = contact?.messageDescription?:description.text
-        }
+        chat = messagesArgs.chats
+        profilePic.setImageURI(chat?.sender?.profilePicture?.toUri())
+        username.text = chat?.sender?.name?:username.text
+        description.text = chat?.sender?.phoneNumber?:description.text
 
 
 
-        val adapter = MessageAdapter(contact?.messages)
+        val adapter = MessageAdapter(chat?.messages)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewMessages)
         recyclerView.adapter = adapter
@@ -81,6 +95,7 @@ class ContactMessages : Fragment() {
         return view
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -91,24 +106,35 @@ class ContactMessages : Fragment() {
 
         contactHeader = view.findViewById<RelativeLayout>(R.id.header_content)
         contactHeader.setOnClickListener {
-            Log.i("toChat",contact.toString())
-            if(contact!=null){
+            Log.i("toChat",chat.toString())
+            if(chat!=null){
 //                Intent(view.context, ChatAppClone::class.java).also{
 //                    it.putExtra("Person",contact)
 //                    startActivity(it)
 //                }
-                parentFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.main, ContactDetails())
-                    .addToBackStack(null)
-                    .commit()
+                val nav = requireParentFragment().findNavController()
+                if (chat!=null && chat?.sender != null){
+                    val extras  = FragmentNavigatorExtras(
+                        profilePic to "profile_pic"
+                    )
+                    val action = ContactMessagesDirections.actionContactMessagesToContactDetails3(
+                        chat!!.sender!!
+                    )
+                    nav.navigate(action, extras)
+                }
+//                parentFragmentManager
+//                    .beginTransaction()
+//                    .replace(R.id.mainHolder, ContactDetails())
+//                    .addToBackStack(null)
+//                    .commit()
             }
         }
 
 
         go_back.setOnClickListener {
 //            parentFragmentManager.beginTransaction().remove(this).commit()
-            parentFragmentManager.beginTransaction().replace(R.id.main, MainChats()).commit()
+            findNavController().navigateUp()
+           // parentFragmentManager.beginTransaction().replace(R.id.mainHolder, MainChats()).commit()
         }
 
 //    requestPermissions(

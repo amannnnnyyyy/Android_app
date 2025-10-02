@@ -8,6 +8,7 @@ data class Contact(
     var messages: MutableList<Message>?,
     val profilePicture: String,
     var name : String,
-    val messageDescription: String
+    val messageDescription: String,
+    val phoneNumber: String
 ): java.io.Serializable {
 }

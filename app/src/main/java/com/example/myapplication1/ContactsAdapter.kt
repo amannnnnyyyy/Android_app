@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.imageview.ShapeableImageView
 
 class ContactsAdapter(
     val contacts: Set<Contact>
@@ -20,7 +21,7 @@ class ContactsAdapter(
     lateinit var context: Context
 
     fun interface OnItemClickListener {
-        fun onItemClick(position: Int)
+        fun onItemClick(position: Int,type:String,view: View)
     }
 
     fun setOnclickListener(listener: OnItemClickListener) {
@@ -56,18 +57,26 @@ class ContactsAdapter(
             Toast.makeText(context,"This is a setup $contacts", Toast.LENGTH_LONG).show()
         }
         val item = contacts.toMutableList()[position]
+        val userProfile: ShapeableImageView
         holder.itemView.apply{
-            val userProfile = findViewById<ImageView>(R.id.userProfile)
+            userProfile = findViewById<ShapeableImageView>(R.id.userProfile)
             val name = findViewById<TextView>(R.id.name)
             val description = findViewById<TextView>(R.id.description)
 
             userProfile.setImageURI(contacts.toMutableList()[position].profilePicture.toUri())
             name.text = contacts.toMutableList()[position].name
-            description.text = contacts.toMutableList()[position].messageDescription
+                description.text = contacts.toMutableList()[position].phoneNumber
             Log.i("context_custom","$context value")
         }
+        val transitionName = "profileImage_$position"
+        userProfile.transitionName = transitionName
+
+        userProfile.setOnClickListener {
+            onClickListener?.onItemClick(position,"dialog", userProfile)
+        }
+
         holder.itemView.setOnClickListener {
-            onClickListener?.onItemClick(position)
+            onClickListener?.onItemClick(position,"normal", userProfile)
         }
     }
 

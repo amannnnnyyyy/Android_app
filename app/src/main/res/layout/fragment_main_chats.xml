@@ -5,123 +5,65 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#000"
+    android:id="@+id/mainChatsId"
     >
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:padding="15dp"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="MyChat"
-            android:fontFamily="sans-serif-condensed"
-            android:textStyle="bold"
-            android:textSize="26sp"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginHorizontal="20dp"
-            />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            >
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/camera"
-                android:padding="7dp"
-                app:tint="@color/white"
-                />
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/search_icon"
-                app:tint="@color/white"
-                />
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/more"
-                app:tint="@color/white" />
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/chats_frag_holder"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#333"
-        app:layout_constraintTop_toBottomOf="@id/header"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/footer"
         />
-        <ImageView
-            android:id="@+id/new_chat"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/footer"
-            android:src="@drawable/new_chat"
-            app:tint="#0a0"
-            android:background="@drawable/rounded_input_layout"
-            android:layout_margin="20dp"
-            />
-        <androidx.constraintlayout.widget.ConstraintLayout
+
+
+    <!--    <androidx.fragment.app.FragmentContainerView-->
+<!--        android:id="@+id/chats_frag_holder"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:name="androidx.navigation.fragment.NavHostFragment"-->
+<!--        app:navGraph="@navigation/main_bottom_nav_graph"-->
+<!--        app:defaultNavHost="true"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/footer"-->
+<!--        />-->
+
+    <!--    <androidx.fragment.app.FragmentContainerView-->
+    <!--        android:id="@+id/fragmentContainerView"-->
+    <!--        android:name="androidx.navigation.fragment.NavHostFragment"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        app:defaultNavHost="true"-->
+    <!--        app:navGraph="@navigation/chat_nav"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintBottom_toTopOf="@id/footer"-->
+    <!--        />-->
+
+<!--    <androidx.viewpager2.widget.ViewPager2-->
+<!--        android:id="@+id/chats_frag_holder"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/footer"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.0" />-->
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/footer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="75dp"
+            app:menu="@menu/chat_main_page_bottom_menu"
             app:layout_constraintStart_toStartOf="parent"
-            android:padding="15dp"
-            >
-            <ImageView
-                android:id="@+id/footerImage1"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/camera"
-                app:tint="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/footerImage2"
-                />
-            <ImageView
-                android:id="@+id/footerImage2"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/camera"
-                app:tint="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/footerImage1"
-                app:layout_constraintEnd_toStartOf="@id/footerImage3"
-                />
-            <ImageView
-                android:id="@+id/footerImage3"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/camera"
-                app:tint="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/footerImage2"
-                app:layout_constraintEnd_toStartOf="@id/footerImage4"
-                />
-            <ImageView
-                android:id="@+id/footerImage4"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/camera"
-                app:tint="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/footerImage3"
-                app:layout_constraintEnd_toEndOf="parent"
-                />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

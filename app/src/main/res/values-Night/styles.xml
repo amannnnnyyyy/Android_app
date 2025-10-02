@@ -12,6 +12,22 @@
         <item name="strokeColor">@color/white</item>
         <item name="strokeWidth">16dp</item>
     </style>
+
+    <style name="DialogAnimation" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowAnimationStyle">@style/DialogWindowAnimation</item>
+    </style>
+
+    <style name="DialogWindowAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up_in</item>
+        <item name="android:windowExitAnimation">@anim/slide_down_out</item>
+    </style>
+
+    <style name="FullScreenDialog" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
 </resources>
 
 <!--<?xml version="1.0" encoding="utf-8"?>-->

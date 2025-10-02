@@ -14,6 +14,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.net.toUri
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import androidx.transition.TransitionInflater
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -52,6 +55,9 @@ class ContactDetails : Fragment() {
     lateinit var block_layout: RelativeLayout
     lateinit var report_layout: RelativeLayout
 
+//    private val navArgs by navArgs<ContactDetailsArgs>()
+    private val args: ContactDetailsArgs by navArgs()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,12 +65,17 @@ class ContactDetails : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        sharedElementEnterTransition = TransitionInflater.from(activity).inflateTransition(android.R.transition.move)
+        sharedElementReturnTransition = TransitionInflater.from(activity).inflateTransition(android.R.transition.move)
+
         // Inflate the layout for this fragment
         val view =  inflater.inflate(R.layout.fragment_contact_details, container, false)
 
@@ -102,6 +113,7 @@ class ContactDetails : Fragment() {
         user_profile.setImageURI(contact?.profilePicture?.toUri())
 
         profile_name.text = contact?.name
+        user_phone.text = contact?.phoneNumber
 
 
 
@@ -157,7 +169,7 @@ class ContactDetails : Fragment() {
         for ((view, message) in listOfViews) {
             view.setOnClickListener {
                 if(message == "Going back"){
-                    parentFragmentManager.popBackStack()
+                    findNavController().navigateUp()
                 }
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             }
