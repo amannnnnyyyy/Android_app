@@ -164,7 +164,7 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
 
     private fun updateUI(chats: List<Chat>, recycler: RecyclerView){
         val adapter = ChatListRecyclerViewAdapter(
-            chats.filter { it.hasMessage },
+            chats.filter { it.hasMessage?:false },
             {
                 when (it) {
                     is ListenerType.ItemClick -> onClick(

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myapplication1.core.model.chat.Chat
 import com.example.myapplication1.core.model.chat.ChatModel
+import com.example.myapplication1.core.model.chat.DisplayType
 import com.example.myapplication1.core.model.contact.ContactModel
 import com.example.myapplication1.core.model.message.MessageModel
 import com.example.myapplication1.core.model.message.ReadStatus
@@ -38,14 +39,14 @@ class ChatListViewModel: ViewModel() {
         var returnedChats: List<Chat> = listOf<Chat>()
         val chatList = filtered.value
             returnedChats = when (kind) {
-                "all" -> chatList.filter { it.hasMessage }
-                "fav" -> chatList.filter { it.favourite && it.hasMessage }
+                "all" -> chatList.filter { it.hasMessage?:false||it.type== DisplayType.ADVERTISEMENT }
+                "fav" -> chatList.filter { it.favourite?:false && it.hasMessage?:false }
                 "unread" -> chatList.filter { chat ->
                     MessageModel.message.any { msg ->
                         msg.chatId == chat.id && msg.readStatus == ReadStatus.NOT_READ
                     }
                 }
-                "groups" -> chatList.filter { ch -> ch.group && ch.hasMessage };
+                "groups" -> chatList.filter { ch -> ch.group?:false && ch.hasMessage?:false };
                 "searching" -> {
                     val query = searchString?.trim()?.lowercase() ?: ""
                     Log.i("searchingWith", "I am searching for: $query")
@@ -58,7 +59,7 @@ class ChatListViewModel: ViewModel() {
 
                     val chatsToSearch = _chats.value ?: emptyList()
                     chatsToSearch.filter { chat ->
-                        chat.sender in matchingContactIds && chat.hasMessage
+                        chat.sender in matchingContactIds && chat.hasMessage?:false
                     }
                 }
 

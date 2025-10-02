@@ -26,6 +26,8 @@ import com.example.myapplication1.core.model.message.MessageModel
 import com.example.myapplication1.core.model.message.ReadStatus
 import com.google.android.material.imageview.ShapeableImageView
 import androidx.core.net.toUri
+import com.example.myapplication1.core.model.advertisement.Ads
+import com.example.myapplication1.core.model.chat.DisplayType
 
 class ChatListRecyclerViewAdapter(
     chatList:List<Chat>, private val onUpdateChange: (ListenerType)-> Unit
@@ -37,7 +39,8 @@ class ChatListRecyclerViewAdapter(
 
     override fun getItemViewType(position: Int): Int {
         //return super.getItemViewType(position)
-        if (position%5==0){
+        Log.i("chatType","${chats[position].type}")
+        if (chats[position].type== DisplayType.ADVERTISEMENT){
             return 0
         }
         return 1
@@ -77,19 +80,12 @@ class ChatListRecyclerViewAdapter(
     ) {
         val position = holder.adapterPosition
 
-        val adOptions = listOf<AdvertisementModel>(
-            AdvertisementModel(R.drawable.ethiotel, "https://www.ethiotelecom.et".toUri()),
-            AdvertisementModel(R.drawable.temu, "https://www.temu.com".toUri()),
-            AdvertisementModel(R.drawable.coca, "https://www.coca-colacompany.com".toUri()),
-            AdvertisementModel(R.drawable.colagate , "https://www.colgate.com".toUri())
-        )
+        val displayAd = Ads.ads[position%4]
 
 
 
-        if (position%5==0){
+        if (chats[position].type== DisplayType.ADVERTISEMENT){
             val holderAd = holder as viewHolderAd
-
-            val displayAd = adOptions.random()
 
             holderAd.seeMore.setOnClickListener {
                 onUpdateChange.invoke(ListenerType.AdSeeMoreClicked(displayAd.redirectTo))
@@ -152,7 +148,7 @@ class ChatListRecyclerViewAdapter(
                 onUpdateChange.invoke(ListenerType.ProfileClicked(con.contactId))
             }
             chatsView.setOnClickListener {
-                onUpdateChange.invoke(ListenerType.ItemClick(chat.id,con.contactId))
+                onUpdateChange.invoke(ListenerType.ItemClick(chat.id!!,con.contactId))
             }
         }
 

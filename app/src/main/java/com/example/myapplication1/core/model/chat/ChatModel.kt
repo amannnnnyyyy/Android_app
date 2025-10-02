@@ -3,8 +3,13 @@ package com.example.myapplication1.core.model.chat
 import android.util.Log
 import com.example.myapplication1.core.model.message.MessageModel
 
-data class Chat(val id:Int, var sender: Int, val phoneNumber:String?=null, val favourite:Boolean, val group:Boolean, var hasMessage: Boolean){
+data class Chat(val id:Int?=null, var sender: Int?=null, val phoneNumber:String?=null, val favourite:Boolean?=null, val group:Boolean?=null, var hasMessage: Boolean?=null, val type:DisplayType){
 
+}
+
+
+enum class DisplayType{
+    ADVERTISEMENT, NORMAL_CHAT
 }
 
 object ChatModel {
@@ -22,9 +27,19 @@ object ChatModel {
                 phoneNumber = null,
                 favourite = randomBoolean(),
                 group = randomBoolean(),
-                hasMessage = !flagHasNoMessage
+                hasMessage = !flagHasNoMessage,
+                type = DisplayType.NORMAL_CHAT
             )
         )
+
+        val random = (0..5).random()
+        if (random%5==0){
+            chats.add(
+                Chat(
+                    type = DisplayType.ADVERTISEMENT
+                )
+            )
+        }
     }
 
     fun randomBoolean(): Boolean{
