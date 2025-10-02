@@ -46,6 +46,10 @@ class MainHomeFragment : Fragment(R.layout.fragment_home_main),
             navigateToChat()
         }
 
+        binding.workout.setOnClickListener {
+            navigateToWorkOut()
+        }
+
         navigationView.setNavigationItemSelectedListener(this)
 
         return binding.root
@@ -54,6 +58,7 @@ class MainHomeFragment : Fragment(R.layout.fragment_home_main),
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
         when(menuItem.itemId){
             R.id.chat -> navigateToChat()
+            R.id.workout -> navigateToWorkOut()
         }
 
         drawerLayout.closeDrawer(GravityCompat.START)
@@ -65,6 +70,12 @@ class MainHomeFragment : Fragment(R.layout.fragment_home_main),
     fun navigateToChat(){
         val nav = findNavController()
         val direction = MainHomeFragmentDirections.actionMainHomeFragmentToChatHolderFragment()
+        nav.navigate(direction)
+    }
+
+    fun navigateToWorkOut(){
+        val nav = findNavController()
+        val direction = MainHomeFragmentDirections.actionMainHomeFragmentToWorkOutHomeFragment()
         nav.navigate(direction)
     }
 

@@ -14,5 +14,6 @@
     <color name="white_transparent">#00ffffff</color>
     <color name="greyish">#999</color>
     <color name="almost_transparent">#330f00ff</color>
+    <color name="almost_no_black">#51000022</color>
     <color name="almost_black">#222</color>
 </resources>
