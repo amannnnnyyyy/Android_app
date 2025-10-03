@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("androidx.navigation.safeargs.kotlin")
     id("org.jetbrains.kotlin.kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -78,7 +79,7 @@ dependencies {
     // Retrofit core library
     implementation("com.squareup.retrofit2:retrofit:3.0.0")
     implementation("com.squareup.retrofit2:converter-gson:3.0.0")
-//    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-coroutines-adapter:0.9.2")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-coroutines-adapter:0.9.2")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
@@ -86,4 +87,13 @@ dependencies {
     // Glide core library
     implementation("com.github.bumptech.glide:glide:5.0.5")
     kapt("com.github.bumptech.glide:compiler:5.0.5")
+
+    //room
+    val room_version = "2.8.1"
+
+    implementation("androidx.room:room-runtime:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+    testImplementation("androidx.room:room-testing:$room_version")
+    implementation("androidx.room:room-paging:$room_version")
 }

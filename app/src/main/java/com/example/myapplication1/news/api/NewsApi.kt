@@ -12,4 +12,12 @@ interface NewsApi {
         @Query("page") pageNumber:Int = 1,
         @Query("apiKey") apiKey:String = NewsConstants.NEWS_API_KEY
     ): List<NewsResponse>
+
+
+    @GET("/v2/everything")
+    suspend fun searchNews(
+        @Query("q") searchQuery:String,
+        @Query("page") pageNumber:Int = 1,
+        @Query("apiKey") apiKey:String = NewsConstants.NEWS_API_KEY
+    ): List<NewsResponse>
 }
