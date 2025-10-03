@@ -1,7 +1,7 @@
 package com.example.myapplication1.news.api
 
 import android.provider.SyncStateContract
-import com.example.myapplication1.news.NewsConstants
+import com.example.myapplication1.news.utils.NewsConstants
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
