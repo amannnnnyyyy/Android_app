@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.view.postDelayed
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -58,12 +59,23 @@ class ChatDetailFragment : Fragment(R.layout.fragment_chat_detail) {
         binding?.headerButtons?.visibility = View.GONE
         binding?.messagesRecycler?.visibility = View.GONE
 
-    return binding?.root
+        binding!!.searchArea.setOnClickListener {
+            binding!!.searchArea.requestFocus()
+
+            binding!!.messagesRecycler.post {
+                val itemCount = binding!!.messagesRecycler.adapter?.itemCount ?: 0
+                if (itemCount > 0) {
+                    binding!!.messagesRecycler.smoothScrollToPosition(itemCount - 1)
+                }
+            }
+        }
+
+
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         viewModel.fetchSender(chatDetailArgs.contactId)
 
@@ -78,6 +90,24 @@ class ChatDetailFragment : Fragment(R.layout.fragment_chat_detail) {
             messages = findSpecificMessage(chatDetailArgs.chatId, msg)
             Log.i("setupTheChat","lets see chatId:${chatDetailArgs.chatId}  $msg\n${chatDetailArgs.chatId} $msg \n $messages")
                 updateUI(binding!!, messages)
+        }
+
+
+        val rootView = binding!!.root
+        rootView.viewTreeObserver.addOnGlobalLayoutListener {
+            val rect = android.graphics.Rect()
+            rootView.getWindowVisibleDisplayFrame(rect)
+            val screenHeight = rootView.height
+            val keypadHeight = screenHeight - rect.bottom
+
+            if (keypadHeight < screenHeight) {
+                binding!!.messagesRecycler.post {
+                    val itemCount = binding!!.messagesRecycler.adapter?.itemCount ?: 0
+                    if (itemCount > 0) {
+                        binding!!.messagesRecycler.smoothScrollToPosition(itemCount - 1)
+                    }
+                }
+            }
         }
     }
 
@@ -109,6 +139,11 @@ class ChatDetailFragment : Fragment(R.layout.fragment_chat_detail) {
     fun updateUI(binding: FragmentChatDetailBinding, messageList:List<Message>){
         binding.goBack.setOnClickListener { findNavController().popBackStack() }
 
+        binding.searchArea.setOnClickListener {
+            Log.i("positionAdapter","${binding.messagesRecycler.adapter?.itemCount}")
+        }
+
+
         viewModel.sender.observe(viewLifecycleOwner){ contact ->
             binding.send.setOnClickListener {
                 val text = binding.searchArea.text
@@ -124,6 +159,8 @@ class ChatDetailFragment : Fragment(R.layout.fragment_chat_detail) {
 
                 viewModel.sendMessage(message)
             }
+
+
             
             adapter = MessagesRecyclerViewAdapter(messageList, contact)
             binding.messagesRecycler.adapter = adapter

@@ -62,4 +62,13 @@
     <string name="openDrawer">Open Navigation Drawer</string>
     <string name="closeDrawer">Close Navigation <Drawer></Drawer></string>
 
+
+    <string-array name="numbers_array">
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+    </string-array>
+
 </resources>

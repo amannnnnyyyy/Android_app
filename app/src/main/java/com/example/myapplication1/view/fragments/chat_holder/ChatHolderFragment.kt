@@ -45,6 +45,21 @@ class ChatHolderFragment : Fragment(R.layout.fragment_chat_holder) {
             }
         })
 
+
+        val rootView = binding.root
+        rootView.viewTreeObserver.addOnGlobalLayoutListener {
+            val rect = android.graphics.Rect()
+            rootView.getWindowVisibleDisplayFrame(rect)
+            val screenHeight = rootView.height
+            val keypadHeight = screenHeight - rect.bottom
+
+            if (keypadHeight > screenHeight*0.15) {
+                binding.bottomNavView.visibility = View.GONE
+            }else if(keypadHeight<=screenHeight*0.15){
+                binding.bottomNavView.visibility = View.VISIBLE
+            }
+        }
+
         return binding.root
     }
 }

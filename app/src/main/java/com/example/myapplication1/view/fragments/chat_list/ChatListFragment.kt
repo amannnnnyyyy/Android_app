@@ -123,6 +123,22 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
             Log.i("setupTheChat", "works ${ viewModel.chats.value }\n\t ${MessageModel.message}")
             updateUI(chats, myRecycler)
         }
+
+
+
+        val rootView = binding!!.root
+        rootView.viewTreeObserver.addOnGlobalLayoutListener {
+            val rect = android.graphics.Rect()
+            rootView.getWindowVisibleDisplayFrame(rect)
+            val screenHeight = rootView.height
+            val keypadHeight = screenHeight - rect.bottom
+
+            if (keypadHeight > screenHeight*0.15) {
+                binding!!.filterBtn.visibility = View.GONE
+            }else if(keypadHeight<=screenHeight*0.15){
+                binding!!.filterBtn.visibility = View.VISIBLE
+            }
+        }
     }
 
     fun dynamicAdapter(recycler: RecyclerView, type:String, searchString:String?=null, owner: LifecycleOwner){

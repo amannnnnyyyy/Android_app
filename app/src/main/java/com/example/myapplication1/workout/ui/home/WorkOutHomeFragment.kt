@@ -1,32 +1,41 @@
 package com.example.myapplication1.workout.ui.home
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.myapplication1.R
+import com.example.myapplication1.databinding.FragmentWorkOutHomeBinding
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlin.toString
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class WorkOutHomeFragment : Fragment(R.layout.fragment_work_out_home),
+    AdapterView.OnItemClickListener,
+    AdapterView.OnItemSelectedListener {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [WorkOutHomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class WorkOutHomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    val whViewModel: WorkoutHomeViewModel by viewModels()
 
+    private val TAG = "workout_fragment"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+
         }
     }
 
@@ -34,26 +43,94 @@ class WorkOutHomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_work_out_home, container, false)
+        val binding = FragmentWorkOutHomeBinding.inflate(inflater, container, false)
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                whViewModel.stateFlow.collectLatest { str ->
+                    binding.textView.text = str
+                    binding.loading.visibility = View.GONE
+
+                    binding.editT.addTextChangedListener(object : TextWatcher {
+                        override fun afterTextChanged(s: Editable?) {}
+
+                        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+                        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                            whViewModel.changeStateFlow(s.toString())
+                        }
+
+                    })
+                }
+            }
+        }
+
+
+
+        binding.button.setOnClickListener {
+            binding.loading.visibility = View.VISIBLE
+            viewLifecycleOwner.lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    whViewModel.onDefault.collectLatest {
+                        delay(2000L)
+                        binding.editT.text = null
+                        whViewModel.changeToDefault()
+                    }
+                }
+            }
+        }
+
+
+        val numberSpinner: Spinner = binding.numberSpinner
+
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.numbers_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            numberSpinner.adapter = adapter
+        }
+
+        numberSpinner.onItemSelectedListener = this
+
+
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                whViewModel.sharedFlow.collectLatest { text ->
+                    binding.done.setOnClickListener {
+                        Snackbar.make(binding.root, "Counting to $text", Snackbar.LENGTH_SHORT).show()
+
+                            lifecycleScope.launch {
+                                whViewModel.triggerFlow().collectLatest { count ->
+                                    binding.textView.text = count.toString()
+                                }
+                            }
+                        }
+                }
+            }
+        }
+
+
+
+        return binding.root
     }
 
+    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {}
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        val selectedNumber = parent?.getItemAtPosition(position).toString()
+        whViewModel.setSharedFlow(selectedNumber.toInt())
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {}
+
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment WorkOutHomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             WorkOutHomeFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
                 }
             }
     }
