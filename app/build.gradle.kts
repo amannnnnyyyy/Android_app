@@ -45,7 +45,7 @@ android {
 
 dependencies {
     implementation(libs.androidx.activity)
-    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation(libs.androidx.fragment)
     val fragmentVersion = "1.8.9"
     val material = "1.12.0"
@@ -78,9 +78,9 @@ dependencies {
     // Retrofit core library
     implementation("com.squareup.retrofit2:retrofit:3.0.0")
     implementation("com.squareup.retrofit2:converter-gson:3.0.0")
-    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-coroutines-adapter:0.9.2")
-    implementation("com.squareup.okhttp3:okhttp:5.1.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:5.1.0")
+//    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-coroutines-adapter:0.9.2")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
 
     // Glide core library

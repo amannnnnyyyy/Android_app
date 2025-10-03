@@ -50,6 +50,10 @@ class MainHomeFragment : Fragment(R.layout.fragment_home_main),
             navigateToWorkOut()
         }
 
+        binding.news.setOnClickListener {
+            navigateToNews()
+        }
+
         navigationView.setNavigationItemSelectedListener(this)
 
         return binding.root
@@ -76,6 +80,12 @@ class MainHomeFragment : Fragment(R.layout.fragment_home_main),
     fun navigateToWorkOut(){
         val nav = findNavController()
         val direction = MainHomeFragmentDirections.actionMainHomeFragmentToWorkOutHomeFragment()
+        nav.navigate(direction)
+    }
+
+    fun navigateToNews(){
+        val nav = findNavController()
+        val direction = MainHomeFragmentDirections.actionMainHomeFragmentToNewsMainFragment()
         nav.navigate(direction)
     }
 
