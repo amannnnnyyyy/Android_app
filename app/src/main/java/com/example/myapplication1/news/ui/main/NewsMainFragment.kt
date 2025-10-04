@@ -6,18 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.get
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.myapplication1.R
 import com.example.myapplication1.databinding.FragmentNewsMainBinding
-import com.example.myapplication1.news.ui.adapters.NewsViewPagerAdapter
+import com.example.myapplication1.news.adapters.NewsViewPagerAdapter
 import com.example.myapplication1.news.ui.fragments.breaking.BreakingNewsFragment
 import com.example.myapplication1.news.ui.fragments.saved.SavedNewsFragment
 import com.example.myapplication1.news.ui.fragments.searchNews.SearchNewsFragment
-import com.example.myapplication1.view.adapters.view_pager_adapter.ViewPager2Adapter
-import com.example.myapplication1.view.fragments.chat_list.ChatListFragment
-import com.example.myapplication1.view.fragments.recent_calls.RecentCallsFragment
 
 
 class NewsMainFragment : Fragment(R.layout.fragment_news_main) {

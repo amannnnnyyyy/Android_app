@@ -1,4 +1,4 @@
-package com.example.myapplication1.news.ui.adapters
+package com.example.myapplication1.news.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
