@@ -1,10 +1,10 @@
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("androidx.navigation.safeargs.kotlin")
-    id("org.jetbrains.kotlin.kapt")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.navigation.safeargs)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -32,11 +32,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -50,7 +50,7 @@ dependencies {
     implementation(libs.androidx.fragment)
     val fragmentVersion = "1.8.9"
     val material = "1.12.0"
-    val nav_version = "2.9.4"
+    val nav_version = "2.7.7"
     implementation(libs.androidx.appcompat)
     implementation("com.google.android.material:material:${material}")
     implementation("androidx.fragment:fragment-ktx:${fragmentVersion}")
@@ -73,21 +73,20 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:${nav_version}")
     implementation("androidx.transition:transition:1.6.0")
     implementation("com.google.code.gson:gson:2.10.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
 
     // Retrofit core library
     implementation("com.squareup.retrofit2:retrofit:3.0.0")
     implementation("com.squareup.retrofit2:converter-gson:3.0.0")
-    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-coroutines-adapter:0.9.2")
+    //implementation("com.jakewharton.retrofit:retrofit2-kotlinx-coroutines-adapter:0.9.2")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
 
     // Glide core library
     implementation("com.github.bumptech.glide:glide:5.0.5")
-    kapt("com.github.bumptech.glide:compiler:5.0.5")
-
+    ksp("com.github.bumptech.glide:compiler:5.0.5")
     //room
     val room_version = "2.8.1"
 
