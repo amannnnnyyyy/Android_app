@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.myapplication1.news.models.NewsResponse
 import com.example.myapplication1.news.repository.NewsRepository
 import com.example.myapplication1.news.utils.Resource
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -14,7 +16,8 @@ class NewsViewModel(
     val repository: NewsRepository
 ): ViewModel() {
 
-    val breakingNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
+    private val _breakingNewsFlow: MutableStateFlow<Resource<NewsResponse>> = MutableStateFlow(Resource.Loading())
+    val breakingNewsFlow = _breakingNewsFlow.asStateFlow()
     var breakingNewsPage = 1
 
 
@@ -25,9 +28,9 @@ class NewsViewModel(
     }
 
     fun getBreakingNews(countryCode:String) = viewModelScope.launch {
-        breakingNews.postValue(Resource.Loading())
+        _breakingNewsFlow.value = Resource.Loading()
         val breakingNewsResponse = repository.getBreakingNews(countryCode, breakingNewsPage)
-        breakingNews.postValue(handleBreakingNewsResponse(breakingNewsResponse))
+        _breakingNewsFlow.value = handleBreakingNewsResponse(breakingNewsResponse)
         Log.i("fetching_news","this is $breakingNewsResponse")
     }
 
