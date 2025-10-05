@@ -19,9 +19,16 @@ class NewsViewModel(
 
     private val _breakingNewsFlow: MutableStateFlow<Resource<NewsResponse>> = MutableStateFlow(Resource.Loading())
     val breakingNewsFlow = _breakingNewsFlow.asStateFlow()
+
+    private val _searchedNewsFlow: MutableStateFlow<Resource<NewsResponse>> = MutableStateFlow(Resource.Loading())
+    val searchedNewsFlow = _searchedNewsFlow.asStateFlow()
+
     var breakingNewsPage = 1
-    private val _breakingNewsCountry = MutableSharedFlow<String>(replay = 1)
+    var searchNewsPage = 1
+    private val _breakingNewsCountry = MutableSharedFlow<String>()
     val breakingNewsCountry = _breakingNewsCountry.asSharedFlow()
+    private val _searchQuery = MutableStateFlow<String>("")
+
 
 
     init {
@@ -30,7 +37,7 @@ class NewsViewModel(
         }
 
         viewModelScope.launch {
-            _breakingNewsCountry.collect { countryCode ->
+            _breakingNewsCountry.collectLatest { countryCode ->
                 getBreakingNews(countryCode)
             }
         }
@@ -57,5 +64,35 @@ class NewsViewModel(
             }
         }
         return Resource.Error(response.message())
+    }
+
+
+
+    private fun handleSearchNewsResponse(response: Response<NewsResponse>): Resource<NewsResponse>{
+        if (response.isSuccessful){
+            response.body()?.let{ result->
+                return Resource.Success(result)
+            }
+        }
+        return Resource.Error(response.message())
+    }
+
+
+    fun searchNews(searchQuery:String){
+        viewModelScope.launch {
+            _searchQuery.collectLatest { query->
+                _searchedNewsFlow.value = Resource.Loading()
+                val searchResponse = repository.searchNews(searchQuery, searchNewsPage)
+                _searchedNewsFlow.value = handleSearchNewsResponse(searchResponse)
+            }
+        }
+    }
+
+    fun changeSearchQuery(searchQuery:String){
+        _searchQuery.value = searchQuery
+    }
+
+    fun changePage(page:Int){
+        breakingNewsPage = page
     }
 }
