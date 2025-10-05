@@ -22,16 +22,13 @@ class NewsViewModel(
 
 
     init {
-        Log.i("fetching_news","this is initial")
         getBreakingNews("us")
-        Log.i("fetching_news","this is after")
     }
 
     fun getBreakingNews(countryCode:String) = viewModelScope.launch {
         _breakingNewsFlow.value = Resource.Loading()
         val breakingNewsResponse = repository.getBreakingNews(countryCode, breakingNewsPage)
         _breakingNewsFlow.value = handleBreakingNewsResponse(breakingNewsResponse)
-        Log.i("fetching_news","this is $breakingNewsResponse")
     }
 
 
