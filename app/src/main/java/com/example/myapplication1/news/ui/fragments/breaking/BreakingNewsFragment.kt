@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -24,7 +27,7 @@ import com.example.myapplication1.news.utils.Resource
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news,) {
+class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news), AdapterView.OnItemSelectedListener {
     private val viewModel: NewsViewModel by lazy {
         val database = ArticleDatabase.getDatabase(requireContext())
         val repository = NewsRepository(database)
@@ -64,7 +67,23 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news,) {
         }
 
 
+        val numberSpinner: Spinner = binding.countrySpinner
 
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.countries,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            numberSpinner.adapter = adapter
+        }
+
+        numberSpinner.onItemSelectedListener = this
+
+
+        binding.filterBtn.setOnClickListener {
+            numberSpinner.performClick()
+        }
         return binding.root
     }
 
@@ -86,6 +105,18 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news,) {
             layoutManager = LinearLayoutManager(activity)
         }
     }
+
+    override fun onItemSelected(
+        parent: AdapterView<*>?,
+        view: View?,
+        position: Int,
+        id: Long
+    ) {
+        val selectedNumber = parent?.getItemAtPosition(position).toString()
+        viewModel.changeCountry(selectedNumber)
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {}
 
     companion object {
         @JvmStatic
