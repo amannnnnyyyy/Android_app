@@ -38,8 +38,8 @@ class NewsMainFragment : Fragment(R.layout.fragment_news_main) {
         val viewPager2 = binding.newsFragHolder
 
         val fragmentList = arrayListOf<Fragment>(
-            SavedNewsFragment(),
             BreakingNewsFragment(),
+            SavedNewsFragment(),
             SearchNewsFragment()
         )
 
@@ -50,8 +50,8 @@ class NewsMainFragment : Fragment(R.layout.fragment_news_main) {
 
         bottomNavView.setOnItemSelectedListener { item ->
             when(item.itemId){
-                R.id.savedNewsFragment -> viewPager2.currentItem = 0
-                R.id.breakingNewsFragment -> viewPager2.currentItem = 1
+                R.id.breakingNewsFragment -> viewPager2.currentItem = 0
+                R.id.savedNewsFragment -> viewPager2.currentItem = 1
                 R.id.searchNewsFragment -> viewPager2.currentItem = 2
             }
             true

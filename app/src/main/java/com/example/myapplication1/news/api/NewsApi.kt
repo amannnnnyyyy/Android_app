@@ -2,6 +2,7 @@ package com.example.myapplication1.news.api
 
 import com.example.myapplication1.news.utils.NewsConstants
 import com.example.myapplication1.news.models.NewsResponse
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -11,7 +12,7 @@ interface NewsApi {
         @Query("country") countryCode:String = "et",
         @Query("page") pageNumber:Int = 1,
         @Query("apiKey") apiKey:String = NewsConstants.NEWS_API_KEY
-    ): List<NewsResponse>
+    ): Response<NewsResponse>
 
 
     @GET("/v2/everything")
@@ -19,5 +20,5 @@ interface NewsApi {
         @Query("q") searchQuery:String,
         @Query("page") pageNumber:Int = 1,
         @Query("apiKey") apiKey:String = NewsConstants.NEWS_API_KEY
-    ): List<NewsResponse>
+    ): Response<NewsResponse>
 }
