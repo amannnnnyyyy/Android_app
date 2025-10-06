@@ -2,6 +2,7 @@ package com.example.myapplication1.news.adapters
 
 import android.os.Build
 import android.text.format.DateUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,7 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.ArticlesViewHolder>() {
 
     }
 
+
     val differ = AsyncListDiffer(this, differCallback)
 
     override fun onCreateViewHolder(
@@ -50,6 +52,8 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.ArticlesViewHolder>() {
         position: Int
     ) {
         val article = differ.currentList[position]
+
+
 
         holder.itemView.apply{
             Glide.with(this).load(article.urlToImage)
@@ -69,13 +73,11 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.ArticlesViewHolder>() {
             )
 
             holder.articleTime.text = relativeTime
-            holder.source.text = article.source.name
-                //article.publishedAt
-
-            setOnItemClickListener{
-                onItemClickListener?.let{
-                    it(article)
-                }
+            holder.source.text = article.source?.name
+        }
+        holder.itemView.setOnClickListener {
+            onItemClickListener?.let{
+                it(article)
             }
         }
     }

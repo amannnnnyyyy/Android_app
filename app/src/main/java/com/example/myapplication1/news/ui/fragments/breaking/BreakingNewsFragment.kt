@@ -9,18 +9,23 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication1.R
 import com.example.myapplication1.databinding.FragmentBreakingNewsBinding
 import com.example.myapplication1.news.adapters.NewsAdapter
 import com.example.myapplication1.news.db.ArticleDatabase
+import com.example.myapplication1.news.models.Article
+import com.example.myapplication1.news.models.Source
 import com.example.myapplication1.news.repository.NewsRepository
+import com.example.myapplication1.news.ui.main.NewsMainFragmentDirections
 import com.example.myapplication1.news.ui.viewmodels.NewsViewModel
 import com.example.myapplication1.news.ui.viewmodels.NewsViewModelProviderFactory
 import com.example.myapplication1.news.utils.Resource
@@ -34,6 +39,8 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news), AdapterV
         val factory = NewsViewModelProviderFactory(repository)
         ViewModelProvider(this, factory)[NewsViewModel::class.java]
     }
+
+    lateinit var article:Article
     private lateinit var newsAdapter : NewsAdapter
 
     override fun onCreateView(
@@ -43,6 +50,13 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news), AdapterV
         val binding = FragmentBreakingNewsBinding.inflate(inflater, container, false)
 
         setUpRecycler(binding)
+
+        newsAdapter.setOnItemClickListener {
+            Log.i("thisIsIt","title: ${it.title}\ncontent: ${it.content}\npublishedAt: ${it.publishedAt}\nId: ${it.id}\nurlToImage: ${it.urlToImage}\nurl: ${it.url}\ndescription: ${it.description}\nauthor${it.author}\n\nsource: ${it.source}")
+            val nav = findNavController()
+            val direction = NewsMainFragmentDirections.actionNewsMainFragmentToNewsArticleFragment(it)
+            nav.navigate(direction)
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
@@ -85,6 +99,13 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news), AdapterV
             numberSpinner.performClick()
         }
         return binding.root
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val title =  view.findViewById<TextView>(R.id.title)
+        title.text = "What is going on"
     }
 
 
