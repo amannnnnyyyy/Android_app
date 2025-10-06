@@ -47,6 +47,10 @@ class NewsArticleFragment : Fragment(R.layout.fragment_news_article) {
             }
         }
 
+        binding.favourite.setOnClickListener {
+            binding.favourite.setImageResource(R.drawable.favorite_saved)
+        }
+
         return binding.root
     }
 
