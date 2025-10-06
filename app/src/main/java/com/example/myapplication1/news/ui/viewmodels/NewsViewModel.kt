@@ -22,14 +22,17 @@ class NewsViewModel(
 
     private val _breakingNewsFlow: MutableStateFlow<Resource<NewsResponse>> = MutableStateFlow(Resource.Loading())
     val breakingNewsFlow = _breakingNewsFlow.asStateFlow()
+    var breakingNewsResponse: NewsResponse? = null
+    var isLastPage = false
 
     private val _searchedNewsFlow: MutableStateFlow<Resource<NewsResponse>> = MutableStateFlow(Resource.Loading())
     val searchedNewsFlow = _searchedNewsFlow.asStateFlow()
+    var searchNewsResponse: NewsResponse? = null
 
     var breakingNewsPage = 1
     var searchNewsPage = 1
-    private val _breakingNewsCountry = MutableSharedFlow<String>()
-    val breakingNewsCountry = _breakingNewsCountry.asSharedFlow()
+    private var currentCountry = "us"
+
     private val _searchQuery = MutableStateFlow<String>("")
 
     val favourited = MutableStateFlow(false)
@@ -41,35 +44,53 @@ class NewsViewModel(
 
 
     init {
-        viewModelScope.launch {
-            _breakingNewsCountry.emit("us")
-        }
-
-        viewModelScope.launch {
-            _breakingNewsCountry.collectLatest { countryCode ->
-                getBreakingNews(countryCode)
-            }
-        }
+        getBreakingNewsForCurrentCountry(shouldReset = true)
     }
 
 
     fun changeCountry(country: String){
-        viewModelScope.launch {
-            _breakingNewsCountry.emit(country)
-        }
+        currentCountry = country
+        getBreakingNewsForCurrentCountry(shouldReset = true)
     }
 
-    fun getBreakingNews(countryCode:String) = viewModelScope.launch {
+    fun getNextBreakingNewsPage() {
+        getBreakingNewsForCurrentCountry(shouldReset = false)
+    }
+
+    private fun getBreakingNewsForCurrentCountry(shouldReset: Boolean) = viewModelScope.launch {
+        if (shouldReset) {
+            breakingNewsPage = 1
+            breakingNewsResponse = null
+            isLastPage = false
+        }
+        if (isLastPage) {
+            return@launch
+        }
         _breakingNewsFlow.value = Resource.Loading()
-        val breakingNewsResponse = repository.getBreakingNews(countryCode, breakingNewsPage)
-        _breakingNewsFlow.value = handleBreakingNewsResponse(breakingNewsResponse)
+        val response = repository.getBreakingNews(currentCountry, breakingNewsPage)
+        _breakingNewsFlow.value = handleBreakingNewsResponse(response)
     }
 
 
     private fun handleBreakingNewsResponse(response: Response<NewsResponse>): Resource<NewsResponse>{
         if (response.isSuccessful){
             response.body()?.let{ result->
-                return Resource.Success(result)
+                breakingNewsPage++
+
+                if (result.articles.isEmpty()) {
+                    isLastPage = true
+                }
+                if (breakingNewsResponse==null) breakingNewsResponse = result
+                else{
+                    val oldArticles = breakingNewsResponse?.articles
+                    val newArticle = result.articles
+                    if (oldArticles?.contains(newArticle.first()) == true) {
+                        isLastPage = true
+                        return Resource.Success(breakingNewsResponse!!)
+                    }
+                    oldArticles?.addAll(newArticle)
+                }
+                return Resource.Success(breakingNewsResponse?:result)
             }
         }
         return Resource.Error(response.message())
@@ -80,7 +101,14 @@ class NewsViewModel(
     private fun handleSearchNewsResponse(response: Response<NewsResponse>): Resource<NewsResponse>{
         if (response.isSuccessful){
             response.body()?.let{ result->
-                return Resource.Success(result)
+                searchNewsPage++
+                if (searchNewsResponse==null) searchNewsResponse = result
+                else{
+                    val oldArticles = searchNewsResponse?.articles
+                    val newArticle = result.articles
+                    oldArticles?.addAll(newArticle)
+                }
+                return Resource.Success(searchNewsResponse?:result)
             }
         }
         return Resource.Error(response.message())

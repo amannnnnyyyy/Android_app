@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
@@ -18,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication1.R
 import com.example.myapplication1.databinding.FragmentBreakingNewsBinding
 import com.example.myapplication1.news.adapters.NewsAdapter
@@ -28,6 +30,7 @@ import com.example.myapplication1.news.repository.NewsRepository
 import com.example.myapplication1.news.ui.main.NewsMainFragmentDirections
 import com.example.myapplication1.news.ui.viewmodels.NewsViewModel
 import com.example.myapplication1.news.ui.viewmodels.NewsViewModelProviderFactory
+import com.example.myapplication1.news.utils.NewsConstants.QUERY_PAGE_SIZE
 import com.example.myapplication1.news.utils.Resource
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -65,7 +68,7 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news), AdapterV
                         is Resource.Success-> {
                             hideProgressBar()
                             response.data?.let{ news->
-                                newsAdapter.differ.submitList(news.articles)
+                                newsAdapter.differ.submitList(news.articles.toList())
                             }
                         }
                         is Resource.Loading -> showProgressBar()
@@ -110,20 +113,73 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news), AdapterV
 
 
     private fun hideProgressBar(){
-
+        isLoading = false
     }
 
 
     private fun showProgressBar(){
+        isLoading = true
+    }
 
+    var isLoading =false
+    var isLastPage = false
+    var isScrolling = false
+    val scrollListener = object: RecyclerView.OnScrollListener(){
+        override fun onScrollStateChanged(
+            recyclerView: RecyclerView,
+            newState: Int
+        ) {
+            super.onScrollStateChanged(recyclerView, newState)
+
+            Log.i("scrolling","set true")
+            if (newState== AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL){
+                isScrolling = true
+            }
+        }
+
+        override fun onScrolled(
+            recyclerView: RecyclerView,
+            dx: Int,
+            dy: Int
+        ) {
+            super.onScrolled(recyclerView, dx, dy)
+            Log.i("scrolling","set functionalities")
+
+            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+            val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+            val visibleItemCount = layoutManager.childCount
+            val totalItemCount = layoutManager.itemCount
+
+            val isLoading = viewModel.breakingNewsFlow.value is Resource.Loading
+            val isLastPage = viewModel.isLastPage // Assumes you've added this to your ViewModel
+
+            val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
+            val isNotAtBeginning = firstVisibleItemPosition >= 0
+            val isTotalMoreThanVisible = totalItemCount >= QUERY_PAGE_SIZE
+
+            val shouldPaginate = !isLoading && !isLastPage && isAtLastItem && isNotAtBeginning &&
+                    isTotalMoreThanVisible && isScrolling         //viewLifecycleOwner.lifecycleScope.launch {
+              //  viewModel.breakingNewsCountry.collectLatest { country->
+            if (shouldPaginate) {
+                viewModel.getNextBreakingNewsPage()
+                isScrolling = false
+            }
+                    else{
+                        val recycler = view?.findViewById<RecyclerView>(R.id.rvBreakingNews)
+                        recycler?.setPadding(0,0,0,0)
+                    }
+               // }
+            //}
+        }
     }
 
 
     fun setUpRecycler(binding: FragmentBreakingNewsBinding){
         newsAdapter = NewsAdapter()
-        binding.recyclerBreakingNews.apply{
+        binding.rvBreakingNews.apply{
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
+            addOnScrollListener(this@BreakingNewsFragment.scrollListener)
         }
     }
 
