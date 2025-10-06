@@ -7,6 +7,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.myapplication1.news.models.Article
+import kotlinx.coroutines.flow.StateFlow
 
 @Dao
 interface ArticleDao {

@@ -1,7 +1,10 @@
 package com.example.myapplication1.news.ui.viewmodels
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myapplication1.news.models.Article
 import com.example.myapplication1.news.models.NewsResponse
 import com.example.myapplication1.news.repository.NewsRepository
 import com.example.myapplication1.news.utils.Resource
@@ -28,6 +31,12 @@ class NewsViewModel(
     private val _breakingNewsCountry = MutableSharedFlow<String>()
     val breakingNewsCountry = _breakingNewsCountry.asSharedFlow()
     private val _searchQuery = MutableStateFlow<String>("")
+
+    val favourited = MutableStateFlow(false)
+
+
+    private val _savedArticles = MutableLiveData(listOf<Article>())
+    var savedArticles: LiveData<List<Article>> = _savedArticles
 
 
 
@@ -85,6 +94,26 @@ class NewsViewModel(
                 val searchResponse = repository.searchNews(searchQuery, searchNewsPage)
                 _searchedNewsFlow.value = handleSearchNewsResponse(searchResponse)
             }
+        }
+    }
+
+    fun saveArticle(article: Article){
+        viewModelScope.launch {
+            repository.saveArticle(article)
+        }
+        favourited.value = true
+    }
+
+    fun getAllArticles(){
+        viewModelScope.launch {
+            val result =  repository.getAllArticles()
+            savedArticles = result
+        }
+    }
+
+    fun deleteArticle(article:Article){
+        viewModelScope.launch {
+            repository.deleteArticle(article)
         }
     }
 

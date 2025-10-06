@@ -80,6 +80,13 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.ArticlesViewHolder>() {
                 it(article)
             }
         }
+
+        holder.itemView.setOnLongClickListener {
+            onLongItemClickListener?.let{
+                it(article)
+            }
+            true
+        }
     }
 
     override fun getItemCount(): Int = differ.currentList.size
@@ -95,8 +102,13 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.ArticlesViewHolder>() {
 
 
     private var onItemClickListener:((Article)->Unit)?=null
+    private var onLongItemClickListener:((Article)->Unit)?=null
 
     fun setOnItemClickListener(listener: (Article)->Unit){
         onItemClickListener = listener
+    }
+
+    fun setOnLongClick(listener: (Article)->Unit){
+        onLongItemClickListener = listener
     }
 }
