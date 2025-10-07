@@ -3,7 +3,6 @@ package com.example.myapplication1.workout.ui.details
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication1.news.models.NewsResponse
 import com.example.myapplication1.workout.models.ExerciseCategoryResponse
 import com.example.myapplication1.workout.repository.ExerciseCategoryRepository
 import com.example.myapplication1.workout.utils.Resource
