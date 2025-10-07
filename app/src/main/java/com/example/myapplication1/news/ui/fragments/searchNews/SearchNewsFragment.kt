@@ -74,6 +74,12 @@ class SearchNewsFragment : Fragment(R.layout.fragment_search_news) {
                             hideProgressBar()
                             response.data?.let{ news->
                                 newsAdapter.differ.submitList(news.articles)
+                                val totalPages = news.totalResults / QUERY_PAGE_SIZE +2
+                                isLastPage = viewModel.breakingNewsPage == totalPages
+
+                                if (isLastPage){
+                                    binding.recyclerSearchNews.setPadding(0,0,0,0)
+                                }
                             }
                         }
                         is Resource.Loading -> showProgressBar()
@@ -170,10 +176,6 @@ class SearchNewsFragment : Fragment(R.layout.fragment_search_news) {
             if (shouldPaginate) {
                 viewModel.searchNews(searchQuery)
                 isScrolling = false
-            }
-            else{
-                val recycler = view?.findViewById<RecyclerView>(R.id.rvBreakingNews)
-                recycler?.setPadding(0,0,0,0)
             }
             // }
             //}

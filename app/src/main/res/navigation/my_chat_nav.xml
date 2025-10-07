@@ -75,7 +75,11 @@
         android:id="@+id/workOutHomeFragment"
         android:name="com.example.myapplication1.workout.ui.home.WorkOutHomeFragment"
         android:label="fragment_work_out_home"
-        tools:layout="@layout/fragment_work_out_home" />
+        tools:layout="@layout/fragment_work_out_home" >
+        <action
+            android:id="@+id/action_workOutHomeFragment_to_workOutDetailFragment"
+            app:destination="@id/workOutDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/newsMainFragment"
         android:name="com.example.myapplication1.news.ui.main.NewsMainFragment"
@@ -119,4 +123,9 @@
             android:name="article"
             app:argType="com.example.myapplication1.news.models.Article" />
     </fragment>
+    <fragment
+        android:id="@+id/workOutDetailFragment"
+        android:name="com.example.myapplication1.workout.ui.details.WorkOutDetailFragment"
+        android:label="fragment_work_out_detail"
+        tools:layout="@layout/fragment_work_out_detail" />
 </navigation>

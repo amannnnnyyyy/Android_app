@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.example.myapplication1.R
 import com.example.myapplication1.databinding.FragmentWorkOutHomeBinding
 import com.google.android.material.snackbar.Snackbar
@@ -110,6 +111,12 @@ class WorkOutHomeFragment : Fragment(R.layout.fragment_work_out_home),
                         }
                 }
             }
+        }
+
+        binding.goToDetails.setOnClickListener {
+            val nav = findNavController()
+            val direction = WorkOutHomeFragmentDirections.actionWorkOutHomeFragmentToWorkOutDetailFragment()
+            nav.navigate(direction)
         }
 
 

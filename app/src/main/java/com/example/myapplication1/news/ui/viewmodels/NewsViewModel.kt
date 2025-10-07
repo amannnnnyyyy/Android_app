@@ -75,7 +75,7 @@ class NewsViewModel(
     private fun handleBreakingNewsResponse(response: Response<NewsResponse>): Resource<NewsResponse>{
         if (response.isSuccessful){
             response.body()?.let{ result->
-                breakingNewsPage++
+               // breakingNewsPage++
 
                 if (result.articles.isEmpty()) {
                     isLastPage = true
