@@ -7,111 +7,23 @@
     android:layout_height="match_parent"
     tools:context=".workout.ui.home.WorkOutHomeFragment">
 
-    <ImageView
-        android:id="@+id/go_to_details"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
-        android:src="@drawable/more"
-        android:background="@drawable/rounded_input_layout"
-        app:tint="@color/white"
-        android:padding="5dp"
-        app:layout_constraintVertical_bias="0.02"
-        />
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="0dp"
+        android:id="@+id/header"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:gravity="center"
-        android:fontFamily="@font/college_block_2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/button"
-        android:textSize="30sp"
-        />
-
-    <EditText
-        android:id="@+id/editT"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/rounded_layout"
-        android:paddingHorizontal="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView" />
-
-    <ProgressBar
-        android:id="@+id/loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.15"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:text="Load Default"
-        android:textAllCaps="false"
-        android:layout_marginEnd="10dp"
-        android:textSize="30sp"
+        android:text="Choose a Workout to begin"
         android:fontFamily="@font/kalufira"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.1"
-        app:layout_constraintTop_toBottomOf="@+id/editT"
-        android:background="@drawable/rounded_button_layout"
+        android:gravity="center"
+        android:textSize="30sp"
         />
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/button"
-        app:layout_constraintTop_toBottomOf="@id/editT"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/exercise_category_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0.1"
-        android:orientation="vertical"
-        >
-        <TextView
-            android:id="@+id/count_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/kalufira"
-            android:layout_gravity="center"
-            android:text="Count to"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            />
-
-        <Spinner
-            android:id="@+id/number_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:entries="@array/numbers_array"
-            android:spinnerMode="dropdown"
-            android:layout_gravity="center"
-            />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/done"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Done"
-            />
-    </LinearLayout>
+        android:layout_marginTop="20dp"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -47,11 +47,12 @@ class ExerciseCategoryAdapter: RecyclerView.Adapter<ExerciseCategoryAdapter.Cate
 
         holder.itemView.apply {
             holder.name.text = category.name
-            setOnItemClickListener { category->
+        }
+
+        holder.itemView.setOnClickListener {
                 onItemClickListener?.let{
                     it(category)
                 }
-            }
         }
     }
 

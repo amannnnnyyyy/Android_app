@@ -26,5 +26,9 @@ class RetrofitInstance {
         val api: ExerciseCategoryApi by lazy{
             retrofit.create(ExerciseCategoryApi::class.java)
         }
+
+        val exerciseInfoApi: ExerciseInfoApi by lazy {
+            retrofit.create(ExerciseInfoApi::class.java)
+        }
     }
 }

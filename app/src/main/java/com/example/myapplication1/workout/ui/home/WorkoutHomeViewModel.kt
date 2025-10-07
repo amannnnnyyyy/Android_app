@@ -1,7 +1,11 @@
 package com.example.myapplication1.workout.ui.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myapplication1.workout.models.ExerciseCategoryResponse
+import com.example.myapplication1.workout.repository.ExerciseCategoryRepository
+import com.example.myapplication1.workout.utils.Resource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -11,43 +15,34 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import retrofit2.Response
 
-class WorkoutHomeViewModel: ViewModel() {
-    private val _stateFlow = MutableStateFlow("write something below")
-    val stateFlow = _stateFlow.asStateFlow()
-
-    private val _onDefault = MutableStateFlow<Boolean>(true)
-    val onDefault = _onDefault.asStateFlow()
+class WorkoutHomeViewModel(val repository: ExerciseCategoryRepository): ViewModel() {
+    private val _exerciseCategories : MutableStateFlow<Resource<ExerciseCategoryResponse>> = MutableStateFlow(Resource.Loading())
+    val exerciseCategory =  _exerciseCategories.asStateFlow()
 
 
-    private val _sharedFlow = MutableSharedFlow<Int>(10)
-    val sharedFlow = _sharedFlow.asSharedFlow()
-
-
-    fun setSharedFlow(newNum: Int){
-        viewModelScope.launch {
-            _sharedFlow.emit(newNum)
-        }
+    init {
+        getAllCategories()
     }
 
-
-    fun changeToDefault(){
-        _stateFlow.value = "Default"
+    fun getAllCategories()= viewModelScope.launch {
+        val response = repository.getExerciseCategories(null, null)
+        Log.d("thisIsTheAnswer","Inside the viewmodel \n\t ${response.body()}")
+        _exerciseCategories.value = handleRoutineResponse(response)
     }
 
-
-
-    fun triggerFlow(): Flow<Int>{
-        return flow {
-            repeat(sharedFlow.first()){
-                emit(it+1)
-                delay(1000L)
+    private fun handleRoutineResponse(response: Response<ExerciseCategoryResponse>): Resource<ExerciseCategoryResponse> {
+        if (response.isSuccessful){
+            response.body()?.let{ result->
+                if (result.results!=null && result.results.isEmpty()){
+                    return Resource.Error(null, "No category data found")
+                }else{
+                    return Resource.Success(result)
+                }
             }
+            return Resource.Error(null, "Fetch not successful")
         }
-    }
-
-    fun changeStateFlow(str:String){
-        _stateFlow.value = str
-        _onDefault.value = false
+        return Resource.Error(null, response.message())
     }
 }

@@ -3,6 +3,7 @@ package com.example.myapplication1.workout.ui.home
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,11 +13,20 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication1.R
+import com.example.myapplication1.databinding.FragmentWorkOutDetailBinding
 import com.example.myapplication1.databinding.FragmentWorkOutHomeBinding
+import com.example.myapplication1.news.ui.main.NewsMainFragmentDirections
+import com.example.myapplication1.workout.adapters.ExerciseCategoryAdapter
+import com.example.myapplication1.workout.db.ExerciseCategoryDatabase
+import com.example.myapplication1.workout.repository.ExerciseCategoryRepository
+import com.example.myapplication1.workout.ui.details.WorkOutDetailsViewModel
+import com.example.myapplication1.workout.ui.viewmodels.ExerciseCategoryViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -26,18 +36,15 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlin.toString
 
-class WorkOutHomeFragment : Fragment(R.layout.fragment_work_out_home),
-    AdapterView.OnItemClickListener,
-    AdapterView.OnItemSelectedListener {
+class WorkOutHomeFragment : Fragment(R.layout.fragment_work_out_home){
 
-    val whViewModel: WorkoutHomeViewModel by viewModels()
+    private lateinit var exerciseCategoryAdapter: ExerciseCategoryAdapter
 
-    private val TAG = "workout_fragment"
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
+    private val viewModel: WorkoutHomeViewModel by lazy {
+        val database = ExerciseCategoryDatabase.getDatabase(requireContext())
+        val repository = ExerciseCategoryRepository(database)
+        val factory = ExerciseCategoryViewModelProvider(repository)
+        ViewModelProvider(this, factory)[WorkoutHomeViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -46,99 +53,34 @@ class WorkOutHomeFragment : Fragment(R.layout.fragment_work_out_home),
     ): View? {
         val binding = FragmentWorkOutHomeBinding.inflate(inflater, container, false)
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                whViewModel.stateFlow.collectLatest { str ->
-                    binding.textView.text = str
-                    binding.loading.visibility = View.GONE
+        setUpRecycler(binding)
 
-                    binding.editT.addTextChangedListener(object : TextWatcher {
-                        override fun afterTextChanged(s: Editable?) {}
-
-                        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-                        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                            whViewModel.changeStateFlow(s.toString())
-                        }
-
-                    })
-                }
-            }
-        }
-
-
-
-        binding.button.setOnClickListener {
-            binding.loading.visibility = View.VISIBLE
-            viewLifecycleOwner.lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    whViewModel.onDefault.collectLatest {
-                        delay(2000L)
-                        binding.editT.text = null
-                        whViewModel.changeToDefault()
-                    }
-                }
-            }
-        }
-
-
-        val numberSpinner: Spinner = binding.numberSpinner
-
-        ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.numbers_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            numberSpinner.adapter = adapter
-        }
-
-        numberSpinner.onItemSelectedListener = this
-
-
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                whViewModel.sharedFlow.collectLatest { text ->
-                    binding.done.setOnClickListener {
-                        Snackbar.make(binding.root, "Counting to $text", Snackbar.LENGTH_SHORT).show()
-
-                            lifecycleScope.launch {
-                                whViewModel.triggerFlow().collectLatest { count ->
-                                    binding.textView.text = count.toString()
-                                }
-                            }
-                        }
-                }
-            }
-        }
-
-        binding.goToDetails.setOnClickListener {
+        exerciseCategoryAdapter.setOnItemClickListener {
+            Log.i("thisIsIt","title: ${it.name}")
             val nav = findNavController()
             val direction = WorkOutHomeFragmentDirections.actionWorkOutHomeFragmentToWorkOutDetailFragment()
             nav.navigate(direction)
         }
 
-
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.exerciseCategory.collectLatest { category->
+                    Log.d("thisIsTheAnswer","${category.data}\n${category.message}")
+                    exerciseCategoryAdapter.differ.submitList(category.data?.results?.toList())
+                }
+            }
+        }
 
         return binding.root
     }
 
-    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {}
-
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        val selectedNumber = parent?.getItemAtPosition(position).toString()
-        whViewModel.setSharedFlow(selectedNumber.toInt())
+    fun setUpRecycler(binding: FragmentWorkOutHomeBinding){
+        exerciseCategoryAdapter = ExerciseCategoryAdapter()
+        binding.exerciseCategoryRecyclerView.apply{
+            adapter = exerciseCategoryAdapter
+            layoutManager = LinearLayoutManager(activity)
+            //addOnScrollListener(this@WorkOutDetailFragment.scrollListener)
+        }
     }
 
-    override fun onNothingSelected(parent: AdapterView<*>?) {}
-
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            WorkOutHomeFragment().apply {
-                arguments = Bundle().apply {
-                }
-            }
-    }
 }

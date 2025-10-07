@@ -27,7 +27,7 @@
       </SelectionState>
       <SelectionState runConfigName="MyChatActivity">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-10-06T06:22:25.450438Z">
+        <DropdownSelection timestamp="2025-10-07T11:18:59.843487Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="PhysicalDevice" identifier="serial=RFCW10RY6LB" />

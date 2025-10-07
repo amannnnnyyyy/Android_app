@@ -10,27 +10,23 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication1.R
 import com.example.myapplication1.databinding.FragmentWorkOutDetailBinding
-import com.example.myapplication1.workout.adapters.ExerciseCategoryAdapter
-import com.example.myapplication1.workout.db.ExerciseCategoryDatabase
-import com.example.myapplication1.workout.repository.ExerciseCategoryRepository
-import com.example.myapplication1.workout.ui.viewmodels.ExerciseCategoryViewModelProvider
+import com.example.myapplication1.workout.db.ExerciseInfoDatabase
+import com.example.myapplication1.workout.repository.ExerciseInfoRepository
+import com.example.myapplication1.workout.ui.viewmodels.ExerciseInfoViewModelProvider
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class WorkOutDetailFragment : Fragment(R.layout.fragment_work_out_detail) {
 
-
-    private lateinit var exerciseCategoryAdapter: ExerciseCategoryAdapter
-
     private val viewModel: WorkOutDetailsViewModel by lazy {
-        val database = ExerciseCategoryDatabase.getDatabase(requireContext())
-        val repository = ExerciseCategoryRepository(database)
-        val factory = ExerciseCategoryViewModelProvider(repository)
+        val database = ExerciseInfoDatabase.getDatabase(requireContext())
+        val repository = ExerciseInfoRepository(database)
+        val factory = ExerciseInfoViewModelProvider(repository)
         ViewModelProvider(this, factory)[WorkOutDetailsViewModel::class.java]
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,12 +34,11 @@ class WorkOutDetailFragment : Fragment(R.layout.fragment_work_out_detail) {
     ): View? {
         val binding = FragmentWorkOutDetailBinding.inflate(inflater, container, false)
 
-        setUpRecycler(binding)
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.exerciseCategory.collectLatest { category->
-                    Log.d("thisIsTheAnswer","${category.data}\n${category.message}")
-                    exerciseCategoryAdapter.differ.submitList(category.data?.results?.toList())
+                viewModel.exerciseInfos.collectLatest { infoResponse->
+                    Log.d("ThisIsDetails","${infoResponse.data}")
+                    binding.header.text = infoResponse.data?.results?.get(0).toString()
                 }
             }
         }
@@ -52,13 +47,6 @@ class WorkOutDetailFragment : Fragment(R.layout.fragment_work_out_detail) {
     }
 
 
-    fun setUpRecycler(binding: FragmentWorkOutDetailBinding){
-        exerciseCategoryAdapter = ExerciseCategoryAdapter()
-        binding.exerciseCategoryRecyclerView.apply{
-            adapter = exerciseCategoryAdapter
-            layoutManager = LinearLayoutManager(activity)
-            //addOnScrollListener(this@WorkOutDetailFragment.scrollListener)
-        }
-    }
+
 
 }
