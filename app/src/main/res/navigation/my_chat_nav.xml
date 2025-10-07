@@ -127,5 +127,8 @@
         android:id="@+id/workOutDetailFragment"
         android:name="com.example.myapplication1.workout.ui.details.WorkOutDetailFragment"
         android:label="fragment_work_out_detail"
-        tools:layout="@layout/fragment_work_out_detail" />
+        tools:layout="@layout/fragment_work_out_detail" >
+        <argument android:name="workout_id"
+            app:argType="integer" />
+    </fragment>
 </navigation>

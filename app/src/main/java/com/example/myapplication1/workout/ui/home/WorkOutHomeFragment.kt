@@ -57,9 +57,11 @@ class WorkOutHomeFragment : Fragment(R.layout.fragment_work_out_home){
 
         exerciseCategoryAdapter.setOnItemClickListener {
             Log.i("thisIsIt","title: ${it.name}")
-            val nav = findNavController()
-            val direction = WorkOutHomeFragmentDirections.actionWorkOutHomeFragmentToWorkOutDetailFragment()
-            nav.navigate(direction)
+            it.id?.let { id->
+                val nav = findNavController()
+                val direction = WorkOutHomeFragmentDirections.actionWorkOutHomeFragmentToWorkOutDetailFragment(id)
+                nav.navigate(direction)
+            }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {

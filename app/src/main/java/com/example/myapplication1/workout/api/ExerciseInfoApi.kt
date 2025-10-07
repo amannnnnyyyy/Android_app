@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ExerciseInfoApi {
-    @GET("/api/v2/exercisecategory/")
+    @GET("/api/v2/exerciseinfo/")
     suspend fun getExerciseInfo(
         @Query("category") category: Int?,
         @Query("equipment") equipment: Array<Int>?,

@@ -14,13 +14,11 @@ class WorkOutDetailsViewModel(val repository: ExerciseInfoRepository): ViewModel
     private val _exerciseInfos : MutableStateFlow<Resource<ExerciseInfoResponse>> = MutableStateFlow(Resource.Loading())
     val exerciseInfos =  _exerciseInfos.asStateFlow()
 
-    init {
-        getAllInfos()
-    }
 
-    fun getAllInfos()= viewModelScope.launch {
+
+    fun getAllInfos(category:Int)= viewModelScope.launch {
         val response = repository.getExerciseInfos(
-            10, 10, offset = 0, variations = null
+            category, 10, offset = 0, variations = null
         )
         _exerciseInfos.value = handleRoutineResponse(response)
     }

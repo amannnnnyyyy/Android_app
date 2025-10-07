@@ -7,10 +7,10 @@ import com.example.myapplication1.workout.models.ExerciseInfo
 class ExerciseInfoRepository(val db: ExerciseInfoDatabase) {
 
     suspend fun getExerciseInfos(category:Int?, limit:Int?, offset:Int?, variations:Int?)= RetrofitInstance.exerciseInfoApi.getExerciseInfo(
-        category = 10,
-        limit = 10,
-        offset = 0,
-        variations = null,
+        category = category,
+        limit = limit,
+        offset = offset,
+        variations = variations,
         equipment = null,
         license = null,
         license_author = null,
