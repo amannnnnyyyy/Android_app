@@ -1,6 +1,7 @@
 package com.example.myapplication1.workout.ui.details
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,19 +12,18 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.myapplication1.R
 import com.example.myapplication1.databinding.FragmentWorkOutDetailBinding
-import com.example.myapplication1.news.ui.viewmodels.NewsViewModel
-import com.example.myapplication1.workout.db.RoutineDatabase
-import com.example.myapplication1.workout.repository.RoutineRepository
-import com.example.myapplication1.workout.ui.viewmodels.RoutineViewModelProvider
+import com.example.myapplication1.workout.db.ExerciseCategoryDatabase
+import com.example.myapplication1.workout.repository.ExerciseCategoryRepository
+import com.example.myapplication1.workout.ui.viewmodels.ExerciseCategoryViewModelProvider
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class WorkOutDetailFragment : Fragment(R.layout.fragment_work_out_detail) {
 
     private val viewModel: WorkOutDetailsViewModel by lazy {
-        val database = RoutineDatabase.getDatabase(requireContext())
-        val repository = RoutineRepository(database)
-        val factory = RoutineViewModelProvider(repository)
+        val database = ExerciseCategoryDatabase.getDatabase(requireContext())
+        val repository = ExerciseCategoryRepository(database)
+        val factory = ExerciseCategoryViewModelProvider(repository)
         ViewModelProvider(this, factory)[WorkOutDetailsViewModel::class.java]
     }
 
@@ -35,8 +35,9 @@ class WorkOutDetailFragment : Fragment(R.layout.fragment_work_out_detail) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.routines.collectLatest { routines->
-                    binding.testText.text = routines.data?.routines[0]?.results?.get(0)?.description?:""
+                viewModel.exerciseCategory.collectLatest { category->
+                    Log.d("thisIsTheAnswer","${category.data}\n${category.message}")
+                    //binding.testText.text = routines.data?.routines[0]?.results?.get(0)?.description?:""
                 }
             }
         }

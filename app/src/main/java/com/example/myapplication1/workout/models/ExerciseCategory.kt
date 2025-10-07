@@ -4,13 +4,13 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "routines"
+    tableName = "categories"
 )
-data class Routine(
+data class ExerciseCategory(
     @PrimaryKey(autoGenerate = true)
     val id:Int?=null,
-    val count: Int?,
-    val next: String?,
-    val previous: String?,
-    val results: List<Result>?
+    val name: String?,
+//    val next: String?,
+//    val previous: String?,
+//    val results: List<ResultX>?
 )

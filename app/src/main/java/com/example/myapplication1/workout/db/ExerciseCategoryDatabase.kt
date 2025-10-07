@@ -5,20 +5,18 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.myapplication1.news.db.ArticleDao
-import com.example.myapplication1.news.db.ArticleDatabase
-import com.example.myapplication1.workout.models.Routine
+import com.example.myapplication1.workout.models.ExerciseCategory
 
-@Database([Routine::class], version = 1)
-@TypeConverters(Converts::class)
-abstract class RoutineDatabase: RoomDatabase() {
-    abstract fun routineDao(): RoutineDao
+@Database([ExerciseCategory::class], version = 1)
+@TypeConverters(ExerciseCategoryConverters::class)
+abstract class ExerciseCategoryDatabase: RoomDatabase() {
+    abstract fun exerciseCategoryDao(): ExerciseCategoryDao
 
     companion object {
         @Volatile
-        private var INSTANCE: RoutineDatabase? = null
+        private var INSTANCE: ExerciseCategoryDatabase? = null
 
-        fun getDatabase(context: Context): RoutineDatabase{
+        fun getDatabase(context: Context): ExerciseCategoryDatabase{
             val tempInstance = INSTANCE
 
             if (tempInstance!=null) return tempInstance
@@ -26,8 +24,8 @@ abstract class RoutineDatabase: RoomDatabase() {
             synchronized(this){
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    RoutineDatabase::class.java,
-                    "routine_db.db"
+                    ExerciseCategoryDatabase::class.java,
+                    "exercise_category_db.db"
                 ).build()
 
                 INSTANCE = instance

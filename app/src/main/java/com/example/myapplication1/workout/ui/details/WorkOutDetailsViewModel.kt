@@ -1,32 +1,37 @@
 package com.example.myapplication1.workout.ui.details
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication1.news.models.NewsResponse
-import com.example.myapplication1.workout.models.RoutineResponse
-import com.example.myapplication1.workout.repository.RoutineRepository
+import com.example.myapplication1.workout.models.ExerciseCategoryResponse
+import com.example.myapplication1.workout.repository.ExerciseCategoryRepository
 import com.example.myapplication1.workout.utils.Resource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-class WorkOutDetailsViewModel(val repository: RoutineRepository): ViewModel() {
-    private val _routines : MutableStateFlow<Resource<RoutineResponse>> = MutableStateFlow(Resource.Loading())
-    val routines =  _routines.asStateFlow()
+class WorkOutDetailsViewModel(val repository: ExerciseCategoryRepository): ViewModel() {
+    private val _exerciseCategories : MutableStateFlow<Resource<ExerciseCategoryResponse>> = MutableStateFlow(Resource.Loading())
+    val exerciseCategory =  _exerciseCategories.asStateFlow()
 
-    fun getAllRoutines(){
-        viewModelScope.launch {
-            val response = repository.getRoutines(10, 0)
-            _routines.value = handleRoutineResponse(response)
-        }
+
+    init {
+        getAllRoutines()
     }
 
-    private fun handleRoutineResponse(response: Response<RoutineResponse>): Resource<RoutineResponse> {
+    fun getAllRoutines()= viewModelScope.launch {
+            val response = repository.getExerciseCategories(null, null)
+            Log.d("thisIsTheAnswer","Inside the viewmodel \n\t ${response.body()}")
+            _exerciseCategories.value = handleRoutineResponse(response)
+        }
+
+    private fun handleRoutineResponse(response: Response<ExerciseCategoryResponse>): Resource<ExerciseCategoryResponse> {
         if (response.isSuccessful){
             response.body()?.let{ result->
-                if (result.routines.isEmpty()){
-                    return Resource.Error(null, "No routine data found")
+                if (result.results!=null && result.results.isEmpty()){
+                    return Resource.Error(null, "No category data found")
                 }else{
                     return Resource.Success(result)
                 }

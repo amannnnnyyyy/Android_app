@@ -13,6 +13,7 @@
         android:text="@string/hello_blank_fragment"
         android:gravity="center"
         android:textSize="30sp"
+        android:textColor="@color/white"
         android:fontFamily="@font/college_block_2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

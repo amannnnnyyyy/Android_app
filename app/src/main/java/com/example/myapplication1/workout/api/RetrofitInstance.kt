@@ -1,7 +1,5 @@
 package com.example.myapplication1.workout.api
 
-import com.example.myapplication1.news.api.NewsApi
-import com.example.myapplication1.news.utils.NewsConstants
 import com.example.myapplication1.workout.utils.Constants.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -25,8 +23,8 @@ class RetrofitInstance {
                 .build()
         }
 
-        val api: ExerciseApi by lazy{
-            retrofit.create(ExerciseApi::class.java)
+        val api: ExerciseCategoryApi by lazy{
+            retrofit.create(ExerciseCategoryApi::class.java)
         }
     }
 }
