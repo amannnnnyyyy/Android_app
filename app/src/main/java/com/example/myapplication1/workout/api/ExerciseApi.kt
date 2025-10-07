@@ -2,6 +2,7 @@ package com.example.myapplication1.workout.api
 
 import com.example.myapplication1.news.models.NewsResponse
 import com.example.myapplication1.news.utils.NewsConstants
+import com.example.myapplication1.workout.models.RoutineResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -12,7 +13,7 @@ interface ExerciseApi {
         @Query("limit") limit: Int?,
         @Query("offset") offset:Int?,
         //@Query("apiKey") apiKey:String = NewsConstants.NEWS_API_KEY
-    ): Response<NewsResponse>
+    ): Response<RoutineResponse>
 
 
 //    @GET("/v2/everything")

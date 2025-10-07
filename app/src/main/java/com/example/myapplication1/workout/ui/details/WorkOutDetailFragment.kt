@@ -5,56 +5,43 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.myapplication1.R
+import com.example.myapplication1.databinding.FragmentWorkOutDetailBinding
+import com.example.myapplication1.news.ui.viewmodels.NewsViewModel
+import com.example.myapplication1.workout.db.RoutineDatabase
+import com.example.myapplication1.workout.repository.RoutineRepository
+import com.example.myapplication1.workout.ui.viewmodels.RoutineViewModelProvider
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class WorkOutDetailFragment : Fragment(R.layout.fragment_work_out_detail) {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [WorkOutDetailFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class WorkOutDetailFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    private val viewModel: WorkOutDetailsViewModel by lazy {
+        val database = RoutineDatabase.getDatabase(requireContext())
+        val repository = RoutineRepository(database)
+        val factory = RoutineViewModelProvider(repository)
+        ViewModelProvider(this, factory)[WorkOutDetailsViewModel::class.java]
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_work_out_detail, container, false)
-    }
+        val binding = FragmentWorkOutDetailBinding.inflate(inflater, container, false)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment WorkOutDetailFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            WorkOutDetailFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.routines.collectLatest { routines->
+                    binding.testText.text = routines.data?.routines[0]?.results?.get(0)?.description?:""
                 }
             }
+        }
+
+        return binding.root
     }
+
 }
