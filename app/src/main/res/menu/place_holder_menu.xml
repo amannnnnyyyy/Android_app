@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/place_holder_menu_1"
+        android:title="Place holder1"
+        />
+    <item
+        android:id="@+id/place_holder_menu_2"
+        android:title="Place holder 2"
+        />
+    <item
+        android:id="@+id/place_holder_menu_3"
+        android:title="Place holder 3"
+        />
+</menu>

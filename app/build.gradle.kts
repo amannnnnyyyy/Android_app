@@ -19,6 +19,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        vectorDrawables.useSupportLibrary = true
     }
 
 
@@ -100,5 +102,8 @@ dependencies {
     //coil
     implementation("io.coil-kt.coil3:coil-svg:3.0.4")
     implementation("io.coil-kt.coil3:coil-compose:3.0.4")
+
+    //for image
+    implementation("com.caverock:androidsvg-aar:1.4")
 
 }

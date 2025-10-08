@@ -2,6 +2,7 @@ package com.example.myapplication1.workout.ui.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myapplication1.workout.models.ExerciseInfo
 import com.example.myapplication1.workout.models.ExerciseInfoResponse
 import com.example.myapplication1.workout.repository.ExerciseInfoRepository
 import com.example.myapplication1.workout.utils.Resource
@@ -14,8 +15,13 @@ class WorkOutDetailsViewModel(val repository: ExerciseInfoRepository): ViewModel
     private val _exerciseInfos : MutableStateFlow<Resource<ExerciseInfoResponse>> = MutableStateFlow(Resource.Loading())
     val exerciseInfos =  _exerciseInfos.asStateFlow()
 
+    val selectedExerciseInfo : MutableStateFlow<List<ExerciseInfo>> = MutableStateFlow(listOf<ExerciseInfo>())
 
 
+
+    fun setSelectedExercise(exerciseInfos:List<ExerciseInfo>){
+        selectedExerciseInfo.value = exerciseInfos
+    }
     fun getAllInfos(category:Int)= viewModelScope.launch {
         val response = repository.getExerciseInfos(
             category, 10, offset = 0, variations = null
