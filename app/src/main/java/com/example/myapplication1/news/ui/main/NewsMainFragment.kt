@@ -1,6 +1,7 @@
 package com.example.myapplication1.news.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import com.example.myapplication1.news.ui.fragments.saved.SavedNewsFragment
 import com.example.myapplication1.news.ui.fragments.searchNews.SearchNewsFragment
 import com.example.myapplication1.news.ui.viewmodels.NewsViewModel
 import com.example.myapplication1.news.ui.viewmodels.NewsViewModelProviderFactory
+import com.google.android.material.tabs.TabLayoutMediator
 
 
 class NewsMainFragment : Fragment(R.layout.fragment_news_main) {
@@ -47,22 +49,28 @@ class NewsMainFragment : Fragment(R.layout.fragment_news_main) {
         val viewPagerAdapter = NewsViewPagerAdapter(this)
         for (fragment in fragmentList) viewPagerAdapter.addFragment(fragment)
         viewPager2.adapter = viewPagerAdapter
+        val pageNameOptions = listOf<String>("Breaking", "Saved", "Search")
 
-        bottomNavView.setOnItemSelectedListener { item ->
-            when(item.itemId){
-                R.id.breakingNewsFragment -> viewPager2.currentItem = 0
-                R.id.savedNewsFragment -> viewPager2.currentItem = 1
-                R.id.searchNewsFragment -> viewPager2.currentItem = 2
-            }
-            true
-        }
+        TabLayoutMediator(bottomNavView, viewPager2){ tab, pos->
+            tab.text = pageNameOptions[pos%3]
+        }.attach()
 
-        viewPager2.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback(){
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                bottomNavView.menu.get(position).isChecked = true
-            }
-        })
+
+//        bottomNavView.setOnItemSelectedListener { item ->
+//            when(item.itemId){
+//                R.id.breakingNewsFragment -> viewPager2.currentItem = 0
+//                R.id.savedNewsFragment -> viewPager2.currentItem = 1
+//                R.id.searchNewsFragment -> viewPager2.currentItem = 2
+//            }
+//            true
+//        }
+
+//        viewPager2.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback(){
+//            override fun onPageSelected(position: Int) {
+//                super.onPageSelected(position)
+//                bottomNavView.menu.get(position).isChecked = true
+//            }
+//        })
 
 
         return binding.root

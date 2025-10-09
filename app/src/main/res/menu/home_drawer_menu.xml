@@ -10,12 +10,17 @@
         <item
             android:id="@+id/workout"
             android:title="Workout"
-            android:icon="@drawable/healthy_lifestyle"
+            android:icon="@drawable/workout"
             />
         <item
             android:id="@+id/chat"
             android:title="Chat"
             android:icon="@drawable/chat"
+            />
+        <item
+            android:id="@+id/news"
+            android:title="News"
+            android:icon="@drawable/news"
             />
     </group>
         <item android:title="Profile">
@@ -29,7 +34,7 @@
                 <item
                     android:id="@+id/nav_profile"
                     android:title="Profile"
-                    android:icon="@drawable/profile"
+                    android:icon="@drawable/user"
                     />
                 <item
                     android:id="@+id/logout"

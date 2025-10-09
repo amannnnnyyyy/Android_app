@@ -14,11 +14,14 @@ import androidx.navigation.fragment.findNavController
 import com.example.myapplication1.R
 import com.example.myapplication1.databinding.FragmentHomeMainBinding
 import com.google.android.material.navigation.NavigationView
+import androidx.core.view.get
+import androidx.core.view.iterator
 
 class MainHomeFragment : Fragment(R.layout.fragment_home_main),
     NavigationView.OnNavigationItemSelectedListener {
 
         private lateinit var drawerLayout: DrawerLayout
+        private lateinit var navigationView: NavigationView
 
 
 
@@ -29,7 +32,7 @@ class MainHomeFragment : Fragment(R.layout.fragment_home_main),
         val binding = FragmentHomeMainBinding.inflate(inflater, container, false)
 
         drawerLayout = binding.drawerLayout
-        val navigationView = binding.navView
+        navigationView = binding.navView
         val toolbar = binding.toolbar2
 
         navigationView.bringToFront()
@@ -63,6 +66,7 @@ class MainHomeFragment : Fragment(R.layout.fragment_home_main),
         when(menuItem.itemId){
             R.id.chat -> navigateToChat()
             R.id.workout -> navigateToWorkOut()
+            R.id.news -> navigateToNews()
         }
 
         drawerLayout.closeDrawer(GravityCompat.START)
@@ -72,6 +76,9 @@ class MainHomeFragment : Fragment(R.layout.fragment_home_main),
 
 
     fun navigateToChat(){
+//        for (menu in navigationView.menu){
+//            menu.isCheckable = false
+//        }
         val nav = findNavController()
         val direction = MainHomeFragmentDirections.actionMainHomeFragmentToChatHolderFragment()
         nav.navigate(direction)

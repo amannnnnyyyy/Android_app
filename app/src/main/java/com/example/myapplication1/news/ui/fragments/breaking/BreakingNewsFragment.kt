@@ -32,6 +32,8 @@ import com.example.myapplication1.news.ui.viewmodels.NewsViewModel
 import com.example.myapplication1.news.ui.viewmodels.NewsViewModelProviderFactory
 import com.example.myapplication1.news.utils.NewsConstants.QUERY_PAGE_SIZE
 import com.example.myapplication1.news.utils.Resource
+import com.google.android.material.tabs.TabLayout
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -45,7 +47,6 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news), AdapterV
 
     lateinit var article:Article
     private lateinit var newsAdapter : NewsAdapter
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -68,6 +69,7 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news), AdapterV
                         is Resource.Success-> {
                             hideProgressBar()
                             response.data?.let{ news->
+                                Log.i("submitting","${news.articles.size}")
                                 newsAdapter.differ.submitList(news.articles.toList())
                                 val totalPages = news.totalResults / QUERY_PAGE_SIZE +2
                                 isLastPage = viewModel.breakingNewsPage == totalPages
@@ -114,7 +116,7 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news), AdapterV
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val title =  view.findViewById<TextView>(R.id.title)
-        title.text = "What is going on"
+        title.text = "What is going on?"
     }
 
 
@@ -137,7 +139,7 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news), AdapterV
         ) {
             super.onScrollStateChanged(recyclerView, newState)
 
-            Log.i("scrolling","set true")
+            viewModel.getNextBreakingNewsPage()
             if (newState== AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL){
                 isScrolling = true
             }
@@ -157,7 +159,7 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news), AdapterV
             val totalItemCount = layoutManager.itemCount
 
             val isLoading = viewModel.breakingNewsFlow.value is Resource.Loading
-            val isLastPage = viewModel.isLastPage // Assumes you've added this to your ViewModel
+            val isLastPage = viewModel.isLastPage
 
             val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
             val isNotAtBeginning = firstVisibleItemPosition >= 0
@@ -166,8 +168,14 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news), AdapterV
             val shouldPaginate = !isLoading && !isLastPage && isAtLastItem && isNotAtBeginning &&
                     isTotalMoreThanVisible && isScrolling         //viewLifecycleOwner.lifecycleScope.launch {
               //  viewModel.breakingNewsCountry.collectLatest { country->
-            if (shouldPaginate) {
-                viewModel.getNextBreakingNewsPage()
+            val shouldPaginateTest = isAtLastItem && isNotAtBeginning && isScrolling
+
+            if (shouldPaginateTest) {
+                Log.i("scrollingEndCheck","$isLastPage $isScrolling $isLoading $isAtLastItem $isNotAtBeginning $isTotalMoreThanVisible")
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.getNextBreakingNewsPage()
+                }
+                Log.i("scrolling","set true")
                 isScrolling = false
             }
                // }

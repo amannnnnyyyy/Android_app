@@ -27,12 +27,19 @@
                 android:id="@+id/toolbar2"
                 android:layout_width="409dp"
                 android:layout_height="wrap_content"
-                android:background="@android:drawable/screen_background_light_transparent"
+                android:background="@color/almost_transparent"
                 android:minHeight="?attr/actionBarSize"
                 android:theme="?attr/actionBarTheme"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/toolbar2"
+                android:background="@color/almost_transparent"
+                app:layout_constraintBottom_toTopOf="@id/first_group"
                 />
 
             <TextView

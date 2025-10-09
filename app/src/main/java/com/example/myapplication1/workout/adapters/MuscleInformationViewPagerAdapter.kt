@@ -67,6 +67,10 @@ class MuscleInformationViewPagerAdapter(val listOfExerciseInfo: List<ExerciseInf
         val firstMuscleName = exerciseInfo.muscles?.getOrNull(0)?.name_en
         muscleName.text = firstMuscleName
 
+        if (viewPager.isFocusable){
+            viewPagerOuter.isUserInputEnabled = false
+        } else viewPagerOuter.isUserInputEnabled = true
+
         //Log.i("checkoutdragging", "inner ${viewPager.is}\n outer ${viewPagerOuter.scrollState}")
 
         //if ((exerciseInfo.muscles?.size?:0)>1) viewPagerOuter.isUserInputEnabled = false

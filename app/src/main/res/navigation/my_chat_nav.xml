@@ -63,13 +63,16 @@
         tools:layout="@layout/fragment_home_main" >
         <action
             android:id="@+id/action_mainHomeFragment_to_chatHolderFragment"
-            app:destination="@id/chatHolderFragment" />
+            app:destination="@id/chatHolderFragment"
+            app:popUpTo="@id/mainHomeFragment" />
         <action
             android:id="@+id/action_mainHomeFragment_to_workOutHomeFragment"
-            app:destination="@id/workOutHomeFragment" />
+            app:destination="@id/workOutHomeFragment"
+            app:popUpTo="@id/mainHomeFragment" />
         <action
             android:id="@+id/action_mainHomeFragment_to_newsMainFragment"
-            app:destination="@id/newsMainFragment" />
+            app:destination="@id/newsMainFragment"
+            app:popUpTo="@id/mainHomeFragment" />
     </fragment>
     <fragment
         android:id="@+id/workOutHomeFragment"

@@ -134,9 +134,13 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
             val keypadHeight = screenHeight - rect.bottom
 
             if (keypadHeight > screenHeight*0.15) {
-                binding!!.filterBtn.visibility = View.GONE
+                binding?.let {
+                    it.filterBtn.visibility = View.GONE
+                }
             }else if(keypadHeight<=screenHeight*0.15){
-                binding!!.filterBtn.visibility = View.VISIBLE
+                binding?.let {
+                    it.filterBtn.visibility = View.VISIBLE
+                }
             }
         }
     }

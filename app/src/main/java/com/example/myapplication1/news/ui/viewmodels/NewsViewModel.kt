@@ -1,5 +1,6 @@
 package com.example.myapplication1.news.ui.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,13 +9,16 @@ import com.example.myapplication1.news.models.Article
 import com.example.myapplication1.news.models.NewsResponse
 import com.example.myapplication1.news.repository.NewsRepository
 import com.example.myapplication1.news.utils.Resource
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import retrofit2.Response
+import kotlin.math.ceil
 
 class NewsViewModel(
     val repository: NewsRepository
@@ -24,6 +28,9 @@ class NewsViewModel(
     val breakingNewsFlow = _breakingNewsFlow.asStateFlow()
     var breakingNewsResponse: NewsResponse? = null
     var isLastPage = false
+
+    var breakingNewsTotalPagesCount = listOf<Int>()
+    var totalBreakingNewsPageNumber = 0
 
     private val _searchedNewsFlow: MutableStateFlow<Resource<NewsResponse>> = MutableStateFlow(Resource.Loading())
     val searchedNewsFlow = _searchedNewsFlow.asStateFlow()
@@ -45,6 +52,34 @@ class NewsViewModel(
 
     init {
         getBreakingNewsForCurrentCountry(shouldReset = true)
+        calculatePages()
+    }
+
+    fun calculatePages(){
+        viewModelScope.launch {
+            _breakingNewsFlow.collectLatest { res->
+                var addPages = ""
+                if((res.data?.articles?.size?:0)>0){
+                  val num = ceil((res.data?.totalResults?:1).toDouble() /(20)).toInt()
+                    totalBreakingNewsPageNumber = num
+                    for(i in 1..num){
+                        addPages+=i
+                    }
+                    Log.i("lookAtPages","$addPages  $num")
+                }
+
+                breakingNewsTotalPagesCount = addPages.map { it.toString().toInt() }
+            }
+        }
+    }
+
+
+    fun getNextPageBreakingNews(page:Int){
+        if (page<=breakingNewsTotalPagesCount.last()){
+            breakingNewsPage=page
+        }
+        Log.i("breakingNewsPage","$breakingNewsPage")
+        getBreakingNewsForCurrentCountry(false)
     }
 
 
@@ -54,7 +89,14 @@ class NewsViewModel(
     }
 
     fun getNextBreakingNewsPage() {
-        getBreakingNewsForCurrentCountry(shouldReset = false)
+        Log.i("scrolledToEnd","loading $breakingNewsPage : of : $totalBreakingNewsPageNumber")
+        if (breakingNewsPage < totalBreakingNewsPageNumber) breakingNewsPage+=1
+        Log.i("scrolledToEnd","made $breakingNewsPage : of : $totalBreakingNewsPageNumber")
+
+        viewModelScope.launch {
+            delay(2000)
+            getBreakingNewsForCurrentCountry(shouldReset = false)
+        }
     }
 
     private fun getBreakingNewsForCurrentCountry(shouldReset: Boolean) = viewModelScope.launch {
@@ -63,9 +105,11 @@ class NewsViewModel(
             breakingNewsResponse = null
             isLastPage = false
         }
-        if (isLastPage) {
-            return@launch
-        }
+//        if (isLastPage) {
+//            Log.i("breakingNewsPage","last Page detected")
+//            return@launch
+//        }
+        Log.i("breakingNewsPage","fetching")
         _breakingNewsFlow.value = Resource.Loading()
         val response = repository.getBreakingNews(currentCountry, breakingNewsPage)
         _breakingNewsFlow.value = handleBreakingNewsResponse(response)
@@ -80,6 +124,7 @@ class NewsViewModel(
                 if (result.articles.isEmpty()) {
                     isLastPage = true
                 }
+                //for test only
                 if (breakingNewsResponse==null) breakingNewsResponse = result
                 else{
                     val oldArticles = breakingNewsResponse?.articles
@@ -104,6 +149,9 @@ class NewsViewModel(
                 searchNewsPage++
                 if (searchNewsResponse==null) searchNewsResponse = result
                 else{
+                    runBlocking {
+                        delay(2000)
+                    }
                     val oldArticles = searchNewsResponse?.articles
                     val newArticle = result.articles
                     oldArticles?.addAll(newArticle)
