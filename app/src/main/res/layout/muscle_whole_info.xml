@@ -7,34 +7,77 @@
     tools:context=".workout.ui.details.WorkOutDetailFragment"
     android:padding="10dp"
     >
+    <TextView
+        android:id="@+id/muscle_name"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        app:layout_constraintEnd_toStartOf="@id/muscleWhole"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Muscle name"
+        app:layout_constraintTop_toTopOf="@id/muscleWhole"
+        app:layout_constraintBottom_toBottomOf="@id/muscleWhole"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintHorizontal_bias="0"
+        />
     <ImageView
-        android:id="@+id/muscleIWhole"
-        android:layout_width="150dp"
-        android:layout_height="250dp"
+        android:id="@+id/muscleWhole"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
         android:layout_marginTop="15dp"
         android:src="@drawable/muscle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/muscle_name"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0" />
 
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewpager2"
-        android:layout_width="150dp"
-        android:layout_height="250dp"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
         android:layout_marginTop="15dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/muscle_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0"
+        />
+    <TextView
+        android:id="@+id/equipments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toBottomOf="@id/viewpager2"
+        app:layout_constraintBottom_toTopOf="@id/tab_layout_image"
+        android:text="Equipments Needed"
+        android:textSize="20sp"
+        android:fontFamily="@font/newsreader_italic_variable_font_opsz_wght"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/equipmentList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toBottomOf="@id/equipments"
+        app:layout_constraintBottom_toTopOf="@id/tab_layout_image"
+        android:text="No Equipments"
+        android:textSize="16sp"
+        android:fontFamily="@font/roboto_flex_variable_font_grad"
+        android:gravity="center"
         />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout_image"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:layout_constraintTop_toBottomOf="@id/viewpager2"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/equipmentList"
         app:layout_constraintBottom_toTopOf="@id/scrollable"
         app:tabMode="scrollable"
         />

@@ -36,6 +36,7 @@ class ContactDetailsFragment : Fragment(R.layout.contact_details_fragment) {
         contactDetailsViewModel.contactDetails.observe(viewLifecycleOwner){ contact->
             contact?.let { con ->
                 binding.userName.text = con.name
+                binding.nameOnScroll.text = con.name
                 binding.phoneNumber.text = con.phoneNumber
                 binding.userProfilePicture.setImageURI(con.profilePic)
             }

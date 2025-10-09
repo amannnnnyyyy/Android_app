@@ -1,8 +1,5 @@
 package com.example.myapplication1.workout.ui.details
-
-import android.graphics.drawable.PictureDrawable
 import android.os.Bundle
-import android.text.Html
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
+import androidx.viewpager2.widget.ViewPager2
 import com.example.myapplication1.R
 import com.example.myapplication1.databinding.FragmentWorkOutDetailBinding
 import com.example.myapplication1.workout.db.ExerciseInfoDatabase
@@ -56,11 +54,12 @@ class WorkOutDetailFragment : Fragment(R.layout.fragment_work_out_detail) {
                     }
                     val viewPager = binding.viewPager
                     filtered?.let {
-                        val adapter = MuscleInformationViewPagerAdapter(it)
+                        val adapter = MuscleInformationViewPagerAdapter(it, viewPager)
                         viewPager.adapter = adapter
                         TabLayoutMediator(binding.tabLayout, viewPager){ tab, position ->
                             tab.text = "Target Muscle ${(position+1).toString()}"
                         }.attach()
+
                     }
                 }
 
@@ -70,6 +69,7 @@ class WorkOutDetailFragment : Fragment(R.layout.fragment_work_out_detail) {
 
         return binding.root
     }
+
 
 
 

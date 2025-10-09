@@ -1,69 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.fragments.contact_detail.ContactDetailsFragment"
-    android:background="@color/almost_black">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    android:background="@color/black"
+    app:layoutDescription="@xml/contact_details_fragment_scene">
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/header_contact_detail"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        android:background="@color/whatsAppCard"-->
+<!--        android:weightSum="1"-->
+<!--        android:padding="15dp"-->
+<!--        >-->
+<!--        -->
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+    <FrameLayout
+        android:id="@+id/background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/contact_detail_rest"
+        android:background="@color/whatsAppCard"
+        />
+    <ImageView
+        android:id="@+id/go_back"
+        android:layout_width="20dp"
+        android:layout_height="30dp"
+        android:layout_gravity="start"
+        android:contentDescription="@string/go_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/whatsAppCard"
-        android:weightSum="1"
-        android:padding="15dp"
-        >
-        <ImageView
-            android:id="@+id/go_back"
-            android:layout_width="20dp"
-            android:layout_height="30dp"
-            android:layout_gravity="start"
-            android:contentDescription="@string/go_back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintHorizontal_bias="0"
-            android:src="@drawable/left_arrow"
-            app:tint="@color/white"
-            />
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/user_profile_picture"
-            android:layout_width="92dp"
-            android:layout_height="92dp"
-            app:shapeAppearanceOverlay="@style/RoundedCornersImageView"
-            app:layout_constraintWidth_percent="0.4"
-            android:transitionName="profile_pic"
-            android:contentDescription="@string/profile_picture"
-            android:src="@drawable/profile_picture"
-            android:background="@drawable/rounded_layout"
-            app:layout_constraintStart_toEndOf="@id/go_back"
-            app:layout_constraintEnd_toStartOf="@id/more_options"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+        app:layout_constraintHorizontal_bias="0"
+        android:src="@drawable/left_arrow"
+        app:tint="@color/white"
+        />
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/user_profile_picture"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:shapeAppearanceOverlay="@style/RoundedCornersImageView"
+        app:layout_constraintWidth_percent="0.4"
+        android:transitionName="profile_pic"
+        android:contentDescription="@string/profile_picture"
+        android:src="@drawable/profile_picture"
+        android:background="@drawable/rounded_layout"
+        app:layout_constraintStart_toEndOf="@id/go_back"
+        app:layout_constraintEnd_toStartOf="@id/more_options"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/contact_detail_rest"
+        />
+    <TextView
+        android:id="@+id/name_on_scroll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="unknown"
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@id/user_profile_picture"
+        app:layout_constraintEnd_toStartOf="@id/more_options"
+        android:scaleX="10"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/white"
+        />
+    <ImageView
+        android:id="@+id/more_options"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="start"
+        android:contentDescription="@string/more_options"
+        android:src="@drawable/more"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        app:tint="@color/white"
+        />
 
-        <ImageView
-            android:id="@+id/more_options"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="start"
-            android:contentDescription="@string/more_options"
-            android:src="@drawable/more"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintHorizontal_bias="1"
-            app:tint="@color/white"
-            />
-    </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/contact_detail_rest"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintTop_toBottomOf="@id/user_profile_picture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -253,6 +281,16 @@
                     app:tint="@color/white"
                     />
             </RelativeLayout>
+            <FrameLayout
+                android:id="@+id/not_med"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="@id/notification_whole"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/media_whole"
+                android:background="@color/whatsAppCard"
+                />
             <LinearLayout
                 android:id="@+id/notification_whole"
                 android:layout_width="match_parent"
@@ -279,7 +317,7 @@
                     android:id="@+id/notification"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/media_links_and_docs"
+                    android:text="@string/notifications"
                     android:textColor="@color/white"
                     android:layout_alignParentStart="true"
                     android:orientation="horizontal"
@@ -317,6 +355,16 @@
                     android:orientation="horizontal"
                     />
             </LinearLayout>
+            <FrameLayout
+                android:id="@+id/enc_advanced"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="@id/encryption_whole"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/privacy_whole"
+                android:background="@color/whatsAppCard"
+                />
             <RelativeLayout
                 android:id="@+id/encryption_whole"
                 android:layout_width="match_parent"
@@ -551,4 +599,4 @@
     </androidx.core.widget.NestedScrollView>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.motion.widget.MotionLayout>
