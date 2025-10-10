@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_chatHolderFragment_to_contactDetailsFragment"
             app:destination="@id/contactDetailsFragment" />
+        <action
+            android:id="@+id/action_chatHolderFragment_to_profileDialogFragment"
+            app:destination="@id/profileDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/chatDetailFragment"
@@ -134,4 +137,19 @@
         <argument android:name="workout_id"
             app:argType="integer" />
     </fragment>
+    <dialog
+        android:id="@+id/profileDialogFragment"
+        android:name="com.example.myapplication1.view.fragments.profile_dialog.ProfileDialogFragment"
+        android:label="fragment_profile_dialog"
+        tools:layout="@layout/fragment_profile_dialog" >
+        <argument
+            android:name="contact_id"
+            app:argType="integer" />
+        <argument
+            android:name="from"
+            app:argType="string" />
+        <argument
+            android:name="transition_name"
+            app:argType="string" />
+    </dialog>
 </navigation>

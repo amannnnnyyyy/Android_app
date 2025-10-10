@@ -47,6 +47,8 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news), AdapterV
 
     lateinit var article:Article
     private lateinit var newsAdapter : NewsAdapter
+    private lateinit var countryCodesAdapter : ArrayAdapter<CharSequence>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -96,19 +98,21 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news), AdapterV
 
         ArrayAdapter.createFromResource(
             requireContext(),
-            R.array.countries,
+            R.array.country_names,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            adapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice)
             numberSpinner.adapter = adapter
         }
 
+        countryCodesAdapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.country_codes,
+            android.R.layout.simple_spinner_item
+        )
+
         numberSpinner.onItemSelectedListener = this
 
-
-        binding.filterBtn.setOnClickListener {
-            numberSpinner.performClick()
-        }
         return binding.root
     }
 
@@ -200,7 +204,8 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news), AdapterV
         id: Long
     ) {
         val selectedNumber = parent?.getItemAtPosition(position).toString()
-        viewModel.changeCountry(selectedNumber)
+        val selectedCode = countryCodesAdapter.getItem(position).toString()
+        viewModel.changeCountry(selectedCode)
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}

@@ -33,13 +33,16 @@ class ChatHolderFragment : Fragment(R.layout.fragment_chat_holder), NavigationVi
 
         binding.navView.bringToFront()
 
-        val toggle = ActionBarDrawerToggle(requireActivity(), drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer)
+        binding.toggle.setOnClickListener {
+            drawerLayout.open()
+        }
+        //val toggle = ActionBarDrawerToggle(requireActivity(), drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer)
 
-        drawerLayout.addDrawerListener(toggle)
+        //drawerLayout.addDrawerListener(toggle)
         binding.navView.menu.removeItem(R.id.chat)
         binding.navView.menu.removeItem(R.id.news)
         binding.navView.menu.removeItem(R.id.workout)
-        toggle.syncState()
+        //toggle.syncState()
 
         binding.navView.setNavigationItemSelectedListener(this)
 

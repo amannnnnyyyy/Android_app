@@ -26,6 +26,7 @@ import com.example.myapplication1.core.model.message.MessageModel
 import com.example.myapplication1.core.model.message.ReadStatus
 import com.google.android.material.imageview.ShapeableImageView
 import androidx.core.net.toUri
+import androidx.core.view.ViewCompat
 import com.example.myapplication1.core.model.advertisement.Ads
 import com.example.myapplication1.core.model.chat.DisplayType
 
@@ -131,6 +132,8 @@ class ChatListRecyclerViewAdapter(
         val notificationIconNumber = holder.itemView.findViewById<TextView>(R.id.notification)
         val chatsView = holder.itemView.findViewById<RelativeLayout>(R.id.chats)
 
+        ViewCompat.setTransitionName(profilePic, "profile_pic_$position")
+
         val contact = ContactModel.contacts.find {
             it.contactId == chat.sender
         }
@@ -145,7 +148,7 @@ class ChatListRecyclerViewAdapter(
 
         contact?.let { con->
             profilePic.setOnClickListener {
-                onUpdateChange.invoke(ListenerType.ProfileClicked(con.contactId))
+                onUpdateChange.invoke(ListenerType.ProfileClicked(con.contactId, profilePic))
             }
             chatsView.setOnClickListener {
                 onUpdateChange.invoke(ListenerType.ItemClick(chat.id!!,con.contactId))
@@ -197,7 +200,7 @@ sealed class ListenerType{
     class ItemClick(val chatId:Int, val contactId: Int): ListenerType()
     class SearchClick(val searchString: CharSequence?): ListenerType()
 
-    class ProfileClicked(val contactId: Int): ListenerType()
+    class ProfileClicked(val contactId: Int, val profilePic: ImageView): ListenerType()
 
     class AdSeeMoreClicked(val redirectUrl: Uri): ListenerType()
 }

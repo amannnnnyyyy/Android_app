@@ -1,5 +1,6 @@
 package com.example.myapplication1.view.fragments.home
 
+import android.icu.text.RelativeDateTimeFormatter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
+import androidx.compose.ui.graphics.Path
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.fragment.findNavController
@@ -39,10 +42,14 @@ class MainHomeFragment : Fragment(R.layout.fragment_home_main),
 
 //        (activity as? AppCompatActivity)?.setSupportActionBar(toolbar)
 
-        val toggle = ActionBarDrawerToggle(requireActivity(), drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer)
+        //val toggle = ActionBarDrawerToggle(requireActivity(), drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer)
 
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
+        binding.toggle.setOnClickListener {
+            drawerLayout.open()
+        }
+
+//        drawerLayout.addDrawerListener(toggle)
+//        toggle.syncState()
 
 
         binding.chat.setOnClickListener {

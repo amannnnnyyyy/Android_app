@@ -59,7 +59,6 @@
             android:contentDescription="@string/profile_picture"
             android:scaleType="centerCrop"
             android:src="@drawable/background"
-            android:transitionName="profile_pic"
             app:shapeAppearanceOverlay="@style/RoundedCornersImageView" />
 
         <LinearLayout

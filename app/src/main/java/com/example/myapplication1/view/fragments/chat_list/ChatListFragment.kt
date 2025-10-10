@@ -28,6 +28,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,6 +45,7 @@ import com.example.myapplication1.view.main.MyChatViewModel
 import com.example.myapplication1.view.adapters.recycler_view_adapter.ChatListRecyclerViewAdapter
 import com.example.myapplication1.view.adapters.recycler_view_adapter.ListenerType
 import com.example.myapplication1.view.fragments.chat_holder.ChatHolderFragmentDirections
+import com.example.myapplication1.view.fragments.home.MainHomeFragmentDirections
 import com.example.myapplication1.view.fragments.profile_dialog.ProfileDialogFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
@@ -155,7 +157,7 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
                     is ListenerType.SearchClick -> {
                         dynamicAdapter(recycler, "searching", it.searchString.toString(), owner = viewLifecycleOwner)
                     }
-                    is ListenerType.ProfileClicked -> navigateToProfileDialog(it.contactId)
+                    is ListenerType.ProfileClicked -> navigateToProfileDialog(it.contactId, it.profilePic)
 
                     is ListenerType.AdSeeMoreClicked -> redirectToUrl(it.redirectUrl)
                 }
@@ -195,7 +197,7 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
                     is ListenerType.SearchClick -> {
                         dynamicAdapter(recycler, "searching", it.searchString.toString(), owner = viewLifecycleOwner)
                     }
-                    is ListenerType.ProfileClicked -> navigateToProfileDialog(it.contactId)
+                    is ListenerType.ProfileClicked -> navigateToProfileDialog(it.contactId, it.profilePic)
 
                     is ListenerType.AdSeeMoreClicked -> redirectToUrl(it.redirectUrl)
 
@@ -295,15 +297,13 @@ class ChatListFragment : Fragment(R.layout.fragment_chat_list){
         }
     }
 
-    fun navigateToProfileDialog(contactId:Int){
-        val profileDialog = ProfileDialogFragment()
-        val bundle = Bundle().apply {
-            putInt("contact_id", contactId)
-            putString("from","chats")
-        }
-        profileDialog.arguments = bundle
-
-        profileDialog.show(childFragmentManager,null)
+    fun navigateToProfileDialog(contactId:Int, profilePic: ImageView){
+        val nav = findNavController()
+        val extras  = FragmentNavigatorExtras(
+            profilePic to "profile_pic"
+        )
+        val direction = ChatHolderFragmentDirections.actionChatHolderFragmentToProfileDialogFragment(contactId, "chats", profilePic.transitionName )
+        nav.navigate(direction, extras)
     }
 
 

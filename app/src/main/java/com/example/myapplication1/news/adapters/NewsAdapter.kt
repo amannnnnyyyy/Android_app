@@ -53,6 +53,22 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.ArticlesViewHolder>() {
     ) {
         val article = differ.currentList[position]
 
+        val shortDescription = article.description
+        val longDescription = article.content
+
+        holder.readToggleButton.setOnClickListener {
+            Log.i("check_toggle_text","$longDescription")
+            if(holder.readToggleButton.text=="Read more..."){
+                holder.articleContent.text = longDescription
+                holder.readToggleButton.text = "Read less"
+            }else{
+                holder.readToggleButton.text = "Read more..."
+                holder.articleContent.text = shortDescription
+            }
+        }
+
+        holder.articleContent.text = if (holder.readToggleButton.text=="Read more...") shortDescription  else longDescription
+
 
 
         holder.itemView.apply{
@@ -61,7 +77,6 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.ArticlesViewHolder>() {
                 .into(holder.articleImage)
 
             holder.articleTitle.text = article.title
-            holder.articleContent.text = article.description
 
             val instant = Instant.parse(article.publishedAt)
             val timeInMillis = instant.toEpochMilli()
@@ -74,7 +89,13 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.ArticlesViewHolder>() {
 
             holder.articleTime.text = relativeTime
             holder.source.text = article.source?.name
+
+            holder.authorName.text = article.author?:"Unknown"
         }
+
+
+
+
         holder.itemView.setOnClickListener {
             onItemClickListener?.let{
                 it(article)
@@ -98,6 +119,9 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.ArticlesViewHolder>() {
         val articleContent = itemView.findViewById<TextView>(R.id.article_content)
         val articleTime = itemView.findViewById<TextView>(R.id.time)
         val source = itemView.findViewById<TextView>(R.id.source)
+        val authorName = itemView.findViewById<TextView>(R.id.author)
+
+        val readToggleButton = itemView.findViewById<TextView>(R.id.read_toggle)
     }
 
 

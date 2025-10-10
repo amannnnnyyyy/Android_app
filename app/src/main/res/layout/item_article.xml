@@ -6,6 +6,8 @@
     android:layout_height="wrap_content"
     android:background="@drawable/whatsapp_card_background"
     android:layout_margin="10dp"
+    android:elevation="10dp"
+    android:paddingBottom="5dp"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -55,43 +57,89 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/article_title"
             android:textColor="@color/greyish"
-            android:layout_marginStart="10dp"
+            android:layout_marginTop="3dp"
             android:text="this is description"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingHorizontal="10dp"
             app:layout_constraintTop_toBottomOf="@id/bottomBarrier"
-            android:paddingRight="5dp"
+            />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/read_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1"
+            android:background="@drawable/rounded_text_layout"
+            android:backgroundTint="@color/greyish"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:textColor="@color/white"
+            android:paddingHorizontal="5dp"
+            android:layout_marginEnd="5dp"
+            android:text="Read more..."
+            app:layout_constraintTop_toBottomOf="@id/article_content"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/mainContent"
-        android:background="@drawable/message_layout"
-        android:padding="5dp"
+        android:background="@drawable/news_footer"
+        android:paddingVertical="5dp"
+        android:layout_margin="20dp"
         >
+        <TextView
+            android:id="@+id/author_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingHorizontal="10dp"
+            android:text="Author : "
+            />
+        <TextView
+            android:id="@+id/author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10dp"
+            app:layout_constraintStart_toEndOf="@id/author_title"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_toEndOf="@id/author_title"
+            android:text="new"
+            />
         <TextView
             android:id="@+id/sourceTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:paddingHorizontal="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/author"
             android:text="Source : "
             />
         <TextView
             android:id="@+id/source"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:paddingHorizontal="10dp"
+            app:layout_constraintStart_toEndOf="@id/sourceTitle"
+            app:layout_constraintTop_toBottomOf="@id/author"
             android:layout_toEndOf="@id/sourceTitle"
-            android:text="new"
             />
         <TextView
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/source"
-            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/source"
             android:textColor="@color/greyish"
             android:text="new"
             />
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

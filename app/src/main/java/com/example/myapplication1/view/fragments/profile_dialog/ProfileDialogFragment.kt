@@ -7,11 +7,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
+import com.example.myapplication1.ProfileDialogArgs
 import com.example.myapplication1.R
 import com.example.myapplication1.databinding.FragmentProfileDialogBinding
 import com.example.myapplication1.databinding.ProfileDialogFragmentBinding
@@ -24,6 +27,8 @@ class ProfileDialogFragment : DialogFragment(R.layout.fragment_profile_dialog) {
 
     var contactId: Int? = null
     var hereFrom: String? = null
+
+    private val args: ProfileDialogFragmentArgs by navArgs()
     val activityVModel: MyChatViewModel by activityViewModels()
 
     private var _binding: FragmentProfileDialogBinding? = null
@@ -31,10 +36,8 @@ class ProfileDialogFragment : DialogFragment(R.layout.fragment_profile_dialog) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            contactId = it.getInt("contact_id")
-            hereFrom = it.getString("from")
-        }
+            contactId = args.contactId
+            hereFrom = args.from
     }
 
     override fun onCreateView(
@@ -45,6 +48,10 @@ class ProfileDialogFragment : DialogFragment(R.layout.fragment_profile_dialog) {
         sharedElementReturnTransition = TransitionInflater.from(activity).inflateTransition(android.R.transition.move)
 
         _binding = FragmentProfileDialogBinding.inflate(inflater, container, false)
+        val transitionName = args.transitionName
+        _binding?.apply {
+            ViewCompat.setTransitionName(profileName,transitionName)
+        }
         return binding.root
     }
 
