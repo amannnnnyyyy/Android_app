@@ -24,6 +24,8 @@ import com.example.myapplication1.databinding.FragmentWorkOutHomeBinding
 import com.example.myapplication1.news.ui.main.NewsMainFragmentDirections
 import com.example.myapplication1.workout.adapters.ExerciseCategoryAdapter
 import com.example.myapplication1.workout.db.ExerciseCategoryDatabase
+import com.example.myapplication1.workout.models.Category
+import com.example.myapplication1.workout.models.ExerciseCategory
 import com.example.myapplication1.workout.repository.ExerciseCategoryRepository
 import com.example.myapplication1.workout.ui.details.WorkOutDetailsViewModel
 import com.example.myapplication1.workout.ui.viewmodels.ExerciseCategoryViewModelProvider
@@ -68,7 +70,15 @@ class WorkOutHomeFragment : Fragment(R.layout.fragment_work_out_home){
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.exerciseCategory.collectLatest { category->
                     Log.d("thisIsTheAnswer","${category.data}\n${category.message}")
-                    exerciseCategoryAdapter.differ.submitList(category.data?.results?.toList())
+
+                    val lists : MutableList<ExerciseCategory> = mutableListOf()
+                    category.data?.results?.toList()?.let{ it->
+                        for (list in it) {
+                            //delay(100)
+                            lists.add(list)
+                            exerciseCategoryAdapter.differ.submitList(lists)
+                        }
+                    }
                 }
             }
         }
