@@ -8,6 +8,7 @@ import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
 import android.graphics.Paint
+import android.util.TypedValue
 import android.view.MotionEvent
 import androidx.core.graphics.createBitmap
 
@@ -104,7 +105,27 @@ class DrawingView(context: Context, attrs: AttributeSet): View(context, attrs){
         drawPaint.strokeCap = Paint.Cap.ROUND
 
         canvasPaint = Paint(Paint.DITHER_FLAG)
-        brushSize = 20F
+        brushSize = 0F
+    }
+
+
+    fun changeBrushSize(newSize: Float){
+        brushSize = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            newSize,
+            resources.displayMetrics
+        )
+
+        drawPaint.strokeWidth = brushSize
+    }
+
+    fun clearPaint(){
+        paths.clear()
+        drawPath = FingerPath(color, brushSize)
+        drawPaint.strokeWidth = drawPath.brushThickness
+        drawPaint.color = drawPath.color
+
+            canvas.drawPath(drawPath,drawPaint)
     }
 
     internal inner class FingerPath(var color: Int, var brushThickness: Float): Path()
