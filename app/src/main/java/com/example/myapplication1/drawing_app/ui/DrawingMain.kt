@@ -37,6 +37,9 @@ class DrawingMain : Fragment(), View.OnClickListener {
         binding.red.setOnClickListener { drawingView.setColor("#ff0000") }
 
 
+        binding.undo.setOnClickListener { drawingView.undoPath() }
+
+        binding.reset.setOnClickListener { drawingView.clearPaint() }
 
         binding.brush.setOnClickListener {
             showBrushSizeDialog()

@@ -131,10 +131,14 @@ class DrawingView(context: Context, attrs: AttributeSet): View(context, attrs){
 
     fun clearPaint(){
         paths.clear()
-        drawPath = FingerPath(color, brushSize)
-        drawPaint.strokeWidth = drawPath.brushThickness
-        drawPaint.color = drawPath.color
-        canvas.drawPath(drawPath,drawPaint)
+        invalidate()
+    }
+
+    fun undoPath(){
+        if (paths.isNotEmpty()){
+            paths.removeLastOrNull()
+        }
+        invalidate()
     }
 
     internal inner class FingerPath(var color: Int, var brushThickness: Float): Path()
