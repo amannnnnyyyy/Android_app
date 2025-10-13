@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -29,6 +31,7 @@ import com.example.myapplication1.workout.models.ExerciseCategory
 import com.example.myapplication1.workout.repository.ExerciseCategoryRepository
 import com.example.myapplication1.workout.ui.details.WorkOutDetailsViewModel
 import com.example.myapplication1.workout.ui.viewmodels.ExerciseCategoryViewModelProvider
+import com.example.myapplication1.workout.utils.Resource
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -71,12 +74,31 @@ class WorkOutHomeFragment : Fragment(R.layout.fragment_work_out_home){
                 viewModel.exerciseCategory.collectLatest { category->
                     Log.d("thisIsTheAnswer","waiting ${category.data}\n${category.message}")
 
-                    val lists : MutableList<ExerciseCategory> = mutableListOf()
-                    category.data?.results?.toList()?.let{ it->
-                        for (list in it) {
-                            //delay(100)
-                            lists.add(list)
-                            exerciseCategoryAdapter.differ.submitList(lists)
+                    if (category is Resource.Error){
+
+                        binding.errorMessage.apply {
+                            text = "${ category.message } \nPlease try again"
+                            isVisible = true
+                        }
+                        binding.progressBar.isVisible = false
+                        Toast.makeText(requireContext(),"Error Occurred: ${category.message}", Toast.LENGTH_SHORT).show()
+                    }else if (category is Resource.Loading){
+                        binding.errorMessage.isVisible = false
+                        binding.progressBar.isVisible = true
+                    }else if (category is Resource.Success){
+                        binding.errorMessage.isVisible = false
+                        binding.progressBar.isVisible = false
+                        Log.i("checkCategory","Inside success")
+                        val lists : MutableList<ExerciseCategory> = mutableListOf()
+                        Log.i("checkCategory","Inside success ${category.data?.results?.size}")
+                        if ((category.data?.results?.size?:0)>0){
+                            category.data?.results?.toList()?.let{ it->
+                                for (list in it) {
+                                    //delay(100)
+                                    lists.add(list)
+                                    exerciseCategoryAdapter.differ.submitList(lists)
+                                }
+                            }
                         }
                     }
                 }

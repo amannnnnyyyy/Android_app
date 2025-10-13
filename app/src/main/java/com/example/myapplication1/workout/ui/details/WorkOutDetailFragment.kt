@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -19,7 +20,9 @@ import com.example.myapplication1.workout.ui.viewmodels.ExerciseInfoViewModelPro
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import com.example.myapplication1.workout.adapters.MuscleInformationViewPagerAdapter
+import com.example.myapplication1.workout.utils.Resource
 import com.google.android.material.tabs.TabLayoutMediator
+import okhttp3.Response
 
 
 class WorkOutDetailFragment : Fragment(R.layout.fragment_work_out_detail) {
@@ -45,21 +48,29 @@ class WorkOutDetailFragment : Fragment(R.layout.fragment_work_out_detail) {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.exerciseInfos.collectLatest { infoResponse->
-                    val categories = infoResponse.data?.results?.map {
-                        it.category?.name
+                    Log.i("checkCategory","$infoResponse")
+                    if (infoResponse is Resource.Error){
+                        Toast.makeText(requireContext(), "Error: ${infoResponse.message}", Toast.LENGTH_SHORT).show()
+                    }else if (infoResponse is Resource.Loading){
+                        Toast.makeText(requireContext(), "Still Loading", Toast.LENGTH_SHORT).show()
                     }
-                    Log.i("CheckCategory","$categories")
-                    val filtered = infoResponse.data?.results?.filter {
-                        ((it.translations?.size?:0)>0) && (it.translations?.any { translation -> translation.language==2 && translation.description.isNotEmpty() })==true
-                    }
-                    val viewPager = binding.viewPager
-                    filtered?.let {
-                        val adapter = MuscleInformationViewPagerAdapter(it, viewPager)
-                        viewPager.adapter = adapter
-                        TabLayoutMediator(binding.tabLayout, viewPager){ tab, position ->
-                            tab.text = "Target Muscle ${(position+1).toString()}"
-                        }.attach()
+                    else if (infoResponse is Resource.Success){
+                        val categories = infoResponse.data?.results?.map {
+                            it.category?.name
+                        }
+                        Log.i("CheckCategory","$categories  with ${args.workoutId}")
+                        val filtered = infoResponse.data?.results?.filter {
+                            ((it.translations?.size?:0)>0) && (it.translations?.any { translation -> translation.language==2 && translation.description.isNotEmpty() })==true
+                        }
+                        val viewPager = binding.viewPager
+                        filtered?.let {
+                            val adapter = MuscleInformationViewPagerAdapter(it, viewPager)
+                            viewPager.adapter = adapter
+                            TabLayoutMediator(binding.tabLayout, viewPager){ tab, position ->
+                                tab.text = "Target Muscle ${(position+1).toString()}"
+                            }.attach()
 
+                        }
                     }
                 }
 

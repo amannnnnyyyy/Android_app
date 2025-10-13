@@ -1,5 +1,6 @@
 package com.example.myapplication1.workout.ui.details
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication1.workout.models.ExerciseInfo
@@ -23,14 +24,21 @@ class WorkOutDetailsViewModel(val repository: ExerciseInfoRepository): ViewModel
         selectedExerciseInfo.value = exerciseInfos
     }
     fun getAllInfos(category:Int)= viewModelScope.launch {
+        Log.i("checkCategory","before handle: to fetch")
+
         val response = repository.getExerciseInfos(
-            category, 10, offset = 0, variations = null
+            category, null, offset = null, variations = null
         )
+        Log.i("checkCategory","before handle: after fetch $response")
+
         _exerciseInfos.value = handleRoutineResponse(response)
     }
 
     private fun handleRoutineResponse(response: Response<ExerciseInfoResponse>): Resource<ExerciseInfoResponse> {
+        Log.i("checkCategory","handle: here to handle ${response}")
         if (response.isSuccessful){
+            Log.i("checkCategory","handle: is successful ${response}")
+
             response.body()?.let{ result->
                 if (result.results!=null && result.results.isEmpty()){
                     return Resource.Error(null, "No detail data found")
@@ -40,6 +48,8 @@ class WorkOutDetailsViewModel(val repository: ExerciseInfoRepository): ViewModel
             }
             return Resource.Error(null, "Fetch not successful")
         }
+        Log.i("checkCategory","handle: not successful ${response}")
+
         return Resource.Error(null, response.message())
     }
 }

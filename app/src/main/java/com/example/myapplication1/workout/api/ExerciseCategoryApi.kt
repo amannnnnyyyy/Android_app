@@ -12,5 +12,5 @@ interface ExerciseCategoryApi {
         @Query("name") name: String?,
         @Query("offset") offset:Int?,
         @Query("ordering") ordering: String?
-        ): Response<ExerciseCategoryResponse>
+        ): Response<ExerciseCategoryResponse>?
 }
