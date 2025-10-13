@@ -235,7 +235,7 @@ class MainHomeFragment : Fragment(R.layout.fragment_home_main),
 
     fun navigateToPaint(){
         val nav = findNavController()
-        val direction = MainHomeFragmentDirections.actionMainHomeFragmentToNewsMainFragment()
+        val direction = MainHomeFragmentDirections.actionMainHomeFragmentToDrawingMain()
         nav.navigate(direction)
     }
 

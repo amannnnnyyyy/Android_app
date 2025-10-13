@@ -76,6 +76,9 @@
             android:id="@+id/action_mainHomeFragment_to_newsMainFragment"
             app:destination="@id/newsMainFragment"
             app:popUpTo="@id/mainHomeFragment" />
+        <action
+            android:id="@+id/action_mainHomeFragment_to_drawingMain"
+            app:destination="@id/drawingMain" />
     </fragment>
     <fragment
         android:id="@+id/workOutHomeFragment"
@@ -152,4 +155,9 @@
             android:name="transition_name"
             app:argType="string" />
     </dialog>
+    <fragment
+        android:id="@+id/drawingMain"
+        android:name="com.example.myapplication1.drawing_app.ui.DrawingMain"
+        android:label="fragment_drawing_main"
+        tools:layout="@layout/fragment_drawing_main" />
 </navigation>
