@@ -28,6 +28,8 @@ class DrawingView(context: Context, attrs: AttributeSet): View(context, attrs){
     private lateinit var canvasBitMap: Bitmap
     private var brushSize: Float = 0F
 
+    private val paths = mutableListOf<FingerPath>()
+
 
     init {
         setUpDrawing()
@@ -66,6 +68,7 @@ class DrawingView(context: Context, attrs: AttributeSet): View(context, attrs){
 
             //triggered when user takes off the finger (silekew)
             MotionEvent.ACTION_UP -> {
+                paths.add(drawPath)
                 drawPath = FingerPath(color, brushSize)
             }
 
@@ -80,6 +83,11 @@ class DrawingView(context: Context, attrs: AttributeSet): View(context, attrs){
 
         canvas.drawBitmap(canvasBitMap, 0f,0f,drawPaint)
 
+        for (path in paths){
+            drawPaint.strokeWidth = path.brushThickness
+            drawPaint.color = path.color
+            canvas.drawPath(path, drawPaint)
+        }
         if (!drawPath.isEmpty){
             drawPaint.strokeWidth = drawPath.brushThickness
             drawPaint.color = drawPath.color
