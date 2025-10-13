@@ -10,12 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.TextView
-import coil3.util.Logger
+import android.graphics.Color
 import com.example.myapplication1.R
 import com.example.myapplication1.databinding.FragmentDrawingMainBinding
-import com.example.myapplication1.view.theme.PurpleGrey80
+import yuku.ambilwarna.AmbilWarnaDialog
 
-class DrawingMain : Fragment(), View.OnClickListener {
+class DrawingMain : Fragment() {
 
     private val viewModel: DrawingMainViewModel by viewModels()
 
@@ -30,11 +30,11 @@ class DrawingMain : Fragment(), View.OnClickListener {
         drawingView = binding.draw
 
 
-        binding.purple.setOnClickListener { drawingView.setColor("#FF3700B3") }
-        binding.green.setOnClickListener { drawingView.setColor("#00ff00") }
-        binding.black.setOnClickListener { drawingView.setColor("#000000") }
-        binding.yellow.setOnClickListener { drawingView.setColor("#ffff00") }
-        binding.red.setOnClickListener { drawingView.setColor("#ff0000") }
+        binding.purple.setOnClickListener { drawingView.setColor(R.color.purple_700) }
+        binding.green.setOnClickListener { drawingView.setColor(Color.GREEN) }
+        binding.black.setOnClickListener { drawingView.setColor(Color.BLACK) }
+        binding.yellow.setOnClickListener { drawingView.setColor(Color.YELLOW) }
+        binding.red.setOnClickListener { drawingView.setColor(Color.RED) }
 
 
         binding.undo.setOnClickListener { drawingView.undoPath() }
@@ -43,6 +43,11 @@ class DrawingMain : Fragment(), View.OnClickListener {
 
         binding.brush.setOnClickListener {
             showBrushSizeDialog()
+        }
+
+
+        binding.colorPicker.setOnClickListener {
+            showColorPickerDialog()
         }
 
         return binding.root
@@ -83,14 +88,16 @@ class DrawingMain : Fragment(), View.OnClickListener {
 
     }
 
-    override fun onClick(v: View?) {
-        Log.i("clickedColor","what is clicked $v")
-        when(v?.id){
-            R.id.purple -> Log.i("clickedColor","purple")
-            R.id.green -> drawingView.setColor("#0f0")
-            R.id.black -> drawingView.setColor("#000")
-            R.id.yellow -> drawingView.setColor("#ff0")
-            R.id.red -> drawingView.setColor("#f00")
-        }
+
+    private fun showColorPickerDialog(){
+        val dialog = AmbilWarnaDialog(requireContext(), drawingView.getColor(), object: AmbilWarnaDialog.OnAmbilWarnaListener{
+            override fun onCancel(dialog: AmbilWarnaDialog?) {
+            }
+
+            override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
+                drawingView.setColor(color)
+            }
+
+        }).show()
     }
 }

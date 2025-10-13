@@ -109,4 +109,7 @@ dependencies {
     //for image
     implementation("com.caverock:androidsvg-aar:1.4")
 
+    //color picker
+    implementation("com.github.yukuku:ambilwarna:2.0.1")
+
 }

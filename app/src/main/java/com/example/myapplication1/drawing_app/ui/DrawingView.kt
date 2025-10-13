@@ -107,7 +107,7 @@ class DrawingView(context: Context, attrs: AttributeSet): View(context, attrs){
         drawPaint.strokeCap = Paint.Cap.ROUND
 
         canvasPaint = Paint(Paint.DITHER_FLAG)
-        brushSize = 0F
+        brushSize = 10F
     }
 
 
@@ -125,7 +125,9 @@ class DrawingView(context: Context, attrs: AttributeSet): View(context, attrs){
         return brushSize/3
     }
 
-    fun setColor(newColor: String){color = newColor.toColorInt()}
+    fun setColor(newColor: Int){color = newColor}
+
+    fun getColor():Int = color
 
 
 
