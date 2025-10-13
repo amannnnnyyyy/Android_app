@@ -8,9 +8,11 @@ import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
 import android.graphics.Paint
+import android.util.Log
 import android.util.TypedValue
 import android.view.MotionEvent
 import androidx.core.graphics.createBitmap
+import androidx.core.graphics.toColorInt
 
 class DrawingView(context: Context, attrs: AttributeSet): View(context, attrs){
 
@@ -122,6 +124,9 @@ class DrawingView(context: Context, attrs: AttributeSet): View(context, attrs){
     fun getBrushSize(): Float{
         return brushSize/3
     }
+
+    fun setColor(newColor: String){color = newColor.toColorInt()}
+
 
 
     fun clearPaint(){

@@ -13,8 +13,9 @@ import android.widget.TextView
 import coil3.util.Logger
 import com.example.myapplication1.R
 import com.example.myapplication1.databinding.FragmentDrawingMainBinding
+import com.example.myapplication1.view.theme.PurpleGrey80
 
-class DrawingMain : Fragment() {
+class DrawingMain : Fragment(), View.OnClickListener {
 
     private val viewModel: DrawingMainViewModel by viewModels()
 
@@ -27,6 +28,13 @@ class DrawingMain : Fragment() {
         val binding = FragmentDrawingMainBinding.inflate(inflater, container, false)
 
         drawingView = binding.draw
+
+
+        binding.purple.setOnClickListener { drawingView.setColor("#FF3700B3") }
+        binding.green.setOnClickListener { drawingView.setColor("#00ff00") }
+        binding.black.setOnClickListener { drawingView.setColor("#000000") }
+        binding.yellow.setOnClickListener { drawingView.setColor("#ffff00") }
+        binding.red.setOnClickListener { drawingView.setColor("#ff0000") }
 
 
 
@@ -70,5 +78,16 @@ class DrawingMain : Fragment() {
 
         })
 
+    }
+
+    override fun onClick(v: View?) {
+        Log.i("clickedColor","what is clicked $v")
+        when(v?.id){
+            R.id.purple -> Log.i("clickedColor","purple")
+            R.id.green -> drawingView.setColor("#0f0")
+            R.id.black -> drawingView.setColor("#000")
+            R.id.yellow -> drawingView.setColor("#ff0")
+            R.id.red -> drawingView.setColor("#f00")
+        }
     }
 }
