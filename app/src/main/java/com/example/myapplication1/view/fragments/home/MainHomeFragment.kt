@@ -3,7 +3,9 @@ package com.example.myapplication1.view.fragments.home
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -39,6 +41,7 @@ import com.google.android.material.navigation.NavigationView
 import androidx.core.view.get
 import androidx.core.view.iterator
 import com.example.myapplication1.Logger
+import com.example.myapplication1.news.ui.main.NewsMainFragment
 
 class MainHomeFragment : Fragment(R.layout.fragment_home_main),
     NavigationView.OnNavigationItemSelectedListener {
@@ -120,6 +123,12 @@ class MainHomeFragment : Fragment(R.layout.fragment_home_main),
                     Log.i("notificationStatus","Is it denying")
                 }else{
                     Log.i("notificationStatus","showing notification $clicked")
+                    val intent = Intent(requireActivity(), NewsMainFragment::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        putExtra("FRAGMENT_TO_OPEN", "MySpecificFragment")
+                    }
+                    val pendingIntent: PendingIntent = PendingIntent.getActivity(requireContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE)
+
                     val compat = NotificationCompat.Builder(requireContext(), "channel id")
                         .setContentTitle("News")
                         .setContentText("You have ${clicked+1} new ${if (clicked==0)"notification"; else "notifications"} from the news channel. Come check ${if (clicked==0)"it"; else "them"} out.")
@@ -133,6 +142,10 @@ class MainHomeFragment : Fragment(R.layout.fragment_home_main),
                                 else-> VISIBILITY_PUBLIC
                             }
                         )
+                        .addAction(R.drawable.left_arrow,"Open News", pendingIntent)
+                        .addAction(R.drawable.world_news, "cancel", pendingIntent)
+                        .addAction(0,"who cares",pendingIntent)
+                        .setAutoCancel(true)
                         .setPublicVersion(NotificationCompat.Builder(requireContext(), "Secret")
                             .setContentTitle("Hidden notification ${clicked+1}")
                             .setContentText("Go to app to see the details")
@@ -149,7 +162,7 @@ class MainHomeFragment : Fragment(R.layout.fragment_home_main),
         binding.cancelNotifications.setOnClickListener {
             Log.i("notificationStatus","cancelling")
             manager.cancel(clicked-1)
-            clicked--
+            if (clicked==0) clicked = 0 else clicked--
         }
 
 
