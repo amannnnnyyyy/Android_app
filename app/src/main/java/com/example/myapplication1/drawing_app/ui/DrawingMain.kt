@@ -1,5 +1,6 @@
 package com.example.myapplication1.drawing_app.ui
 
+import android.app.Dialog
 import androidx.fragment.app.viewModels
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import android.widget.TextView
 import coil3.util.Logger
 import com.example.myapplication1.R
 import com.example.myapplication1.databinding.FragmentDrawingMainBinding
@@ -26,7 +28,28 @@ class DrawingMain : Fragment() {
 
         drawingView = binding.draw
 
-        binding.brushSize.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+
+
+        binding.brush.setOnClickListener {
+            showBrushSizeDialog()
+        }
+
+        return binding.root
+    }
+
+
+    fun showBrushSizeDialog(){
+        val dialog = Dialog(requireContext())
+        dialog.setContentView(R.layout.brush_progress_dialog)
+        dialog.show()
+        Log.i("openedDialog","here")
+        val seekingBar = dialog.findViewById<SeekBar>(R.id.brushSize)
+        val brushSizeTv = dialog.findViewById<TextView>(R.id.progress_text)
+
+        seekingBar.progress = drawingView.getBrushSize().toInt()
+        brushSizeTv.text = drawingView.getBrushSize().toInt().toString()
+
+        seekingBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(
                 seekBar: SeekBar?,
                 progress: Int,
@@ -34,7 +57,7 @@ class DrawingMain : Fragment() {
             ) {
                 seekBar?.let{
                     drawingView.changeBrushSize(it.progress.toFloat())
-                    Log.i("brushSize","${it.progress}")
+                    brushSizeTv.text = it.progress.toString()
                 }
 
             }
@@ -47,12 +70,5 @@ class DrawingMain : Fragment() {
 
         })
 
-//        binding.resetBrush.setOnClickListener {
-//            Log.i("clicking","paintReset")
-//            drawingView.clearPaint()
-//            drawingView = binding.draw
-//        }
-
-        return binding.root
     }
 }

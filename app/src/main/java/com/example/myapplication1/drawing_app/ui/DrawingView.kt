@@ -119,13 +119,17 @@ class DrawingView(context: Context, attrs: AttributeSet): View(context, attrs){
         drawPaint.strokeWidth = brushSize
     }
 
+    fun getBrushSize(): Float{
+        return brushSize/3
+    }
+
+
     fun clearPaint(){
         paths.clear()
         drawPath = FingerPath(color, brushSize)
         drawPaint.strokeWidth = drawPath.brushThickness
         drawPaint.color = drawPath.color
-
-            canvas.drawPath(drawPath,drawPaint)
+        canvas.drawPath(drawPath,drawPaint)
     }
 
     internal inner class FingerPath(var color: Int, var brushThickness: Float): Path()
