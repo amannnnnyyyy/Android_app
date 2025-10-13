@@ -95,6 +95,10 @@ class MainHomeFragment : Fragment(R.layout.fragment_home_main),
             navigateToNews()
         }
 
+        binding.paint.setOnClickListener {
+            navigateToPaint()
+        }
+
         val bitmap: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.world_news)
 
 
@@ -199,6 +203,7 @@ class MainHomeFragment : Fragment(R.layout.fragment_home_main),
             R.id.chat -> navigateToChat()
             R.id.workout -> navigateToWorkOut()
             R.id.news -> navigateToNews()
+            R.id.paint -> navigateToPaint()
         }
 
         drawerLayout.closeDrawer(GravityCompat.START)
@@ -223,6 +228,12 @@ class MainHomeFragment : Fragment(R.layout.fragment_home_main),
     }
 
     fun navigateToNews(){
+        val nav = findNavController()
+        val direction = MainHomeFragmentDirections.actionMainHomeFragmentToNewsMainFragment()
+        nav.navigate(direction)
+    }
+
+    fun navigateToPaint(){
         val nav = findNavController()
         val direction = MainHomeFragmentDirections.actionMainHomeFragmentToNewsMainFragment()
         nav.navigate(direction)

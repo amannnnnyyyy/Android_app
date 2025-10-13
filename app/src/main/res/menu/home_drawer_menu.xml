@@ -22,6 +22,11 @@
             android:title="News"
             android:icon="@drawable/news"
             />
+        <item
+            android:id="@+id/paint"
+            android:title="Paint"
+            android:icon="@drawable/paint"
+            />
     </group>
         <item android:title="Profile">
             <menu>

@@ -50,6 +50,9 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation(libs.androidx.fragment)
+    implementation(libs.androidx.legacy.support.v4)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     val fragmentVersion = "1.8.9"
     val material = "1.12.0"
     val nav_version = "2.7.7"
