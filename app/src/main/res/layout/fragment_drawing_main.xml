@@ -12,13 +12,15 @@
        android:layout_height="wrap_content"
        app:layout_constraintStart_toStartOf="parent"
        app:layout_constraintTop_toTopOf="parent"
+       android:gravity="center_horizontal"
+       android:background="@color/greyish"
       >
       <androidx.appcompat.widget.AppCompatImageButton
           android:id="@+id/brush"
           android:layout_width="50dp"
           android:layout_height="50dp"
           android:scaleType="fitXY"
-          android:layout_margin="10dp"
+          android:layout_marginHorizontal="10dp"
           android:src="@drawable/paintbrush"
           android:background="@color/white_transparent"
           app:tint="@color/white"
@@ -29,7 +31,7 @@
           android:layout_width="50dp"
           android:layout_height="50dp"
           android:scaleType="fitXY"
-          android:layout_margin="10dp"
+          android:layout_marginHorizontal="10dp"
           android:src="@drawable/undo"
           android:background="@color/white_transparent"
           android:padding="10dp"
@@ -40,7 +42,7 @@
           android:layout_width="50dp"
           android:layout_height="50dp"
           android:scaleType="fitXY"
-          android:layout_margin="10dp"
+          android:layout_marginHorizontal="10dp"
           android:src="@drawable/color_picker"
           android:background="@color/white_transparent"
           android:padding="10dp"
@@ -51,7 +53,7 @@
           android:layout_width="50dp"
           android:layout_height="50dp"
           android:scaleType="fitXY"
-          android:layout_margin="10dp"
+          android:layout_marginHorizontal="10dp"
           android:src="@drawable/gallery"
           android:background="@color/white_transparent"
           android:padding="10dp"
@@ -62,10 +64,79 @@
           android:layout_width="50dp"
           android:layout_height="50dp"
           android:scaleType="fitXY"
-          android:layout_margin="10dp"
+          android:layout_marginHorizontal="10dp"
           android:src="@drawable/download"
           android:background="@color/white_transparent"
           app:tint="@color/white"
+          android:padding="10dp"
+          />
+   </LinearLayout>
+
+   <LinearLayout
+       android:id="@+id/btn_color_group"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@id/btn_group"
+       android:background="@color/greyish"
+       android:gravity="center_horizontal"
+       >
+      <androidx.appcompat.widget.AppCompatImageButton
+          android:id="@+id/purple"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:scaleType="fitXY"
+          android:layout_marginHorizontal="10dp"
+          android:src="@drawable/button"
+          android:background="@color/white_transparent"
+          app:tint="@color/purple_700"
+          android:padding="10dp"
+          />
+      <androidx.appcompat.widget.AppCompatImageButton
+          android:id="@+id/red"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:scaleType="fitXY"
+          android:layout_marginHorizontal="10dp"
+          android:src="@drawable/button"
+          android:background="@color/white_transparent"
+          app:tint="@color/whatsAppRed"
+          android:padding="10dp"
+          />
+
+      <androidx.appcompat.widget.AppCompatImageButton
+          android:id="@+id/black"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:scaleType="fitXY"
+          android:layout_marginHorizontal="10dp"
+          android:src="@drawable/button"
+          android:background="@color/white_transparent"
+          app:tint="@color/black"
+          android:padding="10dp"
+          />
+
+      <androidx.appcompat.widget.AppCompatImageButton
+          android:id="@+id/green"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:scaleType="fitXY"
+          android:layout_marginHorizontal="10dp"
+          android:src="@drawable/button"
+          android:background="@color/white_transparent"
+          app:tint="#0f0"
+          android:padding="10dp"
+          />
+
+      <androidx.appcompat.widget.AppCompatImageButton
+          android:id="@+id/yellow"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:scaleType="fitXY"
+          android:layout_marginHorizontal="10dp"
+          android:src="@drawable/button"
+          android:background="@color/white_transparent"
+          app:tint="#ff0"
           android:padding="10dp"
           />
    </LinearLayout>
@@ -75,7 +146,7 @@
        android:layout_width="match_parent"
        android:layout_height="0dp"
        app:layout_constraintBottom_toBottomOf="parent"
-       app:layout_constraintTop_toBottomOf="@id/btn_group"
+       app:layout_constraintTop_toBottomOf="@id/btn_color_group"
        android:background="@color/white"
        />
 
