@@ -6,38 +6,76 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".drawing_app.ui.DrawingMain">
 
-   <androidx.appcompat.widget.AppCompatImageButton
-       android:id="@+id/brush"
-       android:layout_width="50dp"
-       android:layout_height="50dp"
-       android:scaleType="fitXY"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintTop_toTopOf="parent"
-       app:layout_constraintBottom_toTopOf="@id/guide1"
-       app:layout_constraintHorizontal_bias="0"
-       android:src="@drawable/paintbrush"
-       android:background="@color/white_transparent"
-       app:tint="@color/white"
-       android:padding="10dp"
-       />
-
-
-
-   <androidx.constraintlayout.widget.Guideline
-       android:id="@+id/guide1"
-       android:layout_width="wrap_content"
+   <LinearLayout
+       android:id="@+id/btn_group"
+       android:layout_width="match_parent"
        android:layout_height="wrap_content"
-      android:orientation="horizontal"
-       app:layout_constraintGuide_percent="0.05"
-       />
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent"
+      >
+      <androidx.appcompat.widget.AppCompatImageButton
+          android:id="@+id/brush"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:scaleType="fitXY"
+          android:layout_margin="10dp"
+          android:src="@drawable/paintbrush"
+          android:background="@color/white_transparent"
+          app:tint="@color/white"
+          android:padding="10dp"
+          />
+      <androidx.appcompat.widget.AppCompatImageButton
+          android:id="@+id/undo"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:scaleType="fitXY"
+          android:layout_margin="10dp"
+          android:src="@drawable/undo"
+          android:background="@color/white_transparent"
+          android:padding="10dp"
+          />
+
+      <androidx.appcompat.widget.AppCompatImageButton
+          android:id="@+id/color_picker"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:scaleType="fitXY"
+          android:layout_margin="10dp"
+          android:src="@drawable/color_picker"
+          android:background="@color/white_transparent"
+          android:padding="10dp"
+          />
+
+      <androidx.appcompat.widget.AppCompatImageButton
+          android:id="@+id/gallery"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:scaleType="fitXY"
+          android:layout_margin="10dp"
+          android:src="@drawable/gallery"
+          android:background="@color/white_transparent"
+          android:padding="10dp"
+          />
+
+      <androidx.appcompat.widget.AppCompatImageButton
+          android:id="@+id/save"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:scaleType="fitXY"
+          android:layout_margin="10dp"
+          android:src="@drawable/download"
+          android:background="@color/white_transparent"
+          app:tint="@color/white"
+          android:padding="10dp"
+          />
+   </LinearLayout>
 
    <com.example.myapplication1.drawing_app.ui.DrawingView
        android:id="@+id/draw"
        android:layout_width="match_parent"
        android:layout_height="0dp"
        app:layout_constraintBottom_toBottomOf="parent"
-       app:layout_constraintTop_toBottomOf="@id/guide1"
+       app:layout_constraintTop_toBottomOf="@id/btn_group"
        android:background="@color/white"
        />
 
