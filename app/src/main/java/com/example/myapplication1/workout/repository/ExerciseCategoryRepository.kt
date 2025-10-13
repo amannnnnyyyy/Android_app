@@ -6,7 +6,7 @@ import com.example.myapplication1.workout.models.ExerciseCategory
 
 
 class ExerciseCategoryRepository(val db: ExerciseCategoryDatabase) {
-    suspend fun getExerciseCategories(limit: Int?, offset: Int?)= RetrofitInstance.api.getExerciseCategory(limit, null, 0, null)
+    suspend fun getExerciseCategories(limit: Int?, offset: Int?)= RetrofitInstance.api.getExerciseCategory(limit, null, offset, null)
 
     //suspend fun searchExerciseCategories(limit: Int, offset:Int) = RetrofitInstance.api.searchExerciseCategories(limit, offset)
 

@@ -69,7 +69,7 @@ class WorkOutHomeFragment : Fragment(R.layout.fragment_work_out_home){
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.exerciseCategory.collectLatest { category->
-                    Log.d("thisIsTheAnswer","${category.data}\n${category.message}")
+                    Log.d("thisIsTheAnswer","waiting ${category.data}\n${category.message}")
 
                     val lists : MutableList<ExerciseCategory> = mutableListOf()
                     category.data?.results?.toList()?.let{ it->
