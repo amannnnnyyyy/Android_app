@@ -65,6 +65,11 @@ class WorkoutLandingPageFragment : Fragment() {
             findNavController().navigate(direction)
         }
 
+        _binding?.myPlan?.setOnClickListener {
+            val direction = WorkoutLandingPageFragmentDirections.actionWorkoutLandingPageFragmentToWorkoutFragment()
+            findNavController().navigate(direction)
+        }
+
 
         return binding.root
 
@@ -85,7 +90,7 @@ class WorkoutLandingPageFragment : Fragment() {
                 v: View?,
                 event: MotionEvent?
             ): Boolean {
-                findNavController().popBackStack()
+                findNavController().navigateUp()
                 return true
             }
 

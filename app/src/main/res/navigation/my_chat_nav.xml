@@ -167,5 +167,13 @@
         <action
             android:id="@+id/action_workoutLandingPageFragment_to_workOutHomeFragment"
             app:destination="@id/workOutHomeFragment" />
+        <action
+            android:id="@+id/action_workoutLandingPageFragment_to_workoutFragment"
+            app:destination="@id/workoutFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/workoutFragment"
+        android:name="com.example.myapplication1.workout.ui.workoutplan.WorkoutFragment"
+        android:label="fragment_workout_list"
+        tools:layout="@layout/fragment_workout_list" />
 </navigation>

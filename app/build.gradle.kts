@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.firebase.firestore)
+    implementation(libs.androidx.recyclerview)
     val fragmentVersion = "1.8.9"
     val material = "1.12.0"
     val nav_version = "2.7.7"
