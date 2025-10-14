@@ -168,17 +168,18 @@ class DrawingMain : Fragment() {
                     .setTitle("Permission Denied Permanently")
                     .setMessage("Camera permission is permanently denied. Please enable it in app settings.")
                     .setPositiveButton(
-                        "Go to Settings",
-                        DialogInterface.OnClickListener { dialog: DialogInterface?, which: Int ->
-                            val intent: Intent =
-                                Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                            val uri: Uri? = Uri.fromParts("package", requireActivity().packageName, null)
-                            intent.setData(uri)
-                            startActivity(intent)
-                        })
+                        "Go to Settings"
+                    ) { dialog: DialogInterface?, which: Int ->
+                        val intent: Intent =
+                            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                        val uri: Uri? =
+                            Uri.fromParts("package", requireActivity().packageName, null)
+                        intent.setData(uri)
+                        startActivity(intent)
+                    }
                     .setNegativeButton(
-                        "Cancel",
-                        DialogInterface.OnClickListener { dialog: DialogInterface?, which: Int -> dialog!!.dismiss() })
+                        "Cancel"
+                    ) { dialog: DialogInterface?, which: Int -> dialog!!.dismiss() }
                     .create()
                     .show()
             }
