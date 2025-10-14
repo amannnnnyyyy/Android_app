@@ -8,6 +8,8 @@ import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
 import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
 import android.util.Log
 import android.util.TypedValue
 import android.view.MotionEvent
@@ -20,15 +22,15 @@ class DrawingView(context: Context, attrs: AttributeSet): View(context, attrs){
     private lateinit var drawPath: FingerPath
 
     //what to draw
-    private lateinit var canvasPaint: Paint
+    //private lateinit var canvasPaint: Paint
 
     //how to draw
     private lateinit var drawPaint: Paint
 
 
     private var color = Color.BLACK
-    private lateinit var canvas : Canvas
-    private lateinit var canvasBitMap: Bitmap
+    //private lateinit var canvas : Canvas
+   // private lateinit var canvasBitMap: Bitmap
     private var brushSize: Float = 0F
 
     private val paths = mutableListOf<FingerPath>()
@@ -38,12 +40,12 @@ class DrawingView(context: Context, attrs: AttributeSet): View(context, attrs){
         setUpDrawing()
     }
 
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        super.onSizeChanged(w, h, oldw, oldh)
-
-        canvasBitMap = createBitmap(w, h)
-        canvas  =Canvas(canvasBitMap)
-    }
+//    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+//        super.onSizeChanged(w, h, oldw, oldh)
+//
+//        canvasBitMap = createBitmap(w, h)
+//        canvas  =Canvas(canvasBitMap)
+//    }
 
 
     //respond to user touches
@@ -84,8 +86,6 @@ class DrawingView(context: Context, attrs: AttributeSet): View(context, attrs){
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        canvas.drawBitmap(canvasBitMap, 0f,0f,drawPaint)
-
         for (path in paths){
             drawPaint.strokeWidth = path.brushThickness
             drawPaint.color = path.color
@@ -105,8 +105,7 @@ class DrawingView(context: Context, attrs: AttributeSet): View(context, attrs){
         drawPaint.style = Paint.Style.STROKE
         drawPaint.strokeJoin = Paint.Join.ROUND
         drawPaint.strokeCap = Paint.Cap.ROUND
-
-        canvasPaint = Paint(Paint.DITHER_FLAG)
+       // canvasPaint = Paint(Paint.DITHER_FLAG)
         brushSize = 10F
     }
 
