@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Theme.MyApplication1" parent="Theme.MaterialComponents.NoActionBar">
-<!--        <item name="android:textColorPrimary">@color/white</item>-->
-<!--        <item name="android:textColorSecondary">#ccc</item>-->
-<!--        <item name="android:background">#000</item>-->
-<!--        <item name="android:colorSecondary">#e4e1db</item>-->
+        <!--        <item name="android:textColorPrimary">@color/white</item>-->
+        <!--        <item name="android:textColorSecondary">#ccc</item>-->
+        <!--        <item name="android:background">#000</item>-->
+        <!--        <item name="android:colorSecondary">#e4e1db</item>-->
+    </style>
+
+    <style name="ThemeOverlay.MyApplication1.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_900</item>
+        <item name="fullscreenTextColor">@color/light_blue_A400</item>
     </style>
 </resources>
 
-<!--<style name="Theme.MyApplication1" parent="Theme.MaterialComponents.DayNight.NoActionBar" />-->
+    <!--<style name="Theme.MyApplication1" parent="Theme.MaterialComponents.DayNight.NoActionBar" />-->

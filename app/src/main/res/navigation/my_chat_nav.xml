@@ -69,16 +69,15 @@
             app:destination="@id/chatHolderFragment"
             app:popUpTo="@id/mainHomeFragment" />
         <action
-            android:id="@+id/action_mainHomeFragment_to_workOutHomeFragment"
-            app:destination="@id/workOutHomeFragment"
-            app:popUpTo="@id/mainHomeFragment" />
-        <action
             android:id="@+id/action_mainHomeFragment_to_newsMainFragment"
             app:destination="@id/newsMainFragment"
             app:popUpTo="@id/mainHomeFragment" />
         <action
             android:id="@+id/action_mainHomeFragment_to_drawingMain"
             app:destination="@id/drawingMain" />
+        <action
+            android:id="@+id/action_mainHomeFragment_to_workoutLandingPageFragment"
+            app:destination="@id/workoutLandingPageFragment" />
     </fragment>
     <fragment
         android:id="@+id/workOutHomeFragment"
@@ -160,4 +159,13 @@
         android:name="com.example.myapplication1.drawing_app.ui.DrawingMain"
         android:label="fragment_drawing_main"
         tools:layout="@layout/fragment_drawing_main" />
+    <fragment
+        android:id="@+id/workoutLandingPageFragment"
+        android:name="com.example.myapplication1.workout.ui.WorkoutLandingPageFragment"
+        android:label="fragment_workour_landing_page"
+        tools:layout="@layout/fragment_workour_landing_page" >
+        <action
+            android:id="@+id/action_workoutLandingPageFragment_to_workOutHomeFragment"
+            app:destination="@id/workOutHomeFragment" />
+    </fragment>
 </navigation>

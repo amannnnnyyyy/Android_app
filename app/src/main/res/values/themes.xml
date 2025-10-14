@@ -2,15 +2,20 @@
 <resources>
 
     <style name="Theme.MyApplication1" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
+
+    <style name="ThemeOverlay.MyApplication1.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
+        <item name="fullscreenTextColor">@color/light_blue_A200</item>
+    </style>
 </resources>
 
 
-<!--    <?xml version="1.0" encoding="utf-8"?>-->
-<!--<resources>-->
-<!--<style name="Theme.MyApplication1" parent="Theme.MaterialComponents.DayNight">-->
-<!--    <item name="android:textColorPrimary">@color/black</item>-->
-<!--    <item name="android:textColorSecondary">#333</item>-->
-<!--    <item name="android:background">#fff</item>-->
-<!--    <item name="android:colorSecondary">#1B1E24</item>-->
-<!--</style>-->
-<!--</resources>-->
+    <!--    <?xml version="1.0" encoding="utf-8"?>-->
+    <!--<resources>-->
+    <!--<style name="Theme.MyApplication1" parent="Theme.MaterialComponents.DayNight">-->
+    <!--    <item name="android:textColorPrimary">@color/black</item>-->
+    <!--    <item name="android:textColorSecondary">#333</item>-->
+    <!--    <item name="android:background">#fff</item>-->
+    <!--    <item name="android:colorSecondary">#1B1E24</item>-->
+    <!--</style>-->
+    <!--</resources>-->

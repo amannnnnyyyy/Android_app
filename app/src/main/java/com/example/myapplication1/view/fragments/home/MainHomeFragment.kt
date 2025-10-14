@@ -223,7 +223,7 @@ class MainHomeFragment : Fragment(R.layout.fragment_home_main),
 
     fun navigateToWorkOut(){
         val nav = findNavController()
-        val direction = MainHomeFragmentDirections.actionMainHomeFragmentToWorkOutHomeFragment()
+        val direction = MainHomeFragmentDirections.actionMainHomeFragmentToWorkoutLandingPageFragment()
         nav.navigate(direction)
     }
 
