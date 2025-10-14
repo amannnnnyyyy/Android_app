@@ -3,25 +3,13 @@ package com.example.myapplication1.workout.ui.workoutplan.placeholder
 import java.util.ArrayList
 import java.util.HashMap
 
-/**
- * Helper class for providing sample content for user interfaces created by
- * Android template wizards.
- *
- * TODO: Replace all uses of this class before publishing your app.
- */
 object PlaceholderContent {
 
-    /**
-     * An array of sample (placeholder) items.
-     */
     val ITEMS: MutableList<PlaceholderItem> = ArrayList()
 
-    /**
-     * A map of sample (placeholder) items, by ID.
-     */
     val ITEM_MAP: MutableMap<String, PlaceholderItem> = HashMap()
 
-    private val COUNT = 25
+    private val COUNT = 7
 
     init {
         // Add some sample items.
@@ -30,12 +18,17 @@ object PlaceholderContent {
         }
     }
 
-    private fun addItem(item: PlaceholderItem) {
+    fun addItem(item: PlaceholderItem) {
         ITEMS.add(item)
         ITEM_MAP.put(item.id, item)
     }
 
-    private fun createPlaceholderItem(position: Int): PlaceholderItem {
+    fun removeItem(item: PlaceholderItem) {
+        ITEMS.remove(item)
+        ITEM_MAP.remove(item.id, item)
+    }
+
+    fun createPlaceholderItem(position: Int): PlaceholderItem {
         return PlaceholderItem(position.toString(), "Item " + position, makeDetails(position))
     }
 

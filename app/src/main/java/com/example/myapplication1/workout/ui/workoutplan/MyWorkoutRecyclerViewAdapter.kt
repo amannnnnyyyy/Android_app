@@ -9,11 +9,6 @@ import com.example.myapplication1.R
 
 import com.example.myapplication1.workout.ui.workoutplan.placeholder.PlaceholderContent.PlaceholderItem
 import com.example.myapplication1.databinding.FragmentWorkoutBinding
-
-/**
- * [RecyclerView.Adapter] that can display a [PlaceholderItem].
- * TODO: Replace the implementation with code for your data type.
- */
 class MyWorkoutRecyclerViewAdapter(
         private val values: List<PlaceholderItem>)
     : RecyclerView.Adapter<MyWorkoutRecyclerViewAdapter.ViewHolder>() {
