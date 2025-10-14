@@ -3,12 +3,16 @@ package com.example.myapplication1.drawing_app.ui
 import android.Manifest
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.ContentValues
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Canvas
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Log
@@ -25,9 +29,18 @@ import androidx.activity.result.registerForActivityResult
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import coil3.Bitmap
 import com.example.myapplication1.R
 import com.example.myapplication1.databinding.FragmentDrawingMainBinding
 import yuku.ambilwarna.AmbilWarnaDialog
+import androidx.core.graphics.createBitmap
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileOutputStream
+import java.time.Instant
+import java.util.Random
 
 
 class DrawingMain : Fragment() {
@@ -111,6 +124,12 @@ class DrawingMain : Fragment() {
             showColorPickerDialog()
         }
 
+        binding.save.setOnClickListener {
+            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+                saveImage(getBitMapFromView(binding.imageAndDrawing))
+            }
+        }
+
         return binding.root
     }
 
@@ -180,24 +199,7 @@ class DrawingMain : Fragment() {
                     arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
                 )
             }else{
-                AlertDialog.Builder(requireContext())
-                    .setTitle("Permission Denied Permanently")
-                    .setMessage("Camera permission is permanently denied. Please enable it in app settings.")
-                    .setPositiveButton(
-                        "Go to Settings"
-                    ) { dialog: DialogInterface?, which: Int ->
-                        val intent: Intent =
-                            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                        val uri: Uri? =
-                            Uri.fromParts("package", requireActivity().packageName, null)
-                        intent.setData(uri)
-                        startActivity(intent)
-                    }
-                    .setNegativeButton(
-                        "Cancel"
-                    ) { dialog: DialogInterface?, which: Int -> dialog!!.dismiss() }
-                    .create()
-                    .show()
+                showManualPermissionDialog()
             }
         }
     }
@@ -217,15 +219,79 @@ class DrawingMain : Fragment() {
     }
 
     private fun showManualPermissionDialog(){
-        Log.i("hereindialog","about to request")
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Storage permission")
-            .setMessage("Storage permission is needed to continue")
-            .setPositiveButton("Ok"){ dialog, which ->
-                requestPermission.launch(
-                    arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
-                )
-                dialog.dismiss()
-            }.create().show()
+        AlertDialog.Builder(requireContext())
+            .setTitle("Permission Denied Permanently")
+            .setMessage("Camera permission is permanently denied. Please enable it in app settings.")
+            .setPositiveButton(
+                "Go to Settings"
+            ) { dialog: DialogInterface?, which: Int ->
+                val intent: Intent =
+                    Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val uri: Uri? =
+                    Uri.fromParts("package", requireActivity().packageName, null)
+                intent.setData(uri)
+                startActivity(intent)
+            }
+            .setNegativeButton(
+                "Cancel"
+            ) { dialog: DialogInterface?, which: Int -> dialog!!.dismiss() }
+            .create()
+            .show()
+    }
+
+    private fun getBitMapFromView(view: View): Bitmap{
+
+        val bitMap = createBitmap(view.width, view.height)
+
+        val canvas = Canvas(bitMap)
+
+        view.draw(canvas)
+
+        return bitMap
+    }
+
+    private fun saveImage(bitMap: android.graphics.Bitmap){
+        //val root = Environment.getExternalStorageDirectory().toString()
+        //val myDirectory = File("$root/saved_images")
+        //myDirectory.mkdir()
+
+//        var n = 100000
+//        val generator = Random()
+//        n = generator.nextInt(n)
+//        val outputFile = File(myDirectory, "Image: $n.jpg")
+//
+//        if (outputFile.exists()){
+//            outputFile.delete()
+//        }else{
+//            try {
+//                val out = FileOutputStream(outputFile)
+//                bitMap.compress(android.graphics.Bitmap.CompressFormat.JPEG, 100, out)
+//                out.flush()
+//                out.close()
+//            }catch (e: Exception){
+//                e.stackTrace
+//            }
+//        }
+
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, "my_image_${System.currentTimeMillis()}.jpeg")
+            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+            // For Android 10 (API 29) and above, use RELATIVE_PATH
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + "/MyAppImages")
+            }
+        }
+
+        val resolver = requireActivity().applicationContext.contentResolver
+        val imageUri: Uri? = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+
+
+        imageUri?.let { uri ->
+            resolver.openOutputStream(uri)?.use { outputStream ->
+                bitMap.compress(android.graphics.Bitmap.CompressFormat.JPEG, 90, outputStream)
+                //Toast.makeText(requireContext(), "Image ${Environment.DIRECTORY_PICTURES + "/MyAppImages"} saved Successfully", Toast.LENGTH_SHORT).show()
+            }
+        }
+
     }
 }
