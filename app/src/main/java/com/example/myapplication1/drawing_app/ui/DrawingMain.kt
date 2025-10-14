@@ -289,7 +289,9 @@ class DrawingMain : Fragment() {
         imageUri?.let { uri ->
             resolver.openOutputStream(uri)?.use { outputStream ->
                 bitMap.compress(android.graphics.Bitmap.CompressFormat.JPEG, 90, outputStream)
-                //Toast.makeText(requireContext(), "Image ${Environment.DIRECTORY_PICTURES + "/MyAppImages"} saved Successfully", Toast.LENGTH_SHORT).show()
+            lifecycleScope.launch(Dispatchers.Main) {
+                Toast.makeText(requireContext(), "Image ${Environment.DIRECTORY_PICTURES + "/MyAppImages"} saved Successfully", Toast.LENGTH_SHORT).show()
+            }
             }
         }
 
