@@ -212,9 +212,9 @@ class WorkoutFragment : Fragment(R.layout.fragment_workout_list) {
         return view
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.removeListener()
+    override fun onDestroyView() {
+        super.onDestroyView()
+       viewModel.removeListener()
     }
 
     companion object {
