@@ -1,5 +1,6 @@
 package com.example.myapplication1.workout.ui.workoutplan
 
+import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -8,15 +9,24 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.AdapterView
+import android.widget.DatePicker
+import android.widget.FrameLayout
+import android.widget.Spinner
+import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.myapplication1.R
 import com.example.myapplication1.workout.ui.workoutplan.placeholder.PlaceholderContent
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.util.Calendar
 import java.util.Collections
 
 class WorkoutFragment : Fragment(R.layout.fragment_workout_list) {
 
     private var columnCount = 1
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,10 +84,47 @@ class WorkoutFragment : Fragment(R.layout.fragment_workout_list) {
 
 
                 addBtn.setOnClickListener {
-                    val position = PlaceholderContent.ITEMS.size+1
-                    val item = PlaceholderContent.createPlaceholderItem(position)
-                    PlaceholderContent.ITEMS.add(item)
-                    adapter?.notifyItemInserted(position)
+
+                    val dialog = Dialog(requireContext())
+                    dialog.setContentView(R.layout.workout_add_layout)
+                    dialog.show()
+                    dialog.window?.let { window ->
+                        val displayMetrics = requireContext().resources.displayMetrics
+                        val width = (displayMetrics.widthPixels * 0.9).toInt()
+                        val layoutParams = WindowManager.LayoutParams()
+                        layoutParams.copyFrom(dialog.window?.attributes)
+                        val height = layoutParams.height
+                        window.setLayout(width, height)
+                    }
+
+                    val dateView = dialog.findViewById<TextView>(R.id.date)
+                    val datePicker = dialog.findViewById<Spinner>(R.id.date_picker)
+                    dateView.setOnClickListener {
+                        datePicker.performClick()
+                    }
+
+
+                    datePicker.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                            val result = parent?.getItemAtPosition(position)
+                            result?.let { dateView.text = it.toString() }
+                        }
+
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+                            TODO("Not yet implemented")
+                        }
+
+                    }
+
+//                    val position = PlaceholderContent.ITEMS.size+1
+//                    val item = PlaceholderContent.createPlaceholderItem(position)
+//                    PlaceholderContent.ITEMS.add(item)
+//                    adapter?.notifyItemInserted(position)
                 }
             }
         }

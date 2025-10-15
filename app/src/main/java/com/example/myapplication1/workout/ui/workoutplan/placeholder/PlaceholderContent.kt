@@ -29,7 +29,7 @@ object PlaceholderContent {
     }
 
     fun createPlaceholderItem(position: Int): PlaceholderItem {
-        return PlaceholderItem(position.toString(), "Item " + position, makeDetails(position))
+        return PlaceholderItem("Day ${position}", "Workout " + position, makeDetails(position))
     }
 
     private fun makeDetails(position: Int): String {
