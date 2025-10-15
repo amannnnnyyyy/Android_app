@@ -2,15 +2,14 @@ package com.example.myapplication1.workout.ui.workoutplan
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.example.myapplication1.R
 
-import com.example.myapplication1.workout.ui.workoutplan.placeholder.PlaceholderContent.PlaceholderItem
 import com.example.myapplication1.databinding.FragmentWorkoutBinding
+import com.example.myapplication1.workout.ui.workoutplan.placeholder.PlanContent
+
 class MyWorkoutRecyclerViewAdapter(
-        private val values: List<PlaceholderItem>)
+        private val values: List<PlanContent.PlanItem>)
     : RecyclerView.Adapter<MyWorkoutRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

@@ -2,6 +2,7 @@ package com.example.myapplication1.workout.ui.workoutplan
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,16 +12,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.AdapterView
-import android.widget.DatePicker
-import android.widget.FrameLayout
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
-import androidx.core.view.isVisible
+import android.widget.Toast
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.myapplication1.R
-import com.example.myapplication1.workout.ui.workoutplan.placeholder.PlaceholderContent
+import com.example.myapplication1.workout.ui.workoutplan.placeholder.PlanContent
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import java.util.Calendar
+import com.google.android.material.snackbar.Snackbar
 import java.util.Collections
 
 class WorkoutFragment : Fragment(R.layout.fragment_workout_list) {
@@ -51,7 +52,7 @@ class WorkoutFragment : Fragment(R.layout.fragment_workout_list) {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MyWorkoutRecyclerViewAdapter(PlaceholderContent.ITEMS)
+                adapter = MyWorkoutRecyclerViewAdapter(PlanContent.ITEMS)
 
                 val itemTouchHelper = ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(
                     ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.LEFT){
@@ -63,7 +64,7 @@ class WorkoutFragment : Fragment(R.layout.fragment_workout_list) {
                         val sourcePosition = source.bindingAdapterPosition
                         val target = target.bindingAdapterPosition
 
-                        Collections.swap(PlaceholderContent.ITEMS, sourcePosition, target)
+                        Collections.swap(PlanContent.ITEMS, sourcePosition, target)
                         adapter?.notifyItemMoved(sourcePosition, target)
 
                         return true
@@ -74,8 +75,22 @@ class WorkoutFragment : Fragment(R.layout.fragment_workout_list) {
                         direction: Int
                     ) {
                         val item = viewHolder.bindingAdapterPosition
-                        PlaceholderContent.removeItem(PlaceholderContent.ITEMS[item])
+                        val toBeRemovedItem: PlanContent.PlanItem = PlanContent.ITEMS[item]
+                        PlanContent.removeItem(toBeRemovedItem)
                         adapter?.notifyItemRemoved(item)
+
+                        Snackbar.make(rootView, "Plan Removed Successfully!", Snackbar.LENGTH_SHORT).apply {
+                            setAction("Undo"){
+                                val resetValue = PlanContent.createPlanItem(toBeRemovedItem.id, toBeRemovedItem.content)
+                                PlanContent.addItem(resetValue, item)
+
+                                adapter?.notifyItemInserted(item)
+                            }
+                            show()
+                        }
+
+
+
                     }
 
                 })
@@ -99,6 +114,10 @@ class WorkoutFragment : Fragment(R.layout.fragment_workout_list) {
 
                     val dateView = dialog.findViewById<TextView>(R.id.date)
                     val datePicker = dialog.findViewById<Spinner>(R.id.date_picker)
+                    val saveButton = dialog.findViewById<Button>(R.id.save)
+                    val editTextView = dialog.findViewById<EditText>(R.id.workout)
+
+
                     dateView.setOnClickListener {
                         datePicker.performClick()
                     }
@@ -121,10 +140,14 @@ class WorkoutFragment : Fragment(R.layout.fragment_workout_list) {
 
                     }
 
-//                    val position = PlaceholderContent.ITEMS.size+1
-//                    val item = PlaceholderContent.createPlaceholderItem(position)
-//                    PlaceholderContent.ITEMS.add(item)
-//                    adapter?.notifyItemInserted(position)
+                    saveButton.setOnClickListener {
+                        val date = dateView.text.toString()
+                        val workout = editTextView.text.toString()
+                        val item = PlanContent.createPlanItem(date, workout)
+                        PlanContent.addItem(item)
+                        adapter?.notifyItemInserted(PlanContent.ITEMS.size+1)
+                        dialog.dismiss()
+                    }
                 }
             }
         }
