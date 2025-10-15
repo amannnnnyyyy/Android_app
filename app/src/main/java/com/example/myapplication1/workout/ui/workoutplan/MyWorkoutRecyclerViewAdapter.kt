@@ -16,6 +16,7 @@ import android.widget.TextView
 import com.example.myapplication1.R
 
 import com.example.myapplication1.databinding.FragmentWorkoutBinding
+import com.example.myapplication1.workout.models.DaysOfWeek
 import com.example.myapplication1.workout.ui.workoutplan.Utils.LIST_OF_DATES
 import com.example.myapplication1.workout.ui.workoutplan.placeholder.PlanContent
 
@@ -32,7 +33,7 @@ class MyWorkoutRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var adapterPosition = holder.bindingAdapterPosition
         val currentItem = values[position]
-        holder.idView.text = currentItem.id
+        holder.idView.text = currentItem.id.toString()
         holder.contentView.text = currentItem.content
 
         holder.itemView.setOnClickListener {
@@ -57,9 +58,10 @@ class MyWorkoutRecyclerViewAdapter(
             val saveButton = dialog.findViewById<Button>(R.id.save)
             val editTextView = dialog.findViewById<EditText>(R.id.workout)
 
-                datePicker.adapter = ArrayAdapter(holder.itemView.context,android.R.layout.simple_spinner_item, LIST_OF_DATES)
+                datePicker.adapter = ArrayAdapter(holder.itemView.context,android.R.layout.simple_spinner_item,
+                    DaysOfWeek.entries)
 
-            val indexOfDate = LIST_OF_DATES.indexOf(currentItem.id)
+            val indexOfDate = DaysOfWeek.entries.indexOf(currentItem.id)
             datePicker.setSelection(indexOfDate)
 
             editTextView.setText(currentItem.content)
@@ -87,12 +89,15 @@ class MyWorkoutRecyclerViewAdapter(
             }
 
             saveButton.setOnClickListener {
-                val date = dateView.text.toString()
+                val date = DaysOfWeek.entries.find { it.name.equals(dateView.text.toString(), ignoreCase = true) }
                 val workout = editTextView.text.toString()
-                val item = PlanContent.createPlanItem(date, workout)
-                val changeIndex = PlanContent.ITEMS.indexOf(currentItem)
-                PlanContent.ITEMS[changeIndex] = item
-                notifyItemChanged(adapterPosition)
+
+                if (date!=null){
+                    val item = PlanContent.createPlanItem(date, workout)
+                    val changeIndex = PlanContent.ITEMS.indexOf(currentItem)
+                    PlanContent.ITEMS[changeIndex] = item
+                    notifyItemChanged(adapterPosition)
+                }
                 dialog.dismiss()
             }
         }

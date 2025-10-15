@@ -30,7 +30,7 @@
             android:gravity="center"
             android:text="Choose Date and Workout you are planning to do on the date."
             android:textSize="20sp"
-            android:fontFamily="@font/roboto_flex_variable_font_grad"
+            android:fontFamily="@font/newsreader_italic_variable_font_opsz_wght"
             android:background="@drawable/normal_rounded_text_layout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +47,7 @@
             <TextView
                 android:id="@+id/date_name"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="0.7"
                 android:layout_height="wrap_content"
                 android:textSize="25sp"
                 android:textStyle="bold"
@@ -88,7 +88,7 @@
             <TextView
                 android:id="@+id/workout_name"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="0.7"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/date_name"
                 android:textSize="25sp"
@@ -97,7 +97,7 @@
                 android:textStyle="bold"
                 android:fontFamily="@font/college_block_2"
                 android:textColor="@color/greyish"
-                android:text="Workout"
+                android:text="Plan"
                 />
 
             <EditText

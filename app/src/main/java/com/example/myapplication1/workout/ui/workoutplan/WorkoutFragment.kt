@@ -20,15 +20,19 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.myapplication1.R
+import com.example.myapplication1.workout.models.DaysOfWeek
+import com.example.myapplication1.workout.models.WorkoutPlan
 import com.example.myapplication1.workout.ui.workoutplan.Utils.LIST_OF_DATES
 import com.example.myapplication1.workout.ui.workoutplan.placeholder.PlanContent
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Collections
 
 class WorkoutFragment : Fragment(R.layout.fragment_workout_list) {
 
     private var columnCount = 1
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -120,7 +124,8 @@ class WorkoutFragment : Fragment(R.layout.fragment_workout_list) {
                     val editTextView = dialog.findViewById<EditText>(R.id.workout)
 
 
-                    datePicker.adapter = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item, LIST_OF_DATES)
+                    datePicker.adapter = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,
+                        DaysOfWeek.entries)
 
 
                     dateView.setOnClickListener {
@@ -146,11 +151,21 @@ class WorkoutFragment : Fragment(R.layout.fragment_workout_list) {
                     }
 
                     saveButton.setOnClickListener {
-                        val date = dateView.text.toString()
+                        val date = DaysOfWeek.entries.find { it.name.equals(dateView.text.toString(), ignoreCase = true) }
                         val workout = editTextView.text.toString()
-                        val item = PlanContent.createPlanItem(date, workout)
-                        PlanContent.addItem(item)
-                        adapter?.notifyItemInserted(PlanContent.ITEMS.size+1)
+                       if (date!=null){
+                           val item = PlanContent.createPlanItem(date, workout)
+                           PlanContent.addItem(item)
+
+
+                           db.collection("workouts").document(date.toString()).set(WorkoutPlan(date, workout))
+                               .addOnSuccessListener {
+                                   Toast.makeText(requireContext(), "Plan saved successfully", Toast.LENGTH_SHORT).show() }
+                               .addOnFailureListener {
+                                   Toast.makeText(requireContext(), "Something went wrong", Toast.LENGTH_SHORT).show() }
+
+                           adapter?.notifyItemInserted(PlanContent.ITEMS.size+1)
+                       }
                         dialog.dismiss()
                     }
                 }
