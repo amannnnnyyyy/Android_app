@@ -11,9 +11,18 @@ object PlanContent {
 
 
     init {
-//        for (i in 1..COUNT) {
-//            addItem(createPlaceholderItem(i))
-//        }
+        val listOfDefaultWorkOut = mapOf<String, PlanItem>(
+            "Monday" to createPlanItem("Monday","Chest + Triceps"),
+            "Tuesday" to createPlanItem("Tuesday","Rest"),
+            "Wednesday" to createPlanItem("Wednesday","Shoulders + Arm"),
+            "Thursday" to createPlanItem("Thursday","Back + Biceps"),
+            "Friday" to createPlanItem("Friday","Walk"),
+            "Saturday" to createPlanItem("Saturday","FreeStyle"),
+            "Sunday" to createPlanItem("Sunday","Legs"),
+        )
+        for (plan in listOfDefaultWorkOut) {
+            addItem(plan.value)
+        }
     }
 
     fun addItem(item: PlanItem, position:Int?=null) {
@@ -34,6 +43,11 @@ object PlanContent {
 
     fun createPlanItem(date: String, workout:String): PlanItem {
         return PlanItem(date, workout, "none")
+    }
+
+
+    fun changePlanItem(oldPlanItem: PlanItem, newPlanItem: PlanItem, position:Int){
+
     }
 
 

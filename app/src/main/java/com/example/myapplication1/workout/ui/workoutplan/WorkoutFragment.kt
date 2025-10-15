@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
@@ -19,6 +20,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.myapplication1.R
+import com.example.myapplication1.workout.ui.workoutplan.Utils.LIST_OF_DATES
 import com.example.myapplication1.workout.ui.workoutplan.placeholder.PlanContent
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -116,6 +118,9 @@ class WorkoutFragment : Fragment(R.layout.fragment_workout_list) {
                     val datePicker = dialog.findViewById<Spinner>(R.id.date_picker)
                     val saveButton = dialog.findViewById<Button>(R.id.save)
                     val editTextView = dialog.findViewById<EditText>(R.id.workout)
+
+
+                    datePicker.adapter = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item, LIST_OF_DATES)
 
 
                     dateView.setOnClickListener {
