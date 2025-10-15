@@ -17,11 +17,13 @@ import com.example.myapplication1.R
 
 import com.example.myapplication1.databinding.FragmentWorkoutBinding
 import com.example.myapplication1.workout.models.DaysOfWeek
-import com.example.myapplication1.workout.ui.workoutplan.Utils.LIST_OF_DATES
-import com.example.myapplication1.workout.ui.workoutplan.placeholder.PlanContent
+import com.example.myapplication1.workout.models.WorkoutPlan
+import com.example.myapplication1.workout.ui.workoutplan.Utils.LIST_OF_DATE_INDEXES
 
 class MyWorkoutRecyclerViewAdapter(
-        private val values: List<PlanContent.PlanItem>)
+        private val values: MutableList<WorkoutPlan>,
+        private val onUpdateChange: (ItemClick)-> Unit
+)
     : RecyclerView.Adapter<MyWorkoutRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,8 +35,8 @@ class MyWorkoutRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var adapterPosition = holder.bindingAdapterPosition
         val currentItem = values[position]
-        holder.idView.text = currentItem.id.toString()
-        holder.contentView.text = currentItem.content
+        holder.idView.text = currentItem.date.toString()
+        holder.contentView.text = currentItem.workoutCategory
 
         holder.itemView.setOnClickListener {
             Log.i("currentItem","before $currentItem $adapterPosition")
@@ -61,10 +63,10 @@ class MyWorkoutRecyclerViewAdapter(
                 datePicker.adapter = ArrayAdapter(holder.itemView.context,android.R.layout.simple_spinner_item,
                     DaysOfWeek.entries)
 
-            val indexOfDate = DaysOfWeek.entries.indexOf(currentItem.id)
+            val indexOfDate = DaysOfWeek.entries.indexOf(currentItem.date)
             datePicker.setSelection(indexOfDate)
 
-            editTextView.setText(currentItem.content)
+            editTextView.setText(currentItem.workoutCategory)
 
             dateView.setOnClickListener {
                 datePicker.performClick()
@@ -91,11 +93,9 @@ class MyWorkoutRecyclerViewAdapter(
             saveButton.setOnClickListener {
                 val date = DaysOfWeek.entries.find { it.name.equals(dateView.text.toString(), ignoreCase = true) }
                 val workout = editTextView.text.toString()
-
                 if (date!=null){
-                    val item = PlanContent.createPlanItem(date, workout)
-                    val changeIndex = PlanContent.ITEMS.indexOf(currentItem)
-                    PlanContent.ITEMS[changeIndex] = item
+                    onUpdateChange.invoke(ItemClick.DetailClick(date, workout))
+
                     notifyItemChanged(adapterPosition)
                 }
                 dialog.dismiss()
@@ -113,5 +113,10 @@ class MyWorkoutRecyclerViewAdapter(
             return super.toString() + " '" + contentView.text + "'"
         }
     }
+
+    sealed class ItemClick{
+        class DetailClick(val date: DaysOfWeek, val workout: String): ItemClick()
+    }
+
 
 }

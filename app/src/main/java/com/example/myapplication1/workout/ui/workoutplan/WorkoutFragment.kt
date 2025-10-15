@@ -18,21 +18,30 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.myapplication1.R
 import com.example.myapplication1.workout.models.DaysOfWeek
 import com.example.myapplication1.workout.models.WorkoutPlan
-import com.example.myapplication1.workout.ui.workoutplan.Utils.LIST_OF_DATES
+import com.example.myapplication1.workout.ui.workoutplan.Utils.LIST_OF_DATE_INDEXES
 import com.example.myapplication1.workout.ui.workoutplan.placeholder.PlanContent
+import com.example.myapplication1.workout.utils.Resource
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.util.Collections
 
 class WorkoutFragment : Fragment(R.layout.fragment_workout_list) {
 
     private var columnCount = 1
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+
+    private val viewModel: WorkoutPlanViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,128 +60,161 @@ class WorkoutFragment : Fragment(R.layout.fragment_workout_list) {
         val addBtn = view.findViewById<FloatingActionButton>(R.id.new_plan)
 
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.workouts.collectLatest { wrk->
+                    when(wrk){
+                        is Resource.Success->{
+                            val data = wrk.data
+                            data?.let{ dat->
+                                if (recyclerView is RecyclerView) {
+                                    with(recyclerView) {
+                                        layoutManager = when {
+                                            columnCount <= 1 -> LinearLayoutManager(context)
+                                            else -> GridLayoutManager(context, columnCount)
+                                        }
+                                        adapter = MyWorkoutRecyclerViewAdapter(
+                                            dat,
+                                            onUpdateChange = {
+                                                when(it){
+                                                    is MyWorkoutRecyclerViewAdapter.ItemClick.DetailClick -> {
+                                                        val date = it.date
+                                                        val workout = it.workout
+                                                        viewModel.updatePlan(date, workout)
+                                                    }
+                                                }
+                                            }
+                                        )
 
-        if (recyclerView is RecyclerView) {
-            with(recyclerView) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
-                adapter = MyWorkoutRecyclerViewAdapter(PlanContent.ITEMS)
+                                        val itemTouchHelper = ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(
+                                            ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.LEFT){
+                                            override fun onMove(
+                                                recyclerView: RecyclerView,
+                                                source: RecyclerView.ViewHolder,
+                                                target: RecyclerView.ViewHolder
+                                            ): Boolean {
+                                                val sourcePosition = source.bindingAdapterPosition
+                                                val target = target.bindingAdapterPosition
 
-                val itemTouchHelper = ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(
-                    ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.LEFT){
-                    override fun onMove(
-                        recyclerView: RecyclerView,
-                        source: RecyclerView.ViewHolder,
-                        target: RecyclerView.ViewHolder
-                    ): Boolean {
-                        val sourcePosition = source.bindingAdapterPosition
-                        val target = target.bindingAdapterPosition
+                                                Collections.swap(PlanContent.ITEMS, sourcePosition, target)
+                                                adapter?.notifyItemMoved(sourcePosition, target)
 
-                        Collections.swap(PlanContent.ITEMS, sourcePosition, target)
-                        adapter?.notifyItemMoved(sourcePosition, target)
+                                                return true
+                                            }
 
-                        return true
-                    }
+                                            override fun onSwiped(
+                                                viewHolder: RecyclerView.ViewHolder,
+                                                direction: Int
+                                            ) {
+                                                val item = viewHolder.bindingAdapterPosition
+                                                val toBeRemovedItem: PlanContent.PlanItem = PlanContent.ITEMS[item]
+                                                PlanContent.removeItem(toBeRemovedItem)
+                                                adapter?.notifyItemRemoved(item)
 
-                    override fun onSwiped(
-                        viewHolder: RecyclerView.ViewHolder,
-                        direction: Int
-                    ) {
-                        val item = viewHolder.bindingAdapterPosition
-                        val toBeRemovedItem: PlanContent.PlanItem = PlanContent.ITEMS[item]
-                        PlanContent.removeItem(toBeRemovedItem)
-                        adapter?.notifyItemRemoved(item)
+                                                Snackbar.make(rootView, "Plan Removed Successfully!", Snackbar.LENGTH_SHORT).apply {
+                                                    setAction("Undo"){
+                                                        val resetValue = PlanContent.createPlanItem(toBeRemovedItem.id, toBeRemovedItem.content)
+                                                        PlanContent.addItem(resetValue, item)
 
-                        Snackbar.make(rootView, "Plan Removed Successfully!", Snackbar.LENGTH_SHORT).apply {
-                            setAction("Undo"){
-                                val resetValue = PlanContent.createPlanItem(toBeRemovedItem.id, toBeRemovedItem.content)
-                                PlanContent.addItem(resetValue, item)
+                                                        adapter?.notifyItemInserted(item)
+                                                    }
+                                                    show()
+                                                }
 
-                                adapter?.notifyItemInserted(item)
+
+
+                                            }
+
+                                        })
+
+                                        itemTouchHelper.attachToRecyclerView(recyclerView)
+
+
+                                        addBtn.setOnClickListener {
+
+                                            val dialog = Dialog(requireContext())
+                                            dialog.setContentView(R.layout.workout_add_layout)
+                                            dialog.show()
+                                            dialog.window?.let { window ->
+                                                val displayMetrics = requireContext().resources.displayMetrics
+                                                val width = (displayMetrics.widthPixels * 0.9).toInt()
+                                                val layoutParams = WindowManager.LayoutParams()
+                                                layoutParams.copyFrom(dialog.window?.attributes)
+                                                val height = layoutParams.height
+                                                window.setLayout(width, height)
+                                            }
+
+                                            val dateView = dialog.findViewById<TextView>(R.id.date)
+                                            val datePicker = dialog.findViewById<Spinner>(R.id.date_picker)
+                                            val saveButton = dialog.findViewById<Button>(R.id.save)
+                                            val editTextView = dialog.findViewById<EditText>(R.id.workout)
+
+
+                                            datePicker.adapter = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,
+                                                DaysOfWeek.entries)
+
+
+                                            dateView.setOnClickListener {
+                                                datePicker.performClick()
+                                            }
+
+
+                                            datePicker.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+                                                override fun onItemSelected(
+                                                    parent: AdapterView<*>?,
+                                                    view: View?,
+                                                    position: Int,
+                                                    id: Long
+                                                ) {
+                                                    val result = parent?.getItemAtPosition(position)
+                                                    result?.let { dateView.text = it.toString() }
+                                                }
+
+                                                override fun onNothingSelected(parent: AdapterView<*>?) {
+                                                    TODO("Not yet implemented")
+                                                }
+
+                                            }
+
+                                            saveButton.setOnClickListener {
+                                                val date = DaysOfWeek.entries.find { it.name.equals(dateView.text.toString(), ignoreCase = true) }
+                                                val workout = editTextView.text.toString()
+                                                if (date!=null){
+                                                    val item = PlanContent.createPlanItem(date, workout)
+                                                    PlanContent.addItem(item)
+
+
+                                                    viewModel.savePlan(date, workout.toString())
+
+                                                    adapter?.notifyItemInserted(PlanContent.ITEMS.size+1)
+                                                }
+                                                dialog.dismiss()
+                                            }
+                                        }
+                                    }
+                                }
                             }
-                            show()
                         }
 
-
-
-                    }
-
-                })
-
-                itemTouchHelper.attachToRecyclerView(recyclerView)
-
-
-                addBtn.setOnClickListener {
-
-                    val dialog = Dialog(requireContext())
-                    dialog.setContentView(R.layout.workout_add_layout)
-                    dialog.show()
-                    dialog.window?.let { window ->
-                        val displayMetrics = requireContext().resources.displayMetrics
-                        val width = (displayMetrics.widthPixels * 0.9).toInt()
-                        val layoutParams = WindowManager.LayoutParams()
-                        layoutParams.copyFrom(dialog.window?.attributes)
-                        val height = layoutParams.height
-                        window.setLayout(width, height)
-                    }
-
-                    val dateView = dialog.findViewById<TextView>(R.id.date)
-                    val datePicker = dialog.findViewById<Spinner>(R.id.date_picker)
-                    val saveButton = dialog.findViewById<Button>(R.id.save)
-                    val editTextView = dialog.findViewById<EditText>(R.id.workout)
-
-
-                    datePicker.adapter = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,
-                        DaysOfWeek.entries)
-
-
-                    dateView.setOnClickListener {
-                        datePicker.performClick()
-                    }
-
-
-                    datePicker.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
-                        override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View?,
-                            position: Int,
-                            id: Long
-                        ) {
-                            val result = parent?.getItemAtPosition(position)
-                            result?.let { dateView.text = it.toString() }
+                        is Resource.Loading->{
+                            Log.i("firestoreCheck","loading")
                         }
-
-                        override fun onNothingSelected(parent: AdapterView<*>?) {
-                            TODO("Not yet implemented")
+                        is Resource.Error -> {
+                            Log.i("firestoreCheck","met an error")
                         }
-
-                    }
-
-                    saveButton.setOnClickListener {
-                        val date = DaysOfWeek.entries.find { it.name.equals(dateView.text.toString(), ignoreCase = true) }
-                        val workout = editTextView.text.toString()
-                       if (date!=null){
-                           val item = PlanContent.createPlanItem(date, workout)
-                           PlanContent.addItem(item)
-
-
-                           db.collection("workouts").document(date.toString()).set(WorkoutPlan(date, workout))
-                               .addOnSuccessListener {
-                                   Toast.makeText(requireContext(), "Plan saved successfully", Toast.LENGTH_SHORT).show() }
-                               .addOnFailureListener {
-                                   Toast.makeText(requireContext(), "Something went wrong", Toast.LENGTH_SHORT).show() }
-
-                           adapter?.notifyItemInserted(PlanContent.ITEMS.size+1)
-                       }
-                        dialog.dismiss()
                     }
                 }
             }
         }
 
+
+
         return view
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.removeListener()
     }
 
     companion object {
