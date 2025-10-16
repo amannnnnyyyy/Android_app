@@ -93,7 +93,7 @@ class MyWorkoutRecyclerViewAdapter(
                 val date = DaysOfWeek.entries.find { it.name.equals(dateView.text.toString(), ignoreCase = true) }
                 val workout = editTextView.text.toString()
                 if (date!=null){
-                    onUpdateChange.invoke(ItemClick.DetailClick(date, workout))
+                    onUpdateChange.invoke(ItemClick.SaveUpdateClick(date, workout))
 
                     notifyItemChanged(adapterPosition)
                 }
@@ -113,8 +113,22 @@ class MyWorkoutRecyclerViewAdapter(
         }
     }
 
+
+    fun updateData(newData: MutableList<WorkoutPlan>) {
+        if (newData!=this.values){
+            Log.i("this_is_being_triggered","---------------")
+            this.values.clear()
+            this.values.addAll(newData)
+            notifyDataSetChanged()
+        }
+    }
+
+    fun getItem(position: Int): WorkoutPlan {
+        return values[position]
+    }
+
     sealed class ItemClick{
-        class DetailClick(val date: DaysOfWeek, val workout: String): ItemClick()
+        class SaveUpdateClick(val date: DaysOfWeek, val workout: String): ItemClick()
     }
 
 

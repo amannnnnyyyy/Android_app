@@ -21,7 +21,6 @@ class WorkoutPlanViewModel: ViewModel() {
 
     val workouts = _workouts.asStateFlow()
 
-
     init {
        viewModelScope.launch {
           listener =  db.collection("workouts").addSnapshotListener { snapshot, e ->
@@ -32,7 +31,7 @@ class WorkoutPlanViewModel: ViewModel() {
 
                if (snapshot!=null && !snapshot.isEmpty){
 
-                   val workoutList = mutableListOf<WorkoutPlan>()
+                   var workoutList = mutableListOf<WorkoutPlan>()
 
                    for (document in snapshot.documents)
                    {
@@ -45,7 +44,7 @@ class WorkoutPlanViewModel: ViewModel() {
                        workoutList.add(WorkoutPlan(LIST_OF_DATE_INDEXES.get(date)?:0,date,data?.get("workoutCategory").toString()))
 
                    }
-                   workoutList.sortBy { it.id }
+                   workoutList = workoutList.sortedBy { it.id } as MutableList<WorkoutPlan>
                    _workouts.value = Resource.Success(workoutList)
 
                }
