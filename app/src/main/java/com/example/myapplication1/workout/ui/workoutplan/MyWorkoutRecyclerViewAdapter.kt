@@ -18,7 +18,6 @@ import com.example.myapplication1.R
 import com.example.myapplication1.databinding.FragmentWorkoutBinding
 import com.example.myapplication1.workout.models.DaysOfWeek
 import com.example.myapplication1.workout.models.WorkoutPlan
-import com.example.myapplication1.workout.ui.workoutplan.Utils.LIST_OF_DATE_INDEXES
 
 class MyWorkoutRecyclerViewAdapter(
         private val values: MutableList<WorkoutPlan>,

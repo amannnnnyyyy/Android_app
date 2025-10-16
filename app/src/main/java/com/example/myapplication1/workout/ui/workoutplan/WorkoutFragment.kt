@@ -17,7 +17,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -26,7 +25,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.myapplication1.R
 import com.example.myapplication1.workout.models.DaysOfWeek
 import com.example.myapplication1.workout.models.WorkoutPlan
-import com.example.myapplication1.workout.ui.workoutplan.Utils.LIST_OF_DATE_INDEXES
 import com.example.myapplication1.workout.ui.workoutplan.placeholder.PlanContent
 import com.example.myapplication1.workout.utils.Resource
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -107,14 +105,13 @@ class WorkoutFragment : Fragment(R.layout.fragment_workout_list) {
                                                 direction: Int
                                             ) {
                                                 val item = viewHolder.bindingAdapterPosition
-                                                val toBeRemovedItem: PlanContent.PlanItem = PlanContent.ITEMS[item]
-                                                PlanContent.removeItem(toBeRemovedItem)
+                                                val toBeDeletedPlan: WorkoutPlan = data[item]
+                                                viewModel.deletePlan(toBeDeletedPlan)
                                                 adapter?.notifyItemRemoved(item)
 
                                                 Snackbar.make(rootView, "Plan Removed Successfully!", Snackbar.LENGTH_SHORT).apply {
                                                     setAction("Undo"){
-                                                        val resetValue = PlanContent.createPlanItem(toBeRemovedItem.id, toBeRemovedItem.content)
-                                                        PlanContent.addItem(resetValue, item)
+                                                        viewModel.savePlan(toBeDeletedPlan.date, toBeDeletedPlan.workoutCategory)
 
                                                         adapter?.notifyItemInserted(item)
                                                     }

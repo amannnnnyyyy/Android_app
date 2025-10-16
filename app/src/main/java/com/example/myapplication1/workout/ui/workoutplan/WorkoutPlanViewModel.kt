@@ -1,8 +1,5 @@
 package com.example.myapplication1.workout.ui.workoutplan
 
-import android.util.Log
-import android.widget.Toast
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication1.workout.models.DaysOfWeek
@@ -85,6 +82,11 @@ class WorkoutPlanViewModel: ViewModel() {
         for (plan in plans){
             reference.document(plan.date.toString()).set(plan)
         }
+    }
+
+
+    fun deletePlan(plan: WorkoutPlan){
+        reference.document(plan.date.toString()).delete()
     }
 
 
