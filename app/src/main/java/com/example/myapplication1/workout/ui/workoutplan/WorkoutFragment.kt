@@ -18,6 +18,7 @@ import com.example.myapplication1.R
 import com.example.myapplication1.workout.models.WorkoutPlan
 import com.example.myapplication1.workout.ui.workoutplan.Utils.LIST_OF_DATE_INDEXES
 import com.example.myapplication1.workout.ui.workoutplan.dialogs.WorkoutPlanDialog
+import com.example.myapplication1.workout.utils.Constants.TAG
 import com.example.myapplication1.workout.utils.Resource
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -78,6 +79,7 @@ class WorkoutFragment : Fragment(R.layout.fragment_workout_list) {
             onUpdateChange = {
                 when (it) {
                     is MyWorkoutRecyclerViewAdapter.ItemClick.SaveUpdateClick -> {
+                        Log.i(TAG, "setupRecyclerView: we got here too")
                         viewModel.updatePlan(it.date, it.workout)
                     }
                 }

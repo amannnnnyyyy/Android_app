@@ -12,9 +12,10 @@ import android.widget.Spinner
 import android.widget.TextView
 import com.example.myapplication1.R
 import com.example.myapplication1.workout.models.DaysOfWeek
+import com.example.myapplication1.workout.models.WorkoutPlan
 import com.example.myapplication1.workout.ui.workoutplan.placeholder.PlanContent
 
-class WorkoutPlanDialog(context: Context, private val update: (PlanClick)->Unit) {
+class WorkoutPlanDialog(context: Context,val currentItem : WorkoutPlan?=null, private val update: (PlanClick)->Unit) {
     init {
             val dialog = Dialog(context)
             dialog.setContentView(R.layout.workout_add_layout)
@@ -33,10 +34,14 @@ class WorkoutPlanDialog(context: Context, private val update: (PlanClick)->Unit)
             val saveButton = dialog.findViewById<Button>(R.id.save)
             val editTextView = dialog.findViewById<EditText>(R.id.workout)
 
-
             datePicker.adapter = ArrayAdapter(context,android.R.layout.simple_spinner_item,
-                DaysOfWeek.entries)
+            DaysOfWeek.entries)
 
+            if (currentItem!=null){
+                val indexOfDate = DaysOfWeek.entries.indexOf(currentItem.date)
+                datePicker.setSelection(indexOfDate)
+                editTextView.setText(currentItem.workoutCategory)
+            }
 
             dateView.setOnClickListener {
                 datePicker.performClick()
@@ -54,9 +59,7 @@ class WorkoutPlanDialog(context: Context, private val update: (PlanClick)->Unit)
                     result?.let { dateView.text = it.toString() }
                 }
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    TODO("Not yet implemented")
-                }
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
 
             }
 
