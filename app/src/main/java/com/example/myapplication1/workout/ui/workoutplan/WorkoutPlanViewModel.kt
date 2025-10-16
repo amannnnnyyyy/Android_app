@@ -8,6 +8,7 @@ import com.example.myapplication1.workout.ui.workoutplan.Utils.LIST_OF_DATE_INDE
 import com.example.myapplication1.workout.utils.Resource
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -69,7 +70,8 @@ class WorkoutPlanViewModel: ViewModel() {
 
         reference.document(date.toString()).delete()
 
-        reference.document(date.toString()).set(WorkoutPlan(LIST_OF_DATE_INDEXES.get(date)?:0, date, workout))
+        reference.document(date.toString()).set(WorkoutPlan(LIST_OF_DATE_INDEXES.get(date)?:0, date, workout),
+            SetOptions.merge())
             .addOnSuccessListener {
             }
             .addOnFailureListener {
