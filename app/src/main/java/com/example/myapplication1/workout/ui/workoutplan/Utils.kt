@@ -10,7 +10,7 @@ object Utils {
           DaysOfWeek.THURSDAY to 3,
           DaysOfWeek.FRIDAY to 4,
           DaysOfWeek.SATURDAY to 5,
-          DaysOfWeek.SUNDAY to 6
-
+          DaysOfWeek.SUNDAY to 6,
+          DaysOfWeek.UNKNOWN to 7
           )
 }

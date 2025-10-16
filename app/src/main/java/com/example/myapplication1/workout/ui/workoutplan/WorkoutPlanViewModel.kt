@@ -81,6 +81,13 @@ class WorkoutPlanViewModel: ViewModel() {
     }
 
 
+    fun multipleUpdate(plans: List<WorkoutPlan>){
+        for (plan in plans){
+            reference.document(plan.date.toString()).set(plan)
+        }
+    }
+
+
     fun removeListener(){
         listener.remove()
     }

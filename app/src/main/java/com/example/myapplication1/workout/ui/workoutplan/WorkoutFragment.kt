@@ -96,7 +96,7 @@ class WorkoutFragment : Fragment(R.layout.fragment_workout_list) {
                                                 val sourcePosition = source.bindingAdapterPosition
                                                 val target = target.bindingAdapterPosition
 
-                                                Collections.swap(PlanContent.ITEMS, sourcePosition, target)
+                                                Collections.swap(data, sourcePosition, target)
                                                 adapter?.notifyItemMoved(sourcePosition, target)
 
                                                 return true
