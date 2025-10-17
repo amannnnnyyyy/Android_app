@@ -1,56 +1,38 @@
 package com.example.myapplication1.workout.ui.workoutplan.placeholder
 
 import com.example.myapplication1.workout.models.DaysOfWeek
+import com.example.myapplication1.workout.models.WorkoutPlan
 import java.util.ArrayList
 import java.util.HashMap
 
 object PlanContent {
 
-    val ITEMS: MutableList<PlanItem> = ArrayList()
+    val ITEMS: MutableList<WorkoutPlan> = ArrayList()
 
-    val ITEM_MAP: MutableMap<DaysOfWeek, PlanItem> = HashMap()
+    val ITEM_MAP: MutableMap<DaysOfWeek, WorkoutPlan> = HashMap()
 
-
-    init {
-        val listOfDefaultWorkOut = mapOf<String, PlanItem>(
-            "Monday" to createPlanItem(DaysOfWeek.MONDAY,"Chest + Triceps"),
-            "Tuesday" to createPlanItem(DaysOfWeek.TUESDAY,"Rest"),
-            "Wednesday" to createPlanItem(DaysOfWeek.WEDNESDAY,"Shoulders + Arm"),
-            "Thursday" to createPlanItem(DaysOfWeek.THURSDAY,"Back + Biceps"),
-            "Friday" to createPlanItem(DaysOfWeek.FRIDAY,"Walk"),
-            "Saturday" to createPlanItem(DaysOfWeek.SATURDAY,"FreeStyle"),
-            "Sunday" to createPlanItem(DaysOfWeek.SUNDAY,"Legs"),
-        )
-        for (plan in listOfDefaultWorkOut) {
-            addItem(plan.value)
-        }
-    }
-
-    fun addItem(item: PlanItem, position:Int?=null) {
+    fun addItem(item: WorkoutPlan, position:Int?=null) {
         if (position!=null){
             ITEMS.add(position, item)
-            ITEM_MAP.put(item.id, item)
+            ITEM_MAP.put(item.date, item)
         }
         else{
             ITEMS.add(item)
-            ITEM_MAP.put(item.id, item)
+            ITEM_MAP.put(item.date, item)
         }
     }
 
-    fun removeItem(item: PlanItem) {
+    fun removeItem(item: WorkoutPlan) {
         ITEMS.remove(item)
-        ITEM_MAP.remove(item.id, item)
+        ITEM_MAP.remove(item.date, item)
     }
 
-    fun createPlanItem(date: DaysOfWeek, workout:String): PlanItem {
-        return PlanItem(date, workout, "none")
-    }
-
-
-    fun changePlanItem(oldPlanItem: PlanItem, newPlanItem: PlanItem, position:Int){
-
+    fun createPlanItem(date: DaysOfWeek, workout:String): WorkoutPlan {
+        return WorkoutPlan(null,date, workout)
     }
 
 
-    data class PlanItem(val id: DaysOfWeek, val content: String, val details: String)
+    fun changePlanItem(oldPlanItem: WorkoutPlan, newPlanItem: WorkoutPlan, position:Int){
+
+    }
 }

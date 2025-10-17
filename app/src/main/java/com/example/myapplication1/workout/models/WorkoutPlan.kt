@@ -1,10 +1,17 @@
 package com.example.myapplication1.workout.models
 
-import androidx.compose.runtime.snapshots.SnapshotId
+import com.example.myapplication1.workout.ui.workoutplan.Utils.LIST_OF_DATE_INDEXES
 
 data class WorkoutPlan(
-    val id: Int,
+    var id: Int?,
     val date: DaysOfWeek,
     val workoutCategory:String
+){
 
-)
+    init{
+        if (id == null){
+            id = LIST_OF_DATE_INDEXES[date]
+        }
+    }
+
+}

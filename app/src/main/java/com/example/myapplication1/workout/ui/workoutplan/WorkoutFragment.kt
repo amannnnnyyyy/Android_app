@@ -25,6 +25,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.Collections
 
 class WorkoutFragment : Fragment(R.layout.fragment_workout_list) {
 
@@ -54,6 +55,7 @@ class WorkoutFragment : Fragment(R.layout.fragment_workout_list) {
                         is Resource.Success->{
                             val data = wrk.data
                             data?.let {
+                              //  setupRecyclerView(view, data)
                                 handleOnSuccessDisplay(data)
                             }
                         }
@@ -73,7 +75,7 @@ class WorkoutFragment : Fragment(R.layout.fragment_workout_list) {
     }
 
 
-    private fun setupRecyclerView(view: View) {
+    private fun setupRecyclerView(view: View, data:List<WorkoutPlan>?=null) {
         workoutAdapter = MyWorkoutRecyclerViewAdapter(
             mutableListOf(),
             onUpdateChange = {
@@ -94,13 +96,26 @@ class WorkoutFragment : Fragment(R.layout.fragment_workout_list) {
         recyclerView.adapter = workoutAdapter
 
         val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
-            0, ItemTouchHelper.LEFT
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.LEFT
         ) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 source: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
-            ): Boolean = false
+            ): Boolean{
+                data.let {
+                    Log.i(TAG, "onMove: here $data")
+//                    val sourcePosition = source.bindingAdapterPosition
+//                    val target = target.bindingAdapterPosition
+//
+//                    if ((sourcePosition<=data.size)&&(target<=data.size)){
+//                        Collections.swap(it, sourcePosition, target)
+//                        recyclerView.adapter?.notifyItemMoved(sourcePosition, target)
+//                    }
+//                    return true
+                }
+                return false
+            }
 
             override fun onSwiped(
                 viewHolder: RecyclerView.ViewHolder,
