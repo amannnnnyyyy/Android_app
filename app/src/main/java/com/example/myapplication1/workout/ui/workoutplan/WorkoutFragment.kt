@@ -76,6 +76,7 @@ class WorkoutFragment : Fragment(R.layout.fragment_workout_list) {
 
 
     private fun setupRecyclerView(view: View, data:List<WorkoutPlan>?=null) {
+
         workoutAdapter = MyWorkoutRecyclerViewAdapter(
             mutableListOf(),
             onUpdateChange = {

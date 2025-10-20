@@ -12,6 +12,8 @@ import android.graphics.BitmapFactory
 import android.icu.text.RelativeDateTimeFormatter
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -40,14 +42,23 @@ import com.example.myapplication1.databinding.FragmentHomeMainBinding
 import com.google.android.material.navigation.NavigationView
 import androidx.core.view.get
 import androidx.core.view.iterator
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.CompositePageTransformer
+import androidx.viewpager2.widget.MarginPageTransformer
+import androidx.viewpager2.widget.ViewPager2
 import com.example.myapplication1.Logger
 import com.example.myapplication1.news.ui.main.NewsMainFragment
+import com.example.myapplication1.view.adapters.view_pager_adapter.WeatherImageViewPagerAdapter
+import kotlinx.coroutines.Runnable
+import kotlin.math.abs
 
 class MainHomeFragment : Fragment(R.layout.fragment_home_main),
     NavigationView.OnNavigationItemSelectedListener {
 
         private lateinit var drawerLayout: DrawerLayout
         private lateinit var navigationView: NavigationView
+        private lateinit var weatherViewPager: ViewPager2
+        private lateinit var handler: Handler
         var clicked: Int = 0
 
 
@@ -98,6 +109,32 @@ class MainHomeFragment : Fragment(R.layout.fragment_home_main),
         binding.paint.setOnClickListener {
             navigateToPaint()
         }
+
+
+        init()
+        weatherViewPager = binding.weatherViewpager
+        val adapter = WeatherImageViewPagerAdapter(weatherViewPager)
+        weatherViewPager.adapter = adapter
+        weatherViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        weatherViewPager.offscreenPageLimit = 3
+        weatherViewPager.clipToPadding = false
+        weatherViewPager.clipChildren = false
+        weatherViewPager.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+
+        setupTransformer()
+
+
+        weatherViewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+
+                handler.removeCallbacks(runnable)
+                handler.postDelayed(runnable, 3000)
+            }
+        })
+
+
+
 
         val bitmap: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.world_news)
 
@@ -245,5 +282,38 @@ class MainHomeFragment : Fragment(R.layout.fragment_home_main),
             MainHomeFragment().apply {
                 arguments = Bundle().apply {}
             }
+    }
+
+
+
+    private fun init(){
+        Looper.myLooper()?.let { handler = Handler(it) }
+    }
+
+    private var runnable = Runnable{
+        weatherViewPager.currentItem = weatherViewPager.currentItem + 1
+    }
+
+    private fun setupTransformer(){
+        val transformer = CompositePageTransformer()
+        transformer.addTransformer(MarginPageTransformer(40))
+        transformer.addTransformer{ page, position ->
+            val r = 1- abs(position)
+            page.scaleY = 0.85f + r + 0.14f
+        }
+
+        weatherViewPager.setPageTransformer(transformer)
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+
+        handler.removeCallbacks(runnable)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        handler.postDelayed(runnable, 3000)
     }
 }

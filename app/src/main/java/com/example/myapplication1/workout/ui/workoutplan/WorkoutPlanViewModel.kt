@@ -24,7 +24,7 @@ class WorkoutPlanViewModel: ViewModel() {
 
     init {
        viewModelScope.launch {
-          listener =  db.collection("workouts").addSnapshotListener { snapshot, e ->
+          listener =  db.collection("workouts").orderBy("id").addSnapshotListener { snapshot, e ->
                if (e!=null){
                    _workouts.value = Resource.Error(message = e.message?:"Unknown error")
                    return@addSnapshotListener
@@ -45,7 +45,6 @@ class WorkoutPlanViewModel: ViewModel() {
                        workoutList.add(WorkoutPlan(LIST_OF_DATE_INDEXES.get(date)?:0,date,data?.get("workoutCategory").toString()))
 
                    }
-                   workoutList = workoutList.sortedBy { it.id } as MutableList<WorkoutPlan>
                    _workouts.value = Resource.Success(workoutList)
 
                }
