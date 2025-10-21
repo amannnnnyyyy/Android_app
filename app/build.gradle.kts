@@ -115,4 +115,8 @@ dependencies {
     //color picker
     implementation("com.github.yukuku:ambilwarna:2.0.1")
 
+
+    //location
+    implementation("com.google.android.gms:play-services-location:21.3.0")
+
 }

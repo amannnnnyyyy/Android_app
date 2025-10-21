@@ -134,6 +134,11 @@ class MainHomeFragment : Fragment(R.layout.fragment_home_main),
         })
 
 
+        binding.clickableWeather.setOnClickListener {
+            navigateToWeather()
+        }
+
+
 
 
         val bitmap: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.world_news)
@@ -273,6 +278,12 @@ class MainHomeFragment : Fragment(R.layout.fragment_home_main),
     fun navigateToPaint(){
         val nav = findNavController()
         val direction = MainHomeFragmentDirections.actionMainHomeFragmentToDrawingMain()
+        nav.navigate(direction)
+    }
+
+    fun navigateToWeather(){
+        val nav = findNavController()
+        val direction = MainHomeFragmentDirections.actionMainHomeFragmentToWeatherMainFragment()
         nav.navigate(direction)
     }
 

@@ -78,6 +78,9 @@
         <action
             android:id="@+id/action_mainHomeFragment_to_workoutLandingPageFragment"
             app:destination="@id/workoutLandingPageFragment" />
+        <action
+            android:id="@+id/action_mainHomeFragment_to_weatherMainFragment"
+            app:destination="@id/weatherMainFragment" />
     </fragment>
     <fragment
         android:id="@+id/workOutHomeFragment"
@@ -176,4 +179,9 @@
         android:name="com.example.myapplication1.workout.ui.workoutplan.WorkoutFragment"
         android:label="fragment_workout_list"
         tools:layout="@layout/fragment_workout_list" />
+    <fragment
+        android:id="@+id/weatherMainFragment"
+        android:name="com.example.myapplication1.weather.views.WeatherMainFragment"
+        android:label="fragment_weather_main"
+        tools:layout="@layout/fragment_weather_main" />
 </navigation>
