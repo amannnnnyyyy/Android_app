@@ -1,6 +1,7 @@
 package com.example.myapplication1.weather.views
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -9,7 +10,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,18 +19,15 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.myapplication1.R
 import com.example.myapplication1.databinding.FragmentWeatherMainBinding
-import com.example.myapplication1.weather.api.WeatherServiceApi
-import com.example.myapplication1.weather.models.WeatherResponse
+import com.example.myapplication1.weather.models.WeatherTypes
 import com.example.myapplication1.weather.repository.WeatherRepository
-import com.example.myapplication1.weather.utils.WeatherConstants.BASE_URL
-import com.example.myapplication1.weather.utils.WeatherConstants.METRIC_UNIT
-import com.example.myapplication1.weather.utils.WeatherConstants.WEATHER_API_KEY
 import com.example.myapplication1.weather.utils.WeatherConstants.isNetworkAvailable
 import com.example.myapplication1.weather.utils.WeatherResource
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -41,11 +38,9 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import kotlinx.datetime.Instant
+import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.TimeZone
 
 
 class WeatherMainFragment : Fragment(R.layout.fragment_weather_main) {
@@ -83,20 +78,87 @@ class WeatherMainFragment : Fragment(R.layout.fragment_weather_main) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.weatherData.collectLatest { res ->
                     when(res){
-                        is WeatherResource.Loading -> Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT)
-                            .show()
+                        is WeatherResource.Loading -> {
+                            binding.errorViewer.isVisible = false
+                            binding.loading.isVisible = true
+                        }
 
-                        is WeatherResource.Success -> Toast.makeText(requireContext(), "Successful ${res.data}", Toast.LENGTH_SHORT)
-                            .show()
+                        is WeatherResource.Success -> {
+                            binding.loading.isVisible = false
+                            binding.errorViewer.isVisible = false
+
+                            val areaView = binding.cityName
+                            val dateView = binding.date
+                            val weatherTypeView = binding.weatherType
+                            val tempDegreeView = binding.degreeTemp
+                            val minTempView = binding.tempDetailsMin
+                            val maxTempView = binding.tempDetailsMax
+                            val feelsLikeView = binding.feelsLike
+                            val sunRiseView = binding.sunRiseValue
+                            val sunsetView = binding.sunSetValue
+                            val windView = binding.windValue
+                            val pressureView = binding.pressureValue
+                            val humidityView = binding.humidityValue
+                            val moreInfoView = binding.moreInfo
+
+                            val timeZone = TimeZone.currentSystemDefault()
+
+                            res.data?.let { data->
+
+                                val weatherType = data.weather?.get(0)?.main
+                                when(weatherType){
+                                    WeatherTypes.Clear -> binding.backgroundImage.setImageResource(R.drawable.clear_sky)
+                                    WeatherTypes.Rain -> binding.backgroundImage.setImageResource(R.drawable.weather_bkg)
+                                    WeatherTypes.Clouds -> binding.backgroundImage.setImageResource(R.drawable.cloud_bkg)
+                                    WeatherTypes.Snow -> binding.backgroundImage.setImageResource(R.drawable.snow_bkg)
+                                    WeatherTypes.Fog -> binding.backgroundImage.setImageResource(R.drawable.foggy_bkg)
+                                    WeatherTypes.Haze -> binding.backgroundImage.setImageResource(R.drawable.haze_bkg)
+                                    WeatherTypes.Mist -> binding.backgroundImage.setImageResource(R.drawable.mist_bkg)
+                                    WeatherTypes.Drizzle -> binding.backgroundImage.setImageResource(R.drawable.drizzle_bkg)
+                                    WeatherTypes.Thunderstorm -> binding.backgroundImage.setImageResource(R.drawable.thunderstorm_bkg)
+                                    else->null
+                                }
+
+
+                                val areaData = data.name
+                                val dateData = data.dt
+                                val weatherTypeData = data.weather?.getOrNull(0)?.description
+                                val tempDegreeData = data.main?.temp
+                                val minTempData = data.main?.temp_min
+                                val maxTempData = data.main?.temp_max
+                                val feelsLikeData = data.main?.feels_like
+                                val sunRiseData = data.sys?.sunrise
+                                val sunsetData = data.sys?.sunset
+                                val windDegree:String? = data.wind?.deg?.toString()
+                                val windGust: String? = data.wind?.gust?.toString()
+                                val windSpeed: String? = data.wind?.speed?.toString()
+
+                                val windData = (windDegree?.let { it+"°" }?:"") +" "+ (windGust?.let { "gs "+it }?:"") +" "+ (windSpeed?.let { "sp "+it }?:"")
+                                val pressureData = data.main?.pressure
+                                val humidityData = data.main?.humidity
+
+
+                                areaData?.let { areaView.text = it }
+                                dateData?.let { dateView.text = convertUnixTime(it, "full") }
+                                weatherTypeData?.let { weatherTypeView.text = it }
+                                tempDegreeData?.let { tempDegreeView.text = FahrenheitToCelcius(it) }
+                                minTempData?.let { minTempView.text = "Min: "+FahrenheitToCelcius(it) }
+                                maxTempData?.let { maxTempView.text = "Max: "+FahrenheitToCelcius(it) }
+                                feelsLikeData?.let { feelsLikeView.text = "Feels like "+FahrenheitToCelcius(it) }
+                                sunRiseData?.let { sunRiseView.text = convertUnixTime(it) }
+                                sunsetData?.let { sunsetView.text = convertUnixTime(it) }
+                                windData.let { windView.text = it }
+                                pressureData?.let { pressureView.text = it.toString()+" hPa" }
+                                humidityData?.let { humidityView.text = it.toString()+"%" }
+                            }
+
+                        }
 
                         is WeatherResource.Error -> {
-                            Log.e("WeatherData", "onCreateView: ${res.message}", )
-                            Toast.makeText(
-                                requireContext(),
-                                "Error : ${res.message}",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
+                            binding.loading.isVisible = false
+                            binding.errorViewer.isVisible = true
+
+                            binding.errorMessage.text = res.message
                         }
                     }
                 }
@@ -216,6 +278,42 @@ class WeatherMainFragment : Fragment(R.layout.fragment_weather_main) {
             }
             .setNegativeButton("Close") { dialog, _ -> dialog.cancel() }
             .show()
+    }
+
+
+    private fun FahrenheitToCelcius(tempF:Double):String = tempF.toString()+"°C"
+
+    @SuppressLint("DefaultLocale")
+    private fun convertUnixTime(unixTime:Int, full:String?=null):String{
+        val timeZone = TimeZone.currentSystemDefault()
+        val localDateTime = Instant.fromEpochSeconds(unixTime.toLong()).toLocalDateTime(timeZone)
+
+
+
+        val hour = localDateTime.hour
+        val minute = localDateTime.minute
+
+        val amPm = if (hour < 12) "AM" else "PM"
+        val hour12 = when {
+            hour == 0 -> 12
+            hour > 12 -> hour - 12
+            else -> hour
+        }
+        if (full!=null){
+            return String.format(
+                "%04d-%02d-%02d %02d:%02d %s",
+                localDateTime.year,
+                localDateTime.monthNumber,
+                localDateTime.dayOfMonth,
+                localDateTime.hour,
+                localDateTime.minute,
+                amPm
+            )
+        }
+
+        val formattedTime = "%d:%02d %s".format(hour12, minute, amPm)
+
+        return formattedTime.toString()
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.myapplication1.weather.models
 
+
 data class Sys(
     val country: String?,
     val id: Int?,

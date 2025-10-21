@@ -1,5 +1,6 @@
 package com.example.myapplication1.weather.views
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication1.weather.models.WeatherResponse
@@ -26,9 +27,11 @@ class WeatherMainViewmodel(val weatherRepository: WeatherRepository): ViewModel(
     fun handleWeatherDataResponse(response: Response<WeatherResponse>){
         if (response.isSuccessful && response.body()!=null){
             val weatherRes = response.body()
+            Log.i("letsseeweather", "handleWeatherDataResponse: $response")
             weatherRes?.let { _weatherData.value = WeatherResource.Success(it, "Successful") }
         }else if (response.errorBody()!=null){
-            _weatherData.value = WeatherResource.Error(response.errorBody().toString() + response.message())
+            Log.i("letsseeweather", "handleWeatherDataResponseError: $response")
+            _weatherData.value = WeatherResource.Error("Error: "+response.message())
         }
         else{
             _weatherData.value = WeatherResource.Error("No data")
